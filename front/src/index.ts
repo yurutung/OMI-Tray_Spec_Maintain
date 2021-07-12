@@ -3,6 +3,9 @@ import { app, BrowserWindow } from 'electron';
 // plugin that tells the Electron app where to look for the Webpack-bundled app code (depending on
 // whether you're running in development or production).
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
+import * as dotEnv from 'dotenv'
+
+dotEnv.config()
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -12,15 +15,17 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800,
+    height: Number(process.env.WINDOWS_HEIGHT),
+    width: Number(process.env.WINDOWS_WIDTH),
   });
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if(process.env.ENV == "dev"){
+    mainWindow.webContents.openDevTools();
+  }
 };
 
 // This method will be called when Electron has finished
