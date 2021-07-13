@@ -1,27 +1,23 @@
-import { BrowserRouter as Router, Route, Switch, Link} from "react-router-dom"
-import { Button, Container, Row, Col } from 'react-bootstrap'
-import Search from './Search' 
+import { Link} from "react-router-dom"
 // dev
 import { hot } from 'react-hot-loader'
 
 const Home = () => {
 
     return (
-        <Container className="h-100">
-            <Row className="h-75">
-                <Col className="d-flex align-items-center justify-content-center">
-                    <Row>
+        <div className="container h-100">
+            <div className="row h-75">
+                <div className="col-12 d-flex align-items-center justify-content-center">
+                    <div className="row">
                         <Link to="/search/cust_spec" className="btn btn-outline-info">Customer Spec.</Link>
                         <Link to="/search/msl" className="mt-1 btn btn-outline-info">MSL</Link>
-                    </Row>
-                </Col>
-            </Row>
-            <Row className="h-25">
-                <Col className="col-4">
-                    <Button variant="outline-info">Back</Button>
-                </Col>
-            </Row>
-        </Container>   
+                    </div>
+                </div>
+            </div>
+            <div className="h-25 g-0 px-5">
+                <button className="btn btn-outline-secondary">Back</button>
+            </div>
+        </div>   
     )
 }
 

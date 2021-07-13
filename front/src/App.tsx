@@ -1,6 +1,7 @@
 import { HashRouter, Route} from "react-router-dom"
 import Home from './components/Home' 
 import Search from './components/Search' 
+import Datas from './components/Datas' 
 import './App.css'
 // dev
 import { hot } from 'react-hot-loader'
@@ -10,6 +11,7 @@ const App = () => {
         <HashRouter>
             <Route path="/" exact component={ Home } />
             <Route path="/search/:mode" component={ Search } />
+            <Route path="/datas/:mode/:id" component={ Datas } />
         </HashRouter>
     )
 }
