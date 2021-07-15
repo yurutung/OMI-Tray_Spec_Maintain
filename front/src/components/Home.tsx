@@ -9,8 +9,8 @@ const Home = () => {
             <div className="row h-75">
                 <div className="col-12 d-flex align-items-center justify-content-center">
                     <div className="row">
-                        <Link to="/search/cust_spec" className="btn btn-outline-info">Customer Spec.</Link>
-                        <Link to="/search/msl" className="mt-1 btn btn-outline-info">MSL</Link>
+                        <Link to="/search/tray_spec" className="btn btn-outline-info">Customer Spec.</Link>
+                        <Link to="/search/tray_msl" className="mt-1 btn btn-outline-info">MSL</Link>
                     </div>
                 </div>
             </div>

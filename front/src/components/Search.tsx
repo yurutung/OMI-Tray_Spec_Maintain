@@ -27,7 +27,7 @@ const Search = ({match}: RouteComponentProps<{mode: string}>) => {
                 <div className="d-flex align-items-center justify-content-center">
                     <div className="row col-8">
                         <div className="col-3">
-                            <label htmlFor="id" className="col-form-label row justify-content-end">{mode=='cust_spec' ? 'Cust. Code' : 'MSL ID'}</label>
+                            <label htmlFor="id" className="col-form-label row justify-content-end">{mode=='tray_spec' ? 'Cust. Code' : 'MSL ID'}</label>
                         </div>
                         <div className="col-9">
                             <input onChange={handleForm} type="text" id="id" className="form-control" required />

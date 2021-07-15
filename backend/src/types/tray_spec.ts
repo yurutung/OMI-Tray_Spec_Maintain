@@ -19,7 +19,4 @@ interface ITraySpec {
     datecodeLimit: number;
 }
 
-interface ITrayMsl {
-    msl: string;
-    floorLife?: string;
-}
+export { ITraySpec }
