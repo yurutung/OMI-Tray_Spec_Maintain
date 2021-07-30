@@ -20,14 +20,14 @@ class trayMsl extends Model<ITrayMsl, ITrayMsl> implements ITrayMsl {
     	order: "ASC",
     	unique: true 
     })
-    msl!: string;
+    MSL!: string;
 
     @Column({
     	field: "FLOOR_LIFE",
     	allowNull: true,
     	type: DataType.STRING(20) 
     })
-    floorLife?: string;
+    FLOOR_LIFE?: string;
 
 }
 

@@ -1,22 +1,22 @@
 
 interface ITraySpec {
-    custId: string;
-    prodspecId: string;
-    custPartId?: string;
-    description?: string;
-    pinA1Loc?: string;
-    packingType?: string;
-    msl?: string;
-    traySize?: string;
-    chipSize?: string;
-    binGrade?: string;
-    termCompost?: string;
-    pbFree?: string;
-    temp?: number;
-    updFlag?: string;
-    cliamUser?: string;
-    claimTime?: Date;
-    datecodeLimit: number;
+    CUST_CD: string;
+    PRODSPEC_ID: string;
+    CUST_PART_ID?: string;
+    DESCRIPTION?: string;
+    PIN_A1_LOC?: string;
+    PACKING_TYPE?: string;
+    MSL?: string;
+    TRAY_SIZE?: string;
+    CHIP_SIZE?: string;
+    BIN_GRADE?: string;
+    TERM_COMPOST?: string;
+    PB_FREE?: string;
+    TEMP?: number;
+    UPD_FLAG?: string;
+    CLIAM_USER?: string;
+    CLAIM_TIME?: Date;
+    DATECODE_LIMIT: number;
 }
 
 export { ITraySpec }

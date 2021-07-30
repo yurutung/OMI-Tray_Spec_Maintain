@@ -1,7 +1,7 @@
 
 interface ITrayMsl {
-    msl: string;
-    floorLife?: string;
+    MSL: string;
+    FLOOR_LIFE?: string;
 }
 
 export { ITrayMsl }

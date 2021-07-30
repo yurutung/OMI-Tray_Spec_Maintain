@@ -6,66 +6,85 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
 
     const traySpecRepo = TraySpecRepoImpl.of()
 
-    // TODO: Add CRUD endpoints, i.e. get, post, update, delete
-    // NOTE: the url should be RESTful
-    
-    // get
-    server.get<{ Params: {cid: string} }>('/:cid', opts, async (request, reply) => {
+    /**
+     * get data by cust code
+     */
+    server.get<{ Params: { cid: string } }>('/:cid', opts, async (request, reply) => {
+        const cid = request.params.cid
         try {
-            const cid = request.params.cid
             const traySpecs: Array<ITraySpec> = await traySpecRepo.getDatas(cid)
-            return reply.status(200).send({traySpecs})
+            return reply.status(200).send({ traySpecs })
         } catch (error) {
-            console.error(`\GET /todos Error: ${error}`)
+            console.error(`\GET /tray_spec/${cid} Error: ${error}`)
             return reply.status(500).send(`[Server Error]: ${error}`)
         }
     })
 
-    // // post -> add
-    // server.post('/todos', opts, async (request, reply) => {
-    //     try {
-    //         const todoBody: ITodo = request.body as ITodo
-    //         const todo: ITodo = await todoRepo.addTodo(todoBody)
-    //         return reply.status(201).send({todo}) //add successfully
-    //     } catch (error) {
-    //         console.error(`\POST /todos Error: ${error}`)
-    //         return reply.status(500).send(`[Server Error]: ${error}`)
-    //     }
-    // })
+    /**
+     * add data to database
+     */
+    server.post('/', opts, async (request, reply) => {
+        try {
+            const traySpecBody: ITraySpec = request.body as ITraySpec
+            const traySpec: ITraySpec = await traySpecRepo.addData(traySpecBody)
+            return reply.status(201).send({ traySpec: traySpec }) //add successfully
+        } catch (error) {
+            console.error(`\POST /tray_spec Error: ${error}`)
+            return reply.status(500).send(`[Server Error]: ${error}`)
+        }
+    })
 
-    // // put -> update
-    // // <{ Params: IdParam }> -> typescript set Params type
-    // server.put<{ Params: IdParam }>('/todos/:id', opts, async (request, reply) => {
-    //     try {
-    //         const id = request.params.id
-    //         const todoBody = request.body as ITodo
-    //         const todo: ITodo | null = await todoRepo.updateTodo(id, todoBody)
-    //         if (todo) {
-    //             return reply.status(200).send({ todo })
-    //         } else {
-    //             return reply.status(404).send({ msg: `Not Found Todo: ${id}` })
-    //         }
-    //     } catch (error) {
-    //         console.error(`PUT /todos/${request.params.id} Error: ${error}`)
-    //         return reply.status(500).send(`[Server Error]: ${error}`)
-    //     }
-    // })
-    
-    // // delete
-    // server.delete<{ Params: IdParam }>('/todos/:id', opts, async (request, reply) => {
-    //     try {
-    //         const id = request.params.id
-    //         const todo: ITodo | null = await todoRepo.deleteTodo(id)
-    //         if (todo) {
-    //             return reply.status(204).send() //204 delete successfully
-    //         } else {
-    //             return reply.status(404).send({ msg: `Not Found Todo: ${id}` })
-    //         }
-    //     } catch (error) {
-    //         console.error(`DELETE /todos/${request.params.id} Error: ${error}`)
-    //         return reply.status(500).send(`[Server Error]: ${error}`)
-    //     }
-    // })
+    /**
+     * update data
+     */
+    server.put('/', opts, async (request, reply) => {
+        try {
+            const traySpecBody = request.body as ITraySpec
+            const traySpec: [number, ITraySpec[]] | null = await traySpecRepo.updateData(traySpecBody)
+            if (traySpec) {
+                return reply.status(200).send({ traySpec })
+            } else {
+                return reply.status(404).send({ msg: `Not Found Tray Spec: ${traySpecBody.CUST_CD} & ${traySpecBody.CUST_PART_ID}` })
+            }
+        } catch (error) {
+            console.error(`PUT /tray_spec Error: ${error}`)
+            return reply.status(500).send(`[Server Error]: ${error}`)
+        }
+    })
+
+    /**
+     * delete data
+     */
+    server.delete('/', opts, async (request, reply) => {
+        try {
+            const traySpecBody = request.body as ITraySpec
+            const traySpec: number | null = await traySpecRepo.deleteData(traySpecBody)
+            if (traySpec) {
+                return reply.status(204).send() //204 delete successfully
+            } else {
+                return reply.status(404).send({ msg: `Not Found Tray Spec: ${traySpecBody.CUST_CD} & ${traySpecBody.CUST_PART_ID}` })
+            }
+        } catch (error) {
+            console.error(`DELETE /tray_spec Error: ${error}`)
+            return reply.status(500).send(`[Server Error]: ${error}`)
+        }
+    })
+
+    /**
+     * upload data
+     */
+    server.post('/upload_data', opts, async (request, reply) => {
+        try {
+            const traySpecs: ITraySpec[] = request.body as ITraySpec[]
+            console.log(traySpecs)
+            // TODO: save to DB
+            // const traySpec: ITraySpec = await traySpecRepo.addData(traySpecBody)
+            return reply.status(201).send()
+        } catch (error) {
+            console.error(`\POST /tray_spec/upload_data Error: ${error}`)
+            return reply.status(500).send(`[Server Error]: ${error}`)
+        }
+    })
 
     done()
 }

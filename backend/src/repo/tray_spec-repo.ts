@@ -1,5 +1,6 @@
 import { ITraySpec } from './../types/tray_spec'
 import { traySpec } from '../models/tray_spec'
+import { Op } from 'sequelize'
 
 interface TraySpecRepo {
     getDatas(cid: string): Promise<Array<ITraySpec>>
@@ -15,41 +16,59 @@ class TraySpecRepoImpl implements TraySpecRepo {
         return new TraySpecRepoImpl()
     }
 
+    /**
+     * get tray spec data by cust code
+     * support wilcard search
+     * @param cid 
+     * @returns 
+     */
     async getDatas(cid: string): Promise<Array<ITraySpec>> {
-        // TODO: Should get Todo from mongoDB
         return traySpec.findAll({
+            raw: true,
             where: {
-                custId: cid
+                CUST_CD: {
+                    [Op.like]: cid.replace(/\*/g, '%')
+                }
             }
         })
     }
 
-    // TODO: Should add Todo into mongoDB
+    /**
+     * add a tray spec data to database
+     * @param traySpecBody 
+     * @returns 
+     */
     async addData(traySpecBody: ITraySpec): Promise<ITraySpec> {
         return traySpec.create(traySpecBody)
     }
 
+    /**
+     * update tray spec data by cust code and prospec id
+     * @param traySpecBody 
+     * @returns 
+     */
     async updateData(traySpecBody: ITraySpec): Promise<[number, traySpec[]] | null> {
-        // TODO: Should update Todo to mongoDB
-        // new: bool - true to return the modified document rather than the original. defaults to false
         return traySpec.update(traySpecBody, {
             where: {
-                custId: traySpecBody.custId,
-                prodspecId: traySpecBody.prodspecId
+                CUST_CD: traySpecBody.CUST_CD,
+                PRODSPEC_ID: traySpecBody.PRODSPEC_ID
             }
         })
     }
 
+    /**
+     * delete tray spec data by cust code and prospec id
+     * @param traySpecBody 
+     * @returns 
+     */
     async deleteData(traySpecBody: ITraySpec): Promise<number | null> {
-        // TODO: Should delete Todo from mongoDB
         return traySpec.destroy({
             where: {
-                custId: traySpecBody.custId,
-                prodspecId: traySpecBody.prodspecId
+                CUST_CD: traySpecBody.CUST_CD,
+                PRODSPEC_ID: traySpecBody.PRODSPEC_ID
             }
         })
     }
-
 }
 
 export { TraySpecRepoImpl }

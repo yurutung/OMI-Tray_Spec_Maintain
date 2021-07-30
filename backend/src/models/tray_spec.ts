@@ -11,7 +11,7 @@ import { ITraySpec } from '../types/tray_spec'
 class traySpec extends Model<ITraySpec, ITraySpec> implements ITraySpec {
 
     @Column({
-    	field: "CUST_ID",
+    	field: "CUST_CD",
     	primaryKey: true,
     	type: DataType.STRING(64) 
     })
@@ -21,7 +21,7 @@ class traySpec extends Model<ITraySpec, ITraySpec> implements ITraySpec {
     	order: "ASC",
     	unique: true 
     })
-    custId!: string;
+    CUST_CD!: string;
 
     @Column({
     	field: "PRODSPEC_ID",
@@ -34,111 +34,111 @@ class traySpec extends Model<ITraySpec, ITraySpec> implements ITraySpec {
     	order: "ASC",
     	unique: true 
     })
-    prodspecId!: string;
+    PRODSPEC_ID!: string;
 
     @Column({
     	field: "CUST_PART_ID",
     	allowNull: true,
     	type: DataType.STRING(64) 
     })
-    custPartId?: string;
+    CUST_PART_ID?: string;
 
     @Column({
     	field: "DESCRIPTION",
     	allowNull: true,
     	type: DataType.STRING(128) 
     })
-    description?: string;
+    DESCRIPTION?: string;
 
     @Column({
     	field: "PIN_A1_LOC",
     	allowNull: true,
     	type: DataType.STRING(5) 
     })
-    pinA1Loc?: string;
+    PIN_A1_LOC?: string;
 
     @Column({
     	field: "PACKING_TYPE",
     	allowNull: true,
     	type: DataType.STRING(20) 
     })
-    packingType?: string;
+    PACKING_TYPE?: string;
 
     @Column({
     	field: "MSL",
     	allowNull: true,
     	type: DataType.STRING(5) 
     })
-    msl?: string;
+    MSL?: string;
 
     @Column({
     	field: "TRAY_SIZE",
     	allowNull: true,
     	type: DataType.STRING(20) 
     })
-    traySize?: string;
+    TRAY_SIZE?: string;
 
     @Column({
     	field: "CHIP_SIZE",
     	allowNull: true,
     	type: DataType.STRING(20) 
     })
-    chipSize?: string;
+    CHIP_SIZE?: string;
 
     @Column({
     	field: "BIN_GRADE",
     	allowNull: true,
     	type: DataType.STRING(16) 
     })
-    binGrade?: string;
+    BIN_GRADE?: string;
 
     @Column({
     	field: "TERM_COMPOST",
     	allowNull: true,
     	type: DataType.STRING(16) 
     })
-    termCompost?: string;
+    TERM_COMPOST?: string;
 
     @Column({
     	field: "PB_FREE",
     	allowNull: true,
     	type: DataType.STRING(1) 
     })
-    pbFree?: string;
+    PB_FREE?: string;
 
     @Column({
     	field: "TEMP",
     	allowNull: true,
     	type: DataType.INTEGER 
     })
-    temp?: number;
+    TEMP?: number;
 
     @Column({
     	field: "UPD_FLAG",
     	allowNull: true,
     	type: DataType.STRING(1) 
     })
-    updFlag?: string;
+    UPD_FLAG?: string;
 
     @Column({
     	field: "CLIAM_USER",
     	allowNull: true,
     	type: DataType.STRING(64) 
     })
-    cliamUser?: string;
+    CLIAM_USER?: string;
 
     @Column({
     	field: "CLAIM_TIME",
     	allowNull: true,
     	type: DataType.DATE 
     })
-    claimTime?: Date;
+    CLAIM_TIME?: Date;
 
     @Column({
     	field: "DATECODE_LIMIT",
     	type: DataType.INTEGER 
     })
-    datecodeLimit!: number;
+    DATECODE_LIMIT!: number;
 
 }
 

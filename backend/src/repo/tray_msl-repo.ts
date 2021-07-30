@@ -1,55 +1,73 @@
-// import { ITrayMsl } from '../types/tray_msl'
-// import { trayMsl } from '../models/tray_msl'
+import { trayMsl } from '../models';
+import { ITrayMsl } from '../types/tray_msl'
+import { Op } from 'sequelize'
 
-// interface TraySpecRepo {
-//     getTodos(id: string): Promise<Array<ITrayMsl>>
-//     addTodo(traySpecBody: ITrayMsl): Promise<ITrayMsl>
-//     updateTodo(traySpecBody: ITrayMsl): Promise<[number, ITrayMsl[]] | null>
-//     deleteTodo(traySpecBody: ITrayMsl): Promise<number | null>
-// }
+interface TrayMslRepo {
+    getDatas(mid: string): Promise<Array<ITrayMsl>>
+    addData(trayMslBody: ITrayMsl): Promise<ITrayMsl>
+    updateData(trayMslBody: ITrayMsl): Promise<[number, trayMsl[]] | null>
+    deleteData(trayMslBody: ITrayMsl): Promise<number | null>
+}
 
-// class TraySpecRepoImpl implements TraySpecRepo {
-//     private constructor() { }
+class TrayMslRepoImpl implements TrayMslRepo {
+    private constructor() { }
 
-//     static of(): TraySpecRepoImpl {
-//         return new TraySpecRepoImpl()
-//     }
+    static of(): TrayMslRepoImpl {
+        return new TrayMslRepoImpl()
+    }
 
-//     async getTodos(id: string): Promise<Array<ITraySpec>> {
-//         // TODO: Should get Todo from mongoDB
-//         return traySpec.findAll({
-//             where: {
-//                 custId: id
-//             }
-//         })
-//     }
+    /**
+     * get tray msl data by msl id
+     * support wilcard search
+     * @param mid 
+     * @returns tray msl data array
+     */
+    async getDatas(mid: string): Promise<Array<ITrayMsl>> {
+        return trayMsl.findAll({
+            raw: true,
+            where: {
+                MSL: {
+                    [Op.like]: mid.replace(/\*/g, '%')
+                }
+            }
+        })
+    }
 
-//     // TODO: Should add Todo into mongoDB
-//     async addTodo(traySpecBody: ITraySpec): Promise<ITraySpec> {
-//         return traySpec.create(traySpecBody)
-//     }
+    /**
+     * add a tray msl data to database
+     * @param trayMslBody 
+     * @returns 
+     */
+    async addData(trayMslBody: ITrayMsl): Promise<ITrayMsl> {
+        return trayMsl.create(trayMslBody)
+    }
 
-//     async updateTodo(traySpecBody: ITraySpec): Promise<[number, traySpec[]] | null> {
-//         // TODO: Should update Todo to mongoDB
-//         // new: bool - true to return the modified document rather than the original. defaults to false
-//         return traySpec.update(traySpecBody, {
-//             where: {
-//                 custId: traySpecBody.custId,
-//                 prodspecId: traySpecBody.prodspecId
-//             }
-//         })
-//     }
+    /**
+     * update tray msl data by msl id
+     * @param trayMslBody 
+     * @returns 
+     */
+    async updateData(trayMslBody: ITrayMsl): Promise<[number, trayMsl[]] | null> {
+        return trayMsl.update(trayMslBody, {
+            where: {
+                MSL: trayMslBody.MSL
+            }
+        })
+    }
 
-//     async deleteTodo(traySpecBody: ITraySpec): Promise<number | null> {
-//         // TODO: Should delete Todo from mongoDB
-//         return traySpec.destroy({
-//             where: {
-//                 custId: traySpecBody.custId,
-//                 prodspecId: traySpecBody.prodspecId
-//             }
-//         })
-//     }
+    /**
+     * delete tray msl data by msl id
+     * @param trayMslBody 
+     * @returns 
+     */
+    async deleteData(trayMslBody: ITrayMsl): Promise<number | null> {
+        return trayMsl.destroy({
+            where: {
+                MSL: trayMslBody.MSL
+            }
+        })
+    }
 
-// }
+}
 
-// export { TraySpecRepoImpl }
+export { TrayMslRepoImpl }
