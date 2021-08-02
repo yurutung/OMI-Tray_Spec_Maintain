@@ -15,3 +15,8 @@
     npm run build
     npm start
     ```
+4. cd electron
+    ```
+    npm install
+    npm start
+    ```
