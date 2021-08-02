@@ -17,12 +17,13 @@ const establishConnection = async () => {
 
   const sequelize = new Sequelize(`mariadb://${user}:${password}@${host}:${port}/${database}`)
 
-  sequelize.authenticate()
-    .then(() => console.log('Connection has been established successfully.'))
+  await sequelize.authenticate()
+    .then(async () => {
+      console.log('Connection has been established successfully.')
+      await sequelize.addModels(Object.values(models))
+    })
     .catch(err => console.error('Unable to connect to the database:', err))
 
-  sequelize.addModels(Object.values(models))
-    
 }
 
 export { establishConnection }

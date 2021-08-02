@@ -16,7 +16,10 @@ const startFastify: (port: number) => FastifyInstance<Server, IncomingMessage, S
             console.error(err)
             process.exit(0)
         }
-        establishConnection()
+
+        if (!process.env.JEST_WORKER_ID) {
+            establishConnection()
+        }
     })
 
     // frontend connect to backend
