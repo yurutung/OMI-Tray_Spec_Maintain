@@ -31,18 +31,21 @@ describe('Tray Msl test', () => {
         )
     })
 
+    // test server
     it('test server', async () => {
         const response = await server.inject({ method: 'GET', url: '/ping' })
         expect(response.statusCode).toBe(200)
         console.log(`test server ${response.body}`)
     })
 
+    // get pass
     it('should successfully get a list of Tray Msl', async () => {
         const response = await server.inject({ method: 'GET', url: '/api/tray_msl/*' })
         expect(response.statusCode).toBe(200)
         console.log(`get tray msl ${response.body}`)
     })
 
+    // post pass
     it('should successfully post a Tray Msl data, and can be found', async () => {
         const response = await server.inject({ method: 'POST', url: '/api/tray_msl', payload: newTrayMsl })
         expect(response.statusCode).toBe(201)
@@ -55,7 +58,14 @@ describe('Tray Msl test', () => {
         expect(res_data.trayMsls.length).toBe(1)
         expect(res_data.trayMsls[0].MSL).toBe(newTrayMsl.MSL)
     })
+    // post fail
+    it('should failed post a Tray Msl data', async () => {
+        const response = await server.inject({ method: 'POST', url: '/api/tray_msl', payload: {} })
+        expect(response.statusCode).toBe(500)
+        console.log(`post tray msl ${response.body}`)
+    })
 
+    // put pass
     it('should successfully update a Tray Msl Data by cust code and prod id', async () => {
         const updateTraySpec = Object.assign({ FLOOR_LIFE: 'test' }, newTrayMsl)
         const response = await server.inject({ method: 'PUT', url: '/api/tray_msl', payload: updateTraySpec })
@@ -70,11 +80,30 @@ describe('Tray Msl test', () => {
         expect(res_data.trayMsls[0].MSL).toBe(updateTraySpec.MSL)
         expect(res_data.trayMsls[0].FLOOR_LIFE).toBe(updateTraySpec.FLOOR_LIFE)
     })
+    // put fail
+    it('should failed put a Tray Msl data', async () => {
+        const response = await server.inject({ method: 'PUT', url: '/api/tray_msl', payload: {} })
+        expect(response.statusCode).toBe(404)
+        console.log(`put tray msl ${response.body}`)
+    })
 
+    // delete pass
     it('should successfully delete tray msl by cust code and prod id', async () => {
         const response = await server.inject({ method: 'DELETE', url: '/api/tray_msl', payload: newTrayMsl })
         expect(response.statusCode).toBe(204)
         console.log(`del tray msl ${response.body}`)
+    })
 
+    // delete fail 404
+    it('should failed delete a Tray Msl data, and throw not found data error', async () => {
+        const response = await server.inject({ method: 'DELETE', url: '/api/tray_msl', payload: { MSL: '' } })
+        expect(response.statusCode).toBe(404)
+        console.log(`delete tray msl ${response.body}`)
+    })
+    // delete fail 500
+    it('should failed delete a Tray Msl data, and throw server error', async () => {
+        const response = await server.inject({ method: 'DELETE', url: '/api/tray_msl', payload: {} })
+        expect(response.statusCode).toBe(500)
+        console.log(`delete tray msl ${response.body}`)
     })
 })

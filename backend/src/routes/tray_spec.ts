@@ -41,7 +41,7 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
         try {
             const traySpecBody = request.body as ITraySpec
             const traySpec: [number, ITraySpec[]] | null = await traySpecRepo.updateData(traySpecBody)
-            if (traySpec) {
+            if (traySpec && traySpec[0]) {
                 return reply.status(200).send({ traySpec })
             } else {
                 return reply.status(404).send({ msg: `Not Found Tray Spec: ${traySpecBody.CUST_CD} & ${traySpecBody.CUST_PART_ID}` })
@@ -60,7 +60,7 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
             const traySpecBody = request.body as ITraySpec
             const traySpec: number | null = await traySpecRepo.deleteData(traySpecBody)
             if (traySpec) {
-                return reply.status(204).send() //204 delete successfully
+                return reply.status(204).send({ traySpec }) //204 delete successfully
             } else {
                 return reply.status(404).send({ msg: `Not Found Tray Spec: ${traySpecBody.CUST_CD} & ${traySpecBody.CUST_PART_ID}` })
             }

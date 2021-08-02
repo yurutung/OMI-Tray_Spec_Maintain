@@ -41,8 +41,8 @@ const TrayMslRouter = (server: FastifyInstance, opts: RouteShorthandOptions, don
         try {
             const trayMslBody = request.body as ITrayMsl
             const trayMsl: [number, ITrayMsl[]] | null = await trayMslRepo.updateData(trayMslBody)
-            if (trayMsl) {
-                return reply.status(200).send({ trayMsl: trayMsl })
+            if (trayMsl && trayMsl[0]) {
+                return reply.status(200).send({ trayMsl })
             } else {
                 return reply.status(404).send({ msg: `Not Found Tray Msl: ${trayMslBody.MSL}` })
             }

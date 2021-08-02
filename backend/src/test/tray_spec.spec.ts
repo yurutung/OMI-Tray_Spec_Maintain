@@ -32,18 +32,21 @@ describe('Tray Spec test', () => {
         )
     })
 
+    // test server
     it('test server', async () => {
         const response = await server.inject({ method: 'GET', url: '/ping' })
         expect(response.statusCode).toBe(200)
         console.log(`test server ${response.body}`)
     })
 
+    // get pass
     it('should successfully get a list of Tray Spec', async () => {
         const response = await server.inject({ method: 'GET', url: '/api/tray_spec/*' })
         expect(response.statusCode).toBe(200)
         console.log(`get tray spec ${response.body}`)
     })
 
+    // post pass
     it('should successfully post a Tray Spec data, and can be found', async () => {
         const response = await server.inject({ method: 'POST', url: '/api/tray_spec', payload: newTraySpec })
         expect(response.statusCode).toBe(201)
@@ -57,7 +60,14 @@ describe('Tray Spec test', () => {
         expect(res_data.traySpecs[0].CUST_CD).toBe(newTraySpec.CUST_CD)
         expect(res_data.traySpecs[0].PRODSPEC_ID).toBe(newTraySpec.PRODSPEC_ID)
     })
+    // post fail
+    it('should failed post a Tray Spec data', async () => {
+        const response = await server.inject({ method: 'POST', url: '/api/tray_spec', payload: {} })
+        expect(response.statusCode).toBe(500)
+        console.log(`post tray spec ${response.body}`)
+    })
 
+    // put pass
     it('should successfully update a Tray Spec Data by cust code and prod id', async () => {
         const updateTraySpec = Object.assign({ CUST_PART_ID: 'test', PIN_A1_LOC: 'test' }, newTraySpec)
         const response = await server.inject({ method: 'PUT', url: '/api/tray_spec', payload: updateTraySpec })
@@ -74,11 +84,29 @@ describe('Tray Spec test', () => {
         expect(res_data.traySpecs[0].CUST_PART_ID).toBe(updateTraySpec.CUST_PART_ID)
         expect(res_data.traySpecs[0].PIN_A1_LOC).toBe(updateTraySpec.PIN_A1_LOC)
     })
+    // put fail
+    it('should failed put a Tray Spec data', async () => {
+        const response = await server.inject({ method: 'PUT', url: '/api/tray_spec', payload: {} })
+        expect(response.statusCode).toBe(404)
+        console.log(`put tray spec ${response.body}`)
+    })
 
+    // delete pass
     it('should successfully delete tray spec by cust code and prod id', async () => {
         const response = await server.inject({ method: 'DELETE', url: '/api/tray_spec', payload: newTraySpec })
         expect(response.statusCode).toBe(204)
-        console.log(`del tray spec ${response.body}`)
-        
+        console.log(`delete tray spec ${response.body}`)
+    })
+    // delete fail 404
+    it('should failed delete a Tray Spec data, and throw not found data error', async () => {
+        const response = await server.inject({ method: 'DELETE', url: '/api/tray_spec', payload: { CUST_CD: '', PRODSPEC_ID: '' } })
+        expect(response.statusCode).toBe(404)
+        console.log(`delete tray spec ${response.body}`)
+    })
+    // delete fail 500
+    it('should failed delete a Tray Spec data, and throw server error', async () => {
+        const response = await server.inject({ method: 'DELETE', url: '/api/tray_spec', payload: {} })
+        expect(response.statusCode).toBe(500)
+        console.log(`delete tray spec ${response.body}`)
     })
 })
