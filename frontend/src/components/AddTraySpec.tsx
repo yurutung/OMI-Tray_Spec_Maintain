@@ -3,6 +3,7 @@ import { Link, useParams, useLocation } from "react-router-dom"
 import ReactShortcut from 'react-shortcut'
 import { toastMixin, clickById } from '../functions'
 import { addTraySpec, updateTraySpec } from '../api/tray_spec'
+import AddTrayLsrMrk from './AddTrayLsrMrk'
 
 
 interface stateType {
@@ -22,14 +23,14 @@ const AddTraySpec = () => {
     CUST_PART_ID: undefined,
     DESCRIPTION: undefined,
     PIN_A1_LOC: undefined,
-    PACKING_TYPE: 'TRAY',
+    PACKING_TYPE: undefined,
     MSL: undefined,
     TRAY_SIZE: '0*0*0',
     CHIP_SIZE: '0*0',
     BIN_GRADE: undefined,
     TERM_COMPOST: undefined,
-    PB_FREE: 'Y',
-    TEMP: 0,
+    PB_FREE: undefined,
+    TEMP: undefined,
     UPD_FLAG: undefined,
     CLIAM_USER: undefined,
     CLAIM_TIME: undefined,
@@ -149,10 +150,13 @@ const AddTraySpec = () => {
     }
   }
 
+  // set show laser mark
+  const [fillLaserMark, setLaserMark] = useState(false)
+
   return (
     <>
       <form className="container h-100" onSubmit={e => saveTraySpec(e, formData)}>
-        <div className="main-body pt-2">
+        <div className={`main-body pt-2 ${fillLaserMark ? 'add_scroll' : ''}`}>
           <div className="h-auto row">
             <div className='d-flex align-items-center col-6 my-2'>
               <label className="col-5" htmlFor="CUST_CD">Custumer Code</label>
@@ -211,24 +215,28 @@ const AddTraySpec = () => {
             </div>
             <div className='d-flex align-items-center col-6 my-2'>
               <label className="col-5" htmlFor="TEMP">Temperature</label>
-              <div className="col-7"><input className="form-control" onChange={handleForm} type="number" id="TEMP" value={formData.TEMP || 0} /></div>
+              <div className="col-7"><input className="form-control" onChange={handleForm} type="number" id="TEMP" value={formData.TEMP || ''} /></div>
             </div>
             <div className='d-flex align-items-center col-12'>
               <label className="col-3" htmlFor="DESCRIPTION">Description</label>
               <div className="col-9"><input className="form-control" onChange={handleForm} type="text" id="DESCRIPTION" value={formData.DESCRIPTION || ''} /></div>
             </div>
           </div>
+          {fillLaserMark ? <AddTrayLsrMrk /> : <></>}
         </div>
         <div className="gap-2 p-2 row">
           <Link to={`/datas/tray_spec/${id}`} id='back' className="btn btn-outline-secondary col-2">F3 離開</Link>
-          <button className="btn btn-outline-secondary col-2">Fill Laser Mark</button>
+          <button className="btn btn-outline-secondary col-2" id='fillLaser' onClick={() => setLaserMark(!fillLaserMark)}>F4 Fill Laser Mark</button>
           <button type="submit" id='save' className="btn btn-outline-secondary col-2">F5 確認</button>
         </div>
       </form>
-      {/* shortcut setting */}
       <ReactShortcut
         keys={'f3'}
         onKeysPressed={() => { clickById('back') }}
+      />
+      <ReactShortcut
+        keys={'f4'}
+        onKeysPressed={() => { clickById('fillLaser') }}
       />
       <ReactShortcut
         keys={'f5'}

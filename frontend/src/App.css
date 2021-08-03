@@ -59,4 +59,9 @@ html, body, #root{
   white-space: nowrap;
   height: 100%;
 }
-
+.add_scroll{
+  overflow: auto;
+  overflow-x: hidden;
+  display: block;
+  white-space: nowrap;
+}

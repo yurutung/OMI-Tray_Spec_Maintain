@@ -1,6 +1,6 @@
 import {
 	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
-} from "sequelize-typescript";
+} from "sequelize-typescript"
 import { ITrayMsl } from '../types/tray_msl'
 
 @Table({

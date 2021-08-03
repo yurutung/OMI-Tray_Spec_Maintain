@@ -1,6 +1,6 @@
 import {
 	Model, Table, Column, DataType, Index, Sequelize, ForeignKey 
-} from "sequelize-typescript";
+} from "sequelize-typescript"
 import { ITraySpec } from '../types/tray_spec'
 
 

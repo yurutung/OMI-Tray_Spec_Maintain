@@ -45,7 +45,7 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
             if (traySpec && traySpec[0]) {
                 return reply.status(200).send({ traySpec })
             } else {
-                return reply.status(404).send({ msg: `Not Found Tray Spec: ${traySpecBody.CUST_CD} & ${traySpecBody.CUST_PART_ID}` })
+                return reply.status(404).send({ msg: `Not Found Tray Spec: ${traySpecBody.CUST_CD} & ${traySpecBody.PRODSPEC_ID}` })
             }
         } catch (error) {
             console.error(`PUT /tray_spec Error: ${error}`)
@@ -63,7 +63,7 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
             if (traySpec) {
                 return reply.status(204).send({ traySpec }) //204 delete successfully
             } else {
-                return reply.status(404).send({ msg: `Not Found Tray Spec: ${traySpecBody.CUST_CD} & ${traySpecBody.CUST_PART_ID}` })
+                return reply.status(404).send({ msg: `Not Found Tray Spec: ${traySpecBody.CUST_CD} & ${traySpecBody.PRODSPEC_ID}` })
             }
         } catch (error) {
             console.error(`DELETE /tray_spec Error: ${error}`)
