@@ -12,7 +12,7 @@ const getTraySpecs = async (id: string): Promise<AxiosResponse<Array<ITraySpec>>
         return traySpecs
     } catch (error) {
         console.error(`GET /api/tray_spec ERROR: ${error}`)
-        throw new Error(error)
+        throw error
     }
 }
 
@@ -28,7 +28,7 @@ const addTraySpec = async (traySpecBody: ITraySpec): Promise<AxiosResponse<ITray
         return traySpec
     } catch (error) {
         console.error(`POST /api/tray_spec ERROR: ${error}`)
-        throw new Error(error)
+        throw error
     }
 }
 
@@ -44,7 +44,7 @@ const updateTraySpec = async (traySpecBody: ITraySpec): Promise<AxiosResponse<IT
         return traySpec
     } catch (error) {
         console.error(`PUT /api/tray_spec ERROR: ${error}`)
-        throw new Error(error)
+        throw error
     }
 }
 
@@ -60,7 +60,7 @@ const deleteTraySpec = async (traySpecBody: ITraySpec): Promise<AxiosResponse> =
         return res
     } catch (error) {
         console.error(`DELETE /api/tray_spec ERROR: ${error}`)
-        throw new Error(error)
+        throw error
     }
 }
 
@@ -75,7 +75,7 @@ const uploadTraySpec = async (traySpecs: ITraySpec[]): Promise<AxiosResponse> =>
         return res
     } catch (error) {
         console.error(`UPLOAD /api/tray_spec/upload_data ERROR: ${error}`)
-        throw new Error(error)
+        throw error
     }
 }
 

@@ -12,7 +12,7 @@ const getTrayMsls = async (id: string): Promise<AxiosResponse<Array<ITrayMsl>>> 
         return trayMsls
     } catch (error) {
         console.error(`GET /api/tray_msl ERROR: ${error}`)
-        throw new Error(error)
+        throw error
     }
 }
 
@@ -28,7 +28,7 @@ const addTrayMsl = async (trayMslBody: ITrayMsl): Promise<AxiosResponse<ITrayMsl
         return trayMsl
     } catch (error) {
         console.error(`POST /api/tray_msl ERROR: ${error}`)
-        throw new Error(error)
+        throw error
     }
 }
 
@@ -44,7 +44,7 @@ const updateTrayMsl = async (trayMslBody: ITrayMsl): Promise<AxiosResponse<ITray
         return TrayMsl
     } catch (error) {
         console.error(`PUT /api/tray_msl ERROR: ${error}`)
-        throw new Error(error)
+        throw error
     }
 }
 
@@ -60,7 +60,7 @@ const deleteTrayMsl = async (trayMslBody: ITrayMsl): Promise<AxiosResponse> => {
         return res
     } catch (error) {
         console.error(`DELETE /api/tray_msl ERROR: ${error}`)
-        throw new Error(error)
+        throw error
     }
 }
 
@@ -75,7 +75,7 @@ const uploadTrayMsl = async (trayMsls: ITrayMsl[]): Promise<AxiosResponse> => {
         return res
     } catch (error) {
         console.error(`UPLOAD /api/tray_msl/upload_data ERROR: ${error}`)
-        throw new Error(error)
+        throw error
     }
 }
 

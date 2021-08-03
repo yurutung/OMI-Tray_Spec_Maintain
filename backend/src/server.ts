@@ -16,7 +16,7 @@ const startFastify: (port: number) => FastifyInstance<Server, IncomingMessage, S
             console.error(err)
             process.exit(0)
         }
-
+        // if not unit test, connect to DB
         if (!process.env.JEST_WORKER_ID) {
             establishConnection()
         }

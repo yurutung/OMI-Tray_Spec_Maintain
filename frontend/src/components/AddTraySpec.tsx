@@ -43,7 +43,7 @@ const AddTraySpec = () => {
     const value = e.currentTarget.value
     setFormData({
       ...formData,
-      [e.currentTarget.id]: value === '' ? null : value
+      [e.currentTarget.id]: value.trim() === '' ? null : value.trim()
     })
   }
   // tray size handle

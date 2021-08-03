@@ -1,12 +1,17 @@
 const { app, BrowserWindow } = require('electron')
 
 function createWindow() {
-    const win = new BrowserWindow({
-        width: 800,
-        height: 600
+    const mainWindow = new BrowserWindow({
+        width: 1100,
+        height: 800
     })
 
-    win.loadFile('index.html')
+    // mainWindow.loadFile('../backend/out/index.js')
+    mainWindow.loadURL('http://localhost:8888')
+
+    mainWindow.on('closed', () => {
+        mainWindow = null
+    })
 }
 
 app.whenReady().then(() => {
@@ -14,13 +19,13 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') app.quit()
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
 })
 
-app.whenReady().then(() => {
-    createWindow()
-
-    app.on('activate', function () {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    })
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow()
+    }
 })

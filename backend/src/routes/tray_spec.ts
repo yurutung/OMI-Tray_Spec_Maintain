@@ -1,4 +1,5 @@
 import { FastifyInstance, RouteShorthandOptions, FastifyReply } from 'fastify'
+import { traySpec } from '../models'
 import { ITraySpec } from '../types/tray_spec'
 import { TraySpecRepoImpl } from './../repo/tray_spec-repo'
 
@@ -74,15 +75,20 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
      * upload data
      */
     server.post('/upload_data', opts, async (request, reply) => {
-        try {
-            const traySpecs: ITraySpec[] = request.body as ITraySpec[]
-            console.log(traySpecs)
-            // TODO: save to DB
-            // const traySpec: ITraySpec = await traySpecRepo.addData(traySpecBody)
-            return reply.status(201).send()
-        } catch (error) {
-            console.error(`\POST /tray_spec/upload_data Error: ${error}`)
-            return reply.status(500).send(`[Server Error]: ${error}`)
+        const traySpecs: ITraySpec[] = request.body as ITraySpec[]
+        console.log(traySpecs)
+        let errMsg = []
+        for (const ts of traySpecs) {
+            try {
+                const res = await traySpecRepo.addOrUpdateDate(ts)
+            } catch (error) {
+                errMsg.push({data: ts, err: error})
+            }
+        }
+        if (!errMsg.length) {
+            return reply.status(201).send({ msg: `Upload successfully ${traySpecs.length} items.` })
+        } else {
+            return reply.status(500).send({ msg: `Upload fail ${errMsg.length} items.`, errData: errMsg})
         }
     })
 

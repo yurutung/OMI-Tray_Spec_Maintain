@@ -5,15 +5,15 @@ import { TrayMslRepoImpl } from '../repo/tray_msl-repo'
 const TrayMslRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: (error?: Error) => void) => {
 
     const trayMslRepo = TrayMslRepoImpl.of()
-    
+
     /**
      * get data by msl id
      */
-    server.get<{ Params: {mid: string} }>('/:mid', opts, async (request, reply) => {
+    server.get<{ Params: { mid: string } }>('/:mid', opts, async (request, reply) => {
         const mid = request.params.mid
         try {
             const trayMsls: Array<ITrayMsl> = await trayMslRepo.getDatas(mid)
-            return reply.status(200).send({trayMsls: trayMsls})
+            return reply.status(200).send({ trayMsls: trayMsls })
         } catch (error) {
             console.error(`\GET /tray_msl/${mid} Error: ${error}`)
             return reply.status(500).send(`[Server Error]: ${error}`)
@@ -27,7 +27,7 @@ const TrayMslRouter = (server: FastifyInstance, opts: RouteShorthandOptions, don
         try {
             const trayMslBody: ITrayMsl = request.body as ITrayMsl
             const trayMsl: ITrayMsl = await trayMslRepo.addData(trayMslBody)
-            return reply.status(201).send({trayMsl: trayMsl}) //add successfully
+            return reply.status(201).send({ trayMsl: trayMsl }) //add successfully
         } catch (error) {
             console.error(`\POST /tray_msl Error: ${error}`)
             return reply.status(500).send(`[Server Error]: ${error}`)
@@ -51,7 +51,7 @@ const TrayMslRouter = (server: FastifyInstance, opts: RouteShorthandOptions, don
             return reply.status(500).send(`[Server Error]: ${error}`)
         }
     })
-    
+
     /**
      * delete data
      */
@@ -73,16 +73,21 @@ const TrayMslRouter = (server: FastifyInstance, opts: RouteShorthandOptions, don
     /**
      * upload data
      */
-     server.post('/upload_data', opts, async (request, reply) => {
-        try {
-            const trayMsls: ITrayMsl[] = request.body as ITrayMsl[]
-            console.log(trayMsls)
-            // TODO: save to DB
-            // const traySpec: ITraySpec = await traySpecRepo.addData(traySpecBody)
-            return reply.status(201).send()
-        } catch (error) {
-            console.error(`\POST /tray_msl/upload_data Error: ${error}`)
-            return reply.status(500).send(`[Server Error]: ${error}`)
+    server.post('/upload_data', opts, async (request, reply) => {
+        const trayMsls: ITrayMsl[] = request.body as ITrayMsl[]
+        console.log(trayMsls)
+        let errMsg = []
+        for (const tm of trayMsls) {
+            try {
+                const res = await trayMslRepo.addOrUpdateDate(tm)
+            } catch (error) {
+                errMsg.push({data: tm, err: error})
+            }
+        }
+        if (!errMsg.length) {
+            return reply.status(201).send({ msg: `Upload successfully ${trayMsls.length} items.` })
+        } else {
+            return reply.status(500).send({ msg: `Upload fail ${errMsg.length} items.`, errData: errMsg })
         }
     })
 

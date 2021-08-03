@@ -69,6 +69,15 @@ class TraySpecRepoImpl implements TraySpecRepo {
             }
         })
     }
+
+    /**
+     * insert or update by id
+     * @param traySpecBody 
+     * @returns 
+     */
+    async addOrUpdateDate(traySpecBody: ITraySpec): Promise<[traySpec, boolean | null]> {
+        return traySpec.upsert(traySpecBody, { returning: true })
+    }
 }
 
 export { TraySpecRepoImpl }

@@ -15,8 +15,14 @@ const toastMixin = Swal.mixin({
     }
 })
 
+const errAlert = Swal.mixin({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'something wrong',
+})
+
 const clickById = (id: string) => {
     (document.getElementById(id) as HTMLInputElement).click()
 }
 
-export { toastMixin, clickById }
+export { toastMixin, errAlert, clickById }

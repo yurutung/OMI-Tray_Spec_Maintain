@@ -1,8 +1,8 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react'
 import { useHistory } from "react-router-dom"
 import BootstrapTable, { SelectRowProps } from "react-bootstrap-table-next"
-import { toastMixin } from '../functions'
-import { getTraySpecs, deleteTraySpec } from '../api/tray_spec'
+import { toastMixin, errAlert } from '../functions'
+import { getTraySpecs, deleteTraySpec, uploadTraySpec } from '../api/tray_spec'
 
 const TraySpecTable = forwardRef((props: { mode: string, id: string }, ref) => {
   // props
@@ -37,7 +37,7 @@ const TraySpecTable = forwardRef((props: { mode: string, id: string }, ref) => {
       getDatas() {
         const reData: ITraySpec[] = []
         datas.forEach(e => {
-          const {id, ...d} = e
+          const { id, ...d } = e
           reData.push(d)
         })
         return reData
@@ -80,6 +80,27 @@ const TraySpecTable = forwardRef((props: { mode: string, id: string }, ref) => {
             icon: 'info'
           })
         }
+      },
+      uploadDatas(datas: ITraySpec[]) {
+        uploadTraySpec(datas)
+          .then(e => {
+            console.log(e)
+            toastMixin.fire({
+              title: 'Upload data Successfully!'
+            })
+          })
+          .catch(err => {
+            const errData = err.response.data
+            let showMsg = ''
+            errData.errData.forEach((e: { data: any; err: any }) => {
+              showMsg += `${JSON.stringify(e.data)} => ${e.err.original.text} \n`
+            })
+            errAlert.fire({
+              title: errData.msg,
+              text: showMsg
+            })
+          })
+          .finally(() => fetchDatas())
       }
     }),
   )

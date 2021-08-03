@@ -68,6 +68,14 @@ class TrayMslRepoImpl implements TrayMslRepo {
         })
     }
 
+    /**
+     * insert or update by id
+     * @param trayMslBody 
+     * @returns 
+     */
+    async addOrUpdateDate(trayMslBody: ITrayMsl): Promise<[trayMsl, boolean | null]> {
+        return trayMsl.upsert(trayMslBody, { returning: true })
+    }
 }
 
 export { TrayMslRepoImpl }

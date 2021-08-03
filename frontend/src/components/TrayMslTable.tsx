@@ -1,8 +1,8 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react'
 import { useHistory } from "react-router-dom"
 import BootstrapTable, { SelectRowProps } from "react-bootstrap-table-next"
-import { toastMixin } from '../functions'
-import { getTrayMsls, deleteTrayMsl } from '../api/tray_msl'
+import { toastMixin, errAlert } from '../functions'
+import { getTrayMsls, deleteTrayMsl, uploadTrayMsl } from '../api/tray_msl'
 
 const TrayMslTable = forwardRef((props: { mode: string, id: string }, ref) => {
   // props
@@ -71,6 +71,27 @@ const TrayMslTable = forwardRef((props: { mode: string, id: string }, ref) => {
             icon: 'info'
           })
         }
+      },
+      uploadDatas(datas: ITrayMsl[]) {
+        uploadTrayMsl(datas)
+          .then(e => {
+            console.log(e)
+            toastMixin.fire({
+              title: 'Upload data Successfully!'
+            })
+          })
+          .catch(err => {
+            const errData = err.response.data
+            let showMsg = ''
+            errData.errData.forEach((e: { data: any; err: any }) => {
+              showMsg += `${JSON.stringify(e.data)} => ${e.err.original.text} \n`
+            })
+            errAlert.fire({
+              title: errData.msg,
+              text: showMsg
+            })
+          })
+          .finally(() => fetchDatas())
       }
     }),
   )
