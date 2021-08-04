@@ -20,7 +20,7 @@ interface ITraySpec {
     PB_FREE?: string;
     TEMP?: number;
     UPD_FLAG?: string;
-    CLIAM_USER?: string;
+    CLAIM_USER?: string;
     CLAIM_TIME?: Date;
     DATECODE_LIMIT: number;
 }
@@ -38,7 +38,7 @@ interface ITrayLsrMrk {
     MARK_TEXT7?: string;
     MARK_TEXT8?: string;
     MARK_TEXT9?: string;
-    ACTIVE_FLG: string;
-    CLAIM_USER: string;
+    // ACTIVE_FLG: string;
+    CLAIM_USER?: string;
     CLAIM_TIME?: Date;
 }

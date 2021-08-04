@@ -14,7 +14,7 @@ interface ITraySpec {
     PB_FREE?: string;
     TEMP?: number;
     UPD_FLAG?: string;
-    CLIAM_USER?: string;
+    CLAIM_USER?: string;
     CLAIM_TIME?: Date;
     DATECODE_LIMIT: number;
 }

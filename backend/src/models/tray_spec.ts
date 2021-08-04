@@ -121,11 +121,11 @@ class traySpec extends Model<ITraySpec, ITraySpec> implements ITraySpec {
     UPD_FLAG?: string;
 
     @Column({
-    	field: "CLIAM_USER",
+    	field: "CLAIM_USER",
     	allowNull: true,
     	type: DataType.STRING(64) 
     })
-    CLIAM_USER?: string;
+    CLAIM_USER?: string;
 
     @Column({
     	field: "CLAIM_TIME",

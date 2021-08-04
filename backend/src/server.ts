@@ -5,6 +5,7 @@ import path from 'path'
 import { establishConnection } from './plugins/mariadb'
 import { TraySpecRouter } from './routes/tray_spec'
 import { TrayMslRouter } from './routes/tray_msl'
+import { TrayLsrMrkRouter } from './routes/tray_lsr_mrk'
 
 const server: FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({
     logger: { prettyPrint: true }
@@ -35,6 +36,7 @@ const startFastify: (port: number) => FastifyInstance<Server, IncomingMessage, S
     // add prefix /api
     server.register(TraySpecRouter, { prefix: '/api/tray_spec' })
     server.register(TrayMslRouter, { prefix: '/api/tray_msl' })
+    server.register(TrayLsrMrkRouter, { prefix: '/api/tray_lsr_mrk' })
 
     return server
 }

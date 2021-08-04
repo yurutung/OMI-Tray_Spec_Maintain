@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, useParams, useLocation } from "react-router-dom"
 import ReactShortcut from 'react-shortcut'
 import { toastMixin, clickById } from '../functions'
 import { addTraySpec, updateTraySpec } from '../api/tray_spec'
 import AddTrayLsrMrk from './AddTrayLsrMrk'
+import { getTrayLsrMrkById } from '../api/tray_lsr_mrk'
 
 
 interface stateType {
@@ -32,20 +33,27 @@ const AddTraySpec = () => {
     PB_FREE: undefined,
     TEMP: undefined,
     UPD_FLAG: undefined,
-    CLIAM_USER: undefined,
+    CLAIM_USER: undefined,
     CLAIM_TIME: undefined,
     DATECODE_LIMIT: 9999,
   }
+  const lsrMrkRef = useRef<any>()
+  const [fillLaserMark, setFillLaserMark] = useState(false)
 
   // formData
   const [formData, setFormData] = useState<ITraySpec>(initData)
   const handleForm = (e: React.FormEvent<HTMLInputElement>): void => {
     // if value is '' change to null
-    const value = e.currentTarget.value
+    const key = e.currentTarget.id
+    const value = e.currentTarget.value.trim()
     setFormData({
       ...formData,
-      [e.currentTarget.id]: value.trim() === '' ? null : value.trim()
+      [key]: value === '' ? null : value
     })
+    if (fillLaserMark && ['CUST_CD', 'PRODSPEC_ID'].includes(key)) {
+      lsrMrkRef.current.setTrayLsrMrk({ [key]: value })
+    }
+    e.preventDefault()
   }
   // tray size handle
   const initTraySize = () => {
@@ -148,16 +156,40 @@ const AddTraySpec = () => {
           })
         })
     }
+    if (fillLaserMark) {
+      lsrMrkRef.current.sendLsrMrk()
+    }
   }
 
   // set show laser mark
-  const [fillLaserMark, setLaserMark] = useState(false)
+  const [trayLsrMrk, setTrayLsrMrk] = useState<ITrayLsrMrk>({} as ITrayLsrMrk)
+  const handleAddTrayLsrMrk = () => {
+    // set id
+    if (fillLaserMark) {
+      lsrMrkRef.current.setTrayLsrMrk({ CUST_CD: formData.CUST_CD, PRODSPEC_ID: formData.PRODSPEC_ID })
+    }
+
+    // update get tray laser mark data
+    if (isEdit && formData.CUST_CD && formData.PRODSPEC_ID) {
+      getTrayLsrMrkById(formData.CUST_CD, formData.PRODSPEC_ID)
+        .then(({ data: { trayLsrMrk: trayLsrMrkBody } }: ITrayLsrMrk | any) => {
+          lsrMrkRef.current.setTrayLsrMrk(trayLsrMrkBody)
+          // setTrayLsrMrk({
+          //   ...trayLsrMrkBody
+          // })
+        })
+        .catch((err: Error) => console.error(err))
+    }
+  }
+  useEffect(() => {
+    handleAddTrayLsrMrk()
+  }, [fillLaserMark])
 
   return (
     <>
-      <form className="container h-100" onSubmit={e => saveTraySpec(e, formData)}>
+      <div className="container h-100" onSubmit={e => saveTraySpec(e, formData)}>
         <div className={`main-body pt-2 ${fillLaserMark ? 'add_scroll' : ''}`}>
-          <div className="h-auto row">
+          <form className="h-auto row">
             <div className='d-flex align-items-center col-6 my-2'>
               <label className="col-5" htmlFor="CUST_CD">Custumer Code</label>
               <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="CUST_CD" value={formData.CUST_CD || ''} required disabled={isEdit} /></div>
@@ -221,15 +253,18 @@ const AddTraySpec = () => {
               <label className="col-3" htmlFor="DESCRIPTION">Description</label>
               <div className="col-9"><input className="form-control" onChange={handleForm} type="text" id="DESCRIPTION" value={formData.DESCRIPTION || ''} /></div>
             </div>
-          </div>
-          {fillLaserMark ? <AddTrayLsrMrk /> : <></>}
+            <button type="submit" id='save' className="btn btn-outline-secondary col-2" hidden />
+          </form>
+          {/* {fillLaserMark ? <AddTrayLsrMrk isEdit={isEdit} selectedData={trayLsrMrk} ref={lsrMrkRef} /> : <></>} */}
+          {/* <nav hidden={!fillLaserMark}><AddTrayLsrMrk isEdit={isEdit} selectedData={trayLsrMrk} /></nav> */}
+          <nav hidden={!fillLaserMark}><AddTrayLsrMrk isEdit={isEdit} selectedData={trayLsrMrk} ref={lsrMrkRef} /></nav>
         </div>
         <div className="gap-2 p-2 row">
           <Link to={`/datas/tray_spec/${id}`} id='back' className="btn btn-outline-secondary col-2">F3 離開</Link>
-          <button className="btn btn-outline-secondary col-2" id='fillLaser' onClick={() => setLaserMark(!fillLaserMark)}>F4 Fill Laser Mark</button>
-          <button type="submit" id='save' className="btn btn-outline-secondary col-2">F5 確認</button>
+          <button className="btn btn-outline-secondary col-2" id='fillLaser' type="button" onClick={() => setFillLaserMark(true)}>F4 Fill Laser Mark</button>
+          <button type="button" className="btn btn-outline-secondary col-2" onClick={() => clickById('save')}>F5 確認</button>
         </div>
-      </form>
+      </div>
       <ReactShortcut
         keys={'f3'}
         onKeysPressed={() => { clickById('back') }}

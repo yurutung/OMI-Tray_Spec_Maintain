@@ -4,8 +4,6 @@ import ReactShortcut from 'react-shortcut'
 import CsvDownloader from 'react-csv-downloader'
 import csv from 'csvtojson'
 import { toastMixin, clickById } from '../functions'
-import { uploadTraySpec } from '../api/tray_spec'
-import { uploadTrayMsl } from '../api/tray_msl'
 
 import TrayMslTable from "./TrayMslTable"
 import TraySpecTable from "./TraySpecTable"

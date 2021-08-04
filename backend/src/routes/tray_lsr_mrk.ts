@@ -1,5 +1,4 @@
 import { FastifyInstance, RouteShorthandOptions, FastifyReply } from 'fastify'
-import { trayLsrMrk } from '../models'
 import { ITrayLsrMrk } from '../types/tray_lsr_mrk'
 import { TrayLsrMrkRepoImpl } from '../repo/tray_lsr_mrk-repo'
 
@@ -8,15 +7,16 @@ const TrayLsrMrkRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
     const trayLsrMrkRepo = TrayLsrMrkRepoImpl.of()
 
     /**
-     * get data by cust code
+     * get data by cust code and prod id
      */
-    server.get<{ Params: { cid: string } }>('/:cid', opts, async (request, reply) => {
+    server.get<{ Params: { cid: string, pid: string } }>('/:cid/:pid', opts, async (request, reply) => {
         const cid = request.params.cid
+        const pid = request.params.pid
         try {
-            const trayLsrMrks: Array<ITrayLsrMrk> = await trayLsrMrkRepo.getDatas(cid)
-            return reply.status(200).send({ trayLsrMrks })
+            const trayLsrMrk: ITrayLsrMrk | null = await trayLsrMrkRepo.getDatas(cid, pid)
+            return reply.status(200).send({ trayLsrMrk })
         } catch (error) {
-            console.error(`\GET /tray_lsr_mrk/${cid} Error: ${error}`)
+            console.error(`\GET /tray_lsr_mrk/${cid}/${pid} Error: ${error}`)
             return reply.status(500).send(`[Server Error]: ${error}`)
         }
     })
@@ -45,7 +45,7 @@ const TrayLsrMrkRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
             if (trayLsrMrk && trayLsrMrk[0]) {
                 return reply.status(200).send({ trayLsrMrk })
             } else {
-                return reply.status(404).send({ msg: `Not Found Tray Spec: ${trayLsrMrkBody.CUST_CD} & ${trayLsrMrkBody.PRODSPEC_ID}` })
+                return reply.status(404).send({ msg: `Not Found Tray Laser Mark: ${trayLsrMrkBody.CUST_CD} & ${trayLsrMrkBody.PRODSPEC_ID}` })
             }
         } catch (error) {
             console.error(`PUT /tray_lsr_mrk Error: ${error}`)
@@ -63,7 +63,7 @@ const TrayLsrMrkRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
             if (trayLsrMrk) {
                 return reply.status(204).send({ trayLsrMrk }) //204 delete successfully
             } else {
-                return reply.status(404).send({ msg: `Not Found Tray Spec: ${trayLsrMrkBody.CUST_CD} & ${trayLsrMrkBody.PRODSPEC_ID}` })
+                return reply.status(404).send({ msg: `Not Found Tray Laser Mark: ${trayLsrMrkBody.CUST_CD} & ${trayLsrMrkBody.PRODSPEC_ID}` })
             }
         } catch (error) {
             console.error(`DELETE /tray_lsr_mrk Error: ${error}`)
@@ -72,23 +72,20 @@ const TrayLsrMrkRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
     })
 
     /**
-     * upload data
+     * upsert data
      */
-    server.post('/upload_data', opts, async (request, reply) => {
-        const trayLsrMrks: ITrayLsrMrk[] = request.body as ITrayLsrMrk[]
-        console.log(trayLsrMrks)
-        let errMsg = []
-        for (const ts of trayLsrMrks) {
-            try {
-                const res = await trayLsrMrkRepo.addOrUpdateDate(ts)
-            } catch (error) {
-                errMsg.push({data: ts, err: error})
+    server.post('/upsert', opts, async (request, reply) => {
+        try {
+            const trayLsrMrk: ITrayLsrMrk = request.body as ITrayLsrMrk
+            const res = await trayLsrMrkRepo.addOrUpdateDate(trayLsrMrk)
+            if (res) {
+                return reply.status(204).send({ res }) //204 delete successfully
+            } else {
+                return reply.status(404).send({ msg: `Not Found Tray Laser Mark: ${trayLsrMrk.CUST_CD} & ${trayLsrMrk.PRODSPEC_ID}` })
             }
-        }
-        if (!errMsg.length) {
-            return reply.status(201).send({ msg: `Upload successfully ${trayLsrMrks.length} items.` })
-        } else {
-            return reply.status(500).send({ msg: `Upload fail ${errMsg.length} items.`, errData: errMsg})
+        } catch (error) {
+            console.error(`DELETE /tray_lsr_mrk Error: ${error}`)
+            return reply.status(500).send(`[Server Error]: ${error}`)
         }
     })
 

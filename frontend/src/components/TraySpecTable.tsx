@@ -168,7 +168,7 @@ const TraySpecTable = forwardRef((props: { mode: string, id: string }, ref) => {
       text: "updFlag"
     },
     {
-      dataField: "CLIAM_USER",
+      dataField: "CLAIM_USER",
       text: "cliamUser"
     },
     {

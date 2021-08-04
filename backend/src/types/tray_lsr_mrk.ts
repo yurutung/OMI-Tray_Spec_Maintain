@@ -13,7 +13,7 @@ interface ITrayLsrMrk {
     MARK_TEXT8?: string;
     MARK_TEXT9?: string;
     ACTIVE_FLG: string;
-    CLAIM_USER: string;
+    CLAIM_USER?: string;
     CLAIM_TIME?: Date;
 }
 

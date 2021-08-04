@@ -1,9 +1,8 @@
 import { ITrayLsrMrk } from '../types/tray_lsr_mrk'
 import { trayLsrMrk } from '../models/tray_lsr_mrk'
-import { Op } from 'sequelize'
 
 interface TrayLsrMrkRepo {
-    getDatas(cid: string): Promise<Array<ITrayLsrMrk>>
+    getDatas(cid: string, pid: string): Promise<trayLsrMrk | null>
     addData(trayLsrMrkBody: ITrayLsrMrk): Promise<ITrayLsrMrk>
     updateData(trayLsrMrkBody: ITrayLsrMrk): Promise<[number, trayLsrMrk[]] | null>
     deleteData(trayLsrMrkBody: ITrayLsrMrk): Promise<number | null>
@@ -17,18 +16,17 @@ class TrayLsrMrkRepoImpl implements TrayLsrMrkRepo {
     }
 
     /**
-     * get tray laser mark data by cust code
-     * support wilcard search
-     * @param cid 
+     * get tray laser mark data by cust code and prod id
+     * @param cid cust code
+     * @param pid prodspec id
      * @returns 
      */
-    async getDatas(cid: string): Promise<Array<ITrayLsrMrk>> {
-        return trayLsrMrk.findAll({
+    async getDatas(cid: string, pid: string): Promise<trayLsrMrk | null> {
+        return trayLsrMrk.findOne({
             raw: true,
             where: {
-                CUST_CD: {
-                    [Op.like]: cid.replace(/\*/g, '%')
-                }
+                CUST_CD: cid,
+                PRODSPEC_ID: pid
             }
         })
     }

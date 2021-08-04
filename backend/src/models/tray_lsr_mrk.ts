@@ -112,9 +112,10 @@ class trayLsrMrk extends Model<ITrayLsrMrk, ITrayLsrMrk> implements ITrayLsrMrk 
 
     @Column({
     	field: "CLAIM_USER",
+    	allowNull: true,
     	type: DataType.STRING(64) 
     })
-    CLAIM_USER!: string;
+    CLAIM_USER?: string;
 
     @Column({
     	field: "CLAIM_TIME",
