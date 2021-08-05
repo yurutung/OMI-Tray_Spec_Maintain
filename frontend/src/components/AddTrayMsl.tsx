@@ -15,10 +15,7 @@ const AddTrayMsl = () => {
   const location = useLocation<stateType>()
   const state = location.state || {}
   const isEdit = state.isEdit || false
-  const initData = state.selectedData || {
-    MSL: undefined,
-    FLOOR_LIFE: undefined
-  }
+  const initData = state.selectedData || {} as ITrayMsl
 
   // formData
   const [formData, setFormData] = useState<ITrayMsl>(initData)

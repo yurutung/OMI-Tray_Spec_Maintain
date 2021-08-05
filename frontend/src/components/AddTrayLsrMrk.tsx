@@ -1,23 +1,10 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { upsertTrayLsrMrk } from '../api/tray_lsr_mrk'
 
-const AddTrayLsrMrk = forwardRef((props: { isEdit: boolean, selectedData: ITrayLsrMrk }, ref) => {
+const AddTrayLsrMrk = forwardRef((props: { isEdit: boolean }, ref) => {
   const isEdit = props.isEdit || false
-  const selectData = props.selectedData
-  const initData = selectData || {
-    CUST_CD: undefined,
-    PRODSPEC_ID: undefined,
-    MARK_LOGO: undefined,
-    MARK_TEXT1: undefined,
-    MARK_TEXT2: undefined,
-    MARK_TEXT3: undefined,
-    MARK_TEXT4: undefined,
-    MARK_TEXT5: undefined,
-    MARK_TEXT6: undefined,
-    MARK_TEXT7: undefined,
-    MARK_TEXT8: undefined,
-    MARK_TEXT9: undefined,
-  }
+  const initData = {} as ITrayLsrMrk
+
   const [formData, setFormData] = useState<ITrayLsrMrk>(initData)
   const handleForm = (e: React.FormEvent<HTMLInputElement>): void => {
     // if value is '' change to null
@@ -27,9 +14,6 @@ const AddTrayLsrMrk = forwardRef((props: { isEdit: boolean, selectedData: ITrayL
       [e.currentTarget.id]: value === '' ? null : value
     })
   }
-  // useEffect(() => {
-  //   console.log(formData)
-  // }, [formData])
 
   useImperativeHandle(
     ref,

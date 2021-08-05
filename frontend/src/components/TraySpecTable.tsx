@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom"
 import BootstrapTable, { SelectRowProps } from "react-bootstrap-table-next"
 import { toastMixin, errAlert } from '../functions'
 import { getTraySpecs, deleteTraySpec, uploadTraySpec } from '../api/tray_spec'
+import { deleteTrayLsrMrk } from '../api/tray_lsr_mrk'
 
 const TraySpecTable = forwardRef((props: { mode: string, id: string }, ref) => {
   // props
@@ -74,6 +75,9 @@ const TraySpecTable = forwardRef((props: { mode: string, id: string }, ref) => {
                 icon: 'error'
               })
             })
+          deleteTrayLsrMrk(selected)
+            .then(e => console.log(e))
+            .catch(err => console.log(err))
         } else {
           toastMixin.fire({
             title: 'Please select delete item!',

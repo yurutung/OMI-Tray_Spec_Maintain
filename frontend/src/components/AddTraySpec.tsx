@@ -19,24 +19,10 @@ const AddTraySpec = () => {
   const state = location.state || {}
   const isEdit = state.isEdit || false
   const initData = state.selectedData || {
-    CUST_CD: undefined,
-    PRODSPEC_ID: undefined,
-    CUST_PART_ID: undefined,
-    DESCRIPTION: undefined,
-    PIN_A1_LOC: undefined,
-    PACKING_TYPE: undefined,
-    MSL: undefined,
     TRAY_SIZE: '0*0*0',
     CHIP_SIZE: '0*0',
-    BIN_GRADE: undefined,
-    TERM_COMPOST: undefined,
-    PB_FREE: undefined,
-    TEMP: undefined,
-    UPD_FLAG: undefined,
-    CLAIM_USER: undefined,
-    CLAIM_TIME: undefined,
     DATECODE_LIMIT: 9999,
-  }
+  } as ITraySpec
   const lsrMrkRef = useRef<any>()
   const [fillLaserMark, setFillLaserMark] = useState(false)
 
@@ -133,7 +119,7 @@ const AddTraySpec = () => {
           clickById('back')
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response)
           toastMixin.fire({
             title: err,
             icon: 'error'
@@ -162,7 +148,6 @@ const AddTraySpec = () => {
   }
 
   // set show laser mark
-  const [trayLsrMrk, setTrayLsrMrk] = useState<ITrayLsrMrk>({} as ITrayLsrMrk)
   const handleAddTrayLsrMrk = () => {
     // set id
     if (fillLaserMark) {
@@ -174,9 +159,6 @@ const AddTraySpec = () => {
       getTrayLsrMrkById(formData.CUST_CD, formData.PRODSPEC_ID)
         .then(({ data: { trayLsrMrk: trayLsrMrkBody } }: ITrayLsrMrk | any) => {
           lsrMrkRef.current.setTrayLsrMrk(trayLsrMrkBody)
-          // setTrayLsrMrk({
-          //   ...trayLsrMrkBody
-          // })
         })
         .catch((err: Error) => console.error(err))
     }
@@ -255,9 +237,7 @@ const AddTraySpec = () => {
             </div>
             <button type="submit" id='save' className="btn btn-outline-secondary col-2" hidden />
           </form>
-          {/* {fillLaserMark ? <AddTrayLsrMrk isEdit={isEdit} selectedData={trayLsrMrk} ref={lsrMrkRef} /> : <></>} */}
-          {/* <nav hidden={!fillLaserMark}><AddTrayLsrMrk isEdit={isEdit} selectedData={trayLsrMrk} /></nav> */}
-          <nav hidden={!fillLaserMark}><AddTrayLsrMrk isEdit={isEdit} selectedData={trayLsrMrk} ref={lsrMrkRef} /></nav>
+          <nav hidden={!fillLaserMark}><AddTrayLsrMrk isEdit={isEdit} ref={lsrMrkRef} /></nav>
         </div>
         <div className="gap-2 p-2 row">
           <Link to={`/datas/tray_spec/${id}`} id='back' className="btn btn-outline-secondary col-2">F3 離開</Link>

@@ -42,11 +42,7 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
         try {
             const traySpecBody = request.body as ITraySpec
             const traySpec: [number, ITraySpec[]] | null = await traySpecRepo.updateData(traySpecBody)
-            if (traySpec && traySpec[0]) {
-                return reply.status(200).send({ traySpec })
-            } else {
-                return reply.status(404).send({ msg: `Not Found Tray Spec: ${traySpecBody.CUST_CD} & ${traySpecBody.PRODSPEC_ID}` })
-            }
+            return reply.status(200).send({ traySpec })
         } catch (error) {
             console.error(`PUT /tray_spec Error: ${error}`)
             return reply.status(500).send(`[Server Error]: ${error}`)
@@ -82,13 +78,13 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
             try {
                 const res = await traySpecRepo.addOrUpdateDate(ts)
             } catch (error) {
-                errMsg.push({data: ts, err: error})
+                errMsg.push({ data: ts, err: error })
             }
         }
         if (!errMsg.length) {
             return reply.status(201).send({ msg: `Upload successfully ${traySpecs.length} items.` })
         } else {
-            return reply.status(500).send({ msg: `Upload fail ${errMsg.length} items.`, errData: errMsg})
+            return reply.status(500).send({ msg: `Upload fail ${errMsg.length} items.`, errData: errMsg })
         }
     })
 

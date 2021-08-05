@@ -34,7 +34,7 @@ const upsertTrayLsrMrk  = async (trayLsrMrkBody: ITrayLsrMrk): Promise<AxiosResp
  * @param traySpecBody delete data
  * @returns 
  */
-const deleteTraySpec = async (traySpecBody: ITraySpec): Promise<AxiosResponse> => {
+const deleteTrayLsrMrk = async (traySpecBody: ITraySpec): Promise<AxiosResponse> => {
     try {
         const res = await axios.delete(`/api/tray_lsr_mrk`, {data: traySpecBody})
         return res
@@ -44,6 +44,4 @@ const deleteTraySpec = async (traySpecBody: ITraySpec): Promise<AxiosResponse> =
     }
 }
 
-
-// export { getTrayLsrMrkById, addTrayLsrMrk, updateTraySpec, deleteTraySpec, uploadTraySpec }
-export { getTrayLsrMrkById, upsertTrayLsrMrk }
+export { getTrayLsrMrkById, upsertTrayLsrMrk, deleteTrayLsrMrk  }

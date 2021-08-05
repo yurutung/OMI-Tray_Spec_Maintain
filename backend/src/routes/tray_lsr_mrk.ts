@@ -42,11 +42,7 @@ const TrayLsrMrkRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
         try {
             const trayLsrMrkBody = request.body as ITrayLsrMrk
             const trayLsrMrk: [number, ITrayLsrMrk[]] | null = await trayLsrMrkRepo.updateData(trayLsrMrkBody)
-            if (trayLsrMrk && trayLsrMrk[0]) {
-                return reply.status(200).send({ trayLsrMrk })
-            } else {
-                return reply.status(404).send({ msg: `Not Found Tray Laser Mark: ${trayLsrMrkBody.CUST_CD} & ${trayLsrMrkBody.PRODSPEC_ID}` })
-            }
+            return reply.status(200).send({ trayLsrMrk })
         } catch (error) {
             console.error(`PUT /tray_lsr_mrk Error: ${error}`)
             return reply.status(500).send(`[Server Error]: ${error}`)
