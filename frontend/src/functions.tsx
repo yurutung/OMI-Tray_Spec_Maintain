@@ -25,4 +25,10 @@ const clickById = (id: string) => {
     (document.getElementById(id) as HTMLInputElement).click()
 }
 
-export { toastMixin, errAlert, clickById }
+const setTitleBar = (title: string) => {
+    const title_bar = document.getElementById('title_bar') as HTMLElement
+    if (title_bar)
+        title_bar.innerText = title
+}
+
+export { toastMixin, errAlert, clickById, setTitleBar }

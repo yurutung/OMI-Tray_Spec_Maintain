@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from "react-router-dom"
 import ReactShortcut from 'react-shortcut'
-import { clickById } from '../functions'
+import { clickById, setTitleBar } from '../functions'
 
 const Search = () => {
     const { mode } = useParams<{ mode: string }>()
-    // const mode: string = match.params.mode
     const history = useHistory()
+    // set title
+    if (mode == 'tray_spec')
+        setTitleBar('Tray Spec. Maintaince')
+    else if (mode == 'tray_msl')
+        setTitleBar('MSL Spec. Maintaince')
 
     const [id, setId] = useState('')
     const handleForm = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -24,24 +28,23 @@ const Search = () => {
 
     return (
         <>
-            <form className="h-100" onSubmit={e => getID(e, id)}>
-                <div className="row main-body g-0">
-                    <div className="d-flex align-items-center justify-content-center">
-                        <div className="row col-8">
-                            <div className="col-2">
-                                <label htmlFor="id" className="col-form-label row justify-content-end">{mode == 'tray_spec' ? 'Cust. Code' : 'MSL ID'}</label>
-                            </div>
-                            <div className="col-10">
-                                <input onChange={handleForm} type="text" id="id" className="form-control" required />
-                            </div>
+            <form className="row main-body g-0" onSubmit={e => getID(e, id)}>
+                <div className="d-flex align-items-center justify-content-center">
+                    <div className="row col-8">
+                        <div className="col-2">
+                            <label htmlFor="id" className="col-form-label row justify-content-end">{mode == 'tray_spec' ? 'Cust. Code' : 'MSL ID'}</label>
+                        </div>
+                        <div className="col-10">
+                            <input onChange={handleForm} type="text" id="id" className="form-control" required />
                         </div>
                     </div>
                 </div>
-                <div className="gap-2 p-2 row g-0">
-                    <Link to="/" id='home' className="btn btn-outline-secondary col-2">F3 離開</Link>
-                    <button type="submit" className="btn btn-primary col-2" disabled={id === '' ? true : false}>Enter 確認</button>
-                </div>
+                <button type="submit" id="save" hidden>Enter 確認</button>
             </form>
+            <div className="footer-bar">
+                <Link to="/" id='home' className="btn_list col-2">F3 離開</Link>
+                <button type="button" className="btn_list col-2" onClick={() => clickById('save')}>Enter 確認</button>
+            </div>
             {/* shortcut setting */}
             <ReactShortcut
                 keys={'f3'}

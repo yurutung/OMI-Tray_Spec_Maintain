@@ -1,67 +1,74 @@
-/* .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
-html, body, #root{
+html, body, #root {
   height: 100%
 }
-
-.container {
+.title-bar {
   width: 100%;
   max-width: 100%;
+  height: 5%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: #6c757d10;
+  display: flex!important;
+  align-items: center!important;
+  justify-content: center!important;
 }
 .main-body {
-  height: 90%;
+  width: 100%;
+  max-width: 100%;
+  height: 85%;
 }
-.react-bootstrap-table{
+.footer-bar {
+  width: 100%;
+  max-width: 100%;
+  height: 10%;
+  background: #6c757d10;
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  padding: .5rem!important;
+  margin: 0!important;
+  grid-gap: .5rem!important;
+  gap: .5rem!important;
+}
+.react-bootstrap-table {
   height: 100%;
   margin: 0px;
 }
-.table{
+.table {
   overflow: auto;
   display: block;
   table-layout: auto;
   white-space: nowrap;
   height: 100%;
 }
-.add_scroll{
+.add_scroll {
   overflow: auto;
   overflow-x: hidden;
   display: block;
   white-space: nowrap;
+}
+.btn_list {
+  color: #6c757d;
+  border-color: #6c757d;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  user-select: none;
+  background-color: #ffffff;
+  border: 1px solid;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  border-radius: .25rem;
+  display: flex!important;
+  align-items: center!important;
+  justify-content: center!important;
+}
+.btn_list:hover {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+.btn_list:focus {
+  box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.5);
 }

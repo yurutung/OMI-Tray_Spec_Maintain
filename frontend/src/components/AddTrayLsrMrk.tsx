@@ -36,7 +36,7 @@ const AddTrayLsrMrk = forwardRef((props: { isEdit: boolean }, ref) => {
 
   return (
     <>
-      <form className="h-auto row">
+      <form className="h-auto row m-0">
         <div className='d-flex align-items-center col-6 my-2'>
           <label className="col-5" htmlFor="MARK_LOGO">Mark Logo</label>
           <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="MARK_LOGO" value={formData.MARK_LOGO || ''} /></div>
@@ -77,7 +77,7 @@ const AddTrayLsrMrk = forwardRef((props: { isEdit: boolean }, ref) => {
           <label className="col-5" htmlFor="MARK_TEXT9">Laser Mark Temp L9</label>
           <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="MARK_TEXT9" value={formData.MARK_TEXT9 || ''} /></div>
         </div>
-        <button type="submit" id='save_lm' className="btn btn-outline-secondary col-2" hidden />
+        <button type="submit" id='save_lm' hidden />
       </form>
     </>
   )

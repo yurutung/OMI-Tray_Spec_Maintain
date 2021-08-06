@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom"
 import ReactShortcut from 'react-shortcut'
 import CsvDownloader from 'react-csv-downloader'
 import csv from 'csvtojson'
-import { toastMixin, clickById } from '../functions'
+import { toastMixin, clickById, setTitleBar } from '../functions'
 
 import TrayMslTable from "./TrayMslTable"
 import TraySpecTable from "./TraySpecTable"
@@ -11,6 +11,11 @@ import TraySpecTable from "./TraySpecTable"
 const Datas = () => {
   // params
   const { mode, id } = useParams<{ mode: string, id: string }>()
+  // set title
+  if (mode == 'tray_spec')
+    setTitleBar('Tray Spec. Maintaince')
+  else if (mode == 'tray_msl')
+    setTitleBar('MSL Spec. Maintaince')
 
   const tsRef = useRef<any>()
   const tmRef = useRef<any>()
@@ -80,19 +85,17 @@ const Datas = () => {
 
   return (
     <>
-      <div className="container h-100">
-        <div className="main-body" >
-          {table}
-        </div>
-        <div className="gap-2 p-2 row">
-          <Link to={`/search/${mode}`} id='search' className="btn btn-outline-secondary col">F3 離開</Link>
-          <Link to={`/add/${mode}/${id}`} id='add' className="btn btn-outline-secondary col">F1 新增</Link>
-          <button className="btn btn-outline-secondary col" id='edit' onClick={updateSelected}>F2 更新</button>
-          <button className="btn btn-outline-secondary col" id='del' onClick={delSelected}>F4 刪除</button>
-          <CsvDownloader datas={getDatas} filename={`exportData-${mode}.csv`} className='btn btn-outline-secondary col' id='exportCsv'>F5 儲存檔案</CsvDownloader>
-          <button className="btn btn-outline-secondary col" onClick={() => clickById('uploadFile')}>F6 讀取檔案</button>
-          <input type="file" id="uploadFile" accept=".csv" onChange={handleSelectedFile} hidden />
-        </div>
+      <div className="main-body" >
+        {table}
+      </div>
+      <div className="footer-bar">
+        <Link to={`/search/${mode}`} id='search' className="btn_list col">F3 離開</Link>
+        <Link to={`/add/${mode}/${id}`} id='add' className="btn_list col">F1 新增</Link>
+        <button className="btn_list col" id='edit' onClick={updateSelected}>F2 更新</button>
+        <button className="btn_list col" id='del' onClick={delSelected}>F4 刪除</button>
+        <CsvDownloader datas={getDatas} filename={`exportData-${mode}.csv`} className='btn_list col' id='exportCsv'>F5 儲存檔案</CsvDownloader>
+        <button className="btn_list col" onClick={() => clickById('uploadFile')}>F6 讀取檔案</button>
+        <input type="file" id="uploadFile" accept=".csv" onChange={handleSelectedFile} hidden />
       </div>
       {/* shortcut setting */}
       <ReactShortcut

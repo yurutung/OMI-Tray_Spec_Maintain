@@ -12,6 +12,7 @@ const App = () => {
 
   return (
     <>
+      <div id="title_bar" className="title-bar"> Title </div>
       <MemoryRouter>
         <Route path="/" exact component={Home} />
         <Route path="/search/:mode" component={Search} />
