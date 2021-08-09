@@ -1,26 +1,32 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react'
 import { useHistory } from "react-router-dom"
 import BootstrapTable, { SelectRowProps } from "react-bootstrap-table-next"
+// @ts-ignore
+import cellEditFactory from "react-bootstrap-table2-editor"
 import { toastMixin, errAlert } from '../functions'
 import { getTraySpecs, deleteTraySpec, uploadTraySpec } from '../api/tray_spec'
 import { deleteTrayLsrMrk } from '../api/tray_lsr_mrk'
 
-const TraySpecTable = forwardRef((props: { mode: string, id: string }, ref) => {
+const getDatasAddId = (d: ITraySpec[]) => {
+  d.forEach((e: ITraySpec, i) => e.id = `${i}_${e.CUST_CD}_${e.PRODSPEC_ID}`)
+  return d
+}
+
+const TraySpecTable = forwardRef((props: { isPreview?: boolean, id?: string, uploadData?: ITraySpec[] }, ref) => {
   // props
-  const mode = props.mode
-  const id = props.id
+  const isPreview = props.isPreview || false
+  const id = props.id || '*'
+  const initData = props.uploadData || []
   // table data
-  const [datas, setDatas] = useState<ITraySpec[]>([])
+  const [datas, setDatas] = useState<ITraySpec[]>(getDatasAddId(initData))
   useEffect(() => {
     fetchDatas()
   }, [])
   const fetchDatas = (): void => {
-    getTraySpecs(id)
-      .then(({ data: { traySpecs } }: ITraySpec[] | any) => {
-        traySpecs.forEach((e: ITraySpec) => e.id = `${e.CUST_CD}_${e.PRODSPEC_ID}`)
-        setDatas(traySpecs)
-      })
-      .catch((err: Error) => console.error(err))
+    if (!isPreview)
+      getTraySpecs(id)
+        .then(({ data: { traySpecs } }: ITraySpec[] | any) => setDatas(getDatasAddId(traySpecs)))
+        .catch((err: Error) => console.error(err))
   }
 
   // select row
@@ -85,26 +91,43 @@ const TraySpecTable = forwardRef((props: { mode: string, id: string }, ref) => {
           })
         }
       },
-      uploadDatas(datas: ITraySpec[]) {
-        uploadTraySpec(datas)
-          .then(e => {
-            console.log(e)
-            toastMixin.fire({
-              title: 'Upload data Successfully!'
+      uploadDatas(backUrl: string) {
+        if (document.getElementsByClassName('table-alert').length === 0) {
+          uploadTraySpec(datas)
+            .then(e => {
+              console.log(e)
+              toastMixin.fire({
+                title: 'Upload data Successfully!'
+              })
             })
+            .catch(err => {
+              const errData = err.response.data
+              let showMsg = ''
+              errData.errData.forEach((e: { data: any; err: any }) => {
+                showMsg += `${JSON.stringify(e.data)} => ${e.err.original.text} \n`
+              })
+              errAlert.fire({
+                title: errData.msg,
+                text: showMsg
+              })
+            })
+            .finally(() => history.push(backUrl))
+        } else {
+          toastMixin.fire({
+            title: 'Please filled ID!',
+            icon: 'error'
           })
-          .catch(err => {
-            const errData = err.response.data
-            let showMsg = ''
-            errData.errData.forEach((e: { data: any; err: any }) => {
-              showMsg += `${JSON.stringify(e.data)} => ${e.err.original.text} \n`
-            })
-            errAlert.fire({
-              title: errData.msg,
-              text: showMsg
-            })
+        }
+      },
+      delSelectedPre() {
+        if (selected && isPreview) {
+          setDatas(datas.filter(d => !(d.CUST_CD === selected.CUST_CD && d.PRODSPEC_ID === selected.PRODSPEC_ID && d.id === selected.id)))
+        } else {
+          toastMixin.fire({
+            title: 'Please select delete item!',
+            icon: 'info'
           })
-          .finally(() => fetchDatas())
+        }
       }
     }),
   )
@@ -117,11 +140,19 @@ const TraySpecTable = forwardRef((props: { mode: string, id: string }, ref) => {
     },
     {
       dataField: "CUST_CD",
-      text: "Custumer Code"
+      text: "Custumer Code",
+      classes: (cell: string, row: {}) => {
+        if (!cell) return 'table-alert'
+        return ''
+      }
     },
     {
       dataField: "PRODSPEC_ID",
-      text: "TSMC Part"
+      text: "TSMC Part",
+      classes: (cell: string, row: {}) => {
+        if (!cell) return 'table-alert'
+        return ''
+      }
     },
     {
       dataField: "CUST_PART_ID",
@@ -187,13 +218,17 @@ const TraySpecTable = forwardRef((props: { mode: string, id: string }, ref) => {
 
   const selectRow: SelectRowProps<any> = {
     mode: 'radio',
-    clickToSelect: true,
+    clickToSelect: isPreview ? false : true,
     style: { backgroundColor: '#c8e6c9' },
     onSelect: handleOnSelect,
   }
+  const cellEdit = {
+    mode: 'click',
+    blurToSave: true
+  }
 
   return (
-    <BootstrapTable keyField="id" data={datas} columns={columns} selectRow={selectRow} />
+    <BootstrapTable keyField="id" data={datas} columns={columns} selectRow={selectRow} cellEdit={cellEditFactory(cellEdit)} noDataIndication='Table is Empty' />
   )
 })
 

@@ -7,6 +7,7 @@ import Search from './components/Search'
 import Datas from './components/Datas'
 import AddTraySpec from './components/AddTraySpec'
 import AddTrayMsl from './components/AddTrayMsl'
+import UploadPreview from './components/UploadPreview'
 
 const App = () => {
 
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/datas/:mode/:id" component={Datas} />
         <Route path="/add/tray_spec/:id" component={AddTraySpec} />
         <Route path="/add/tray_msl/:id" component={AddTrayMsl} />
+        <Route path="/upload_preview/:mode" component={UploadPreview} />
         <Route render={() => <Redirect to="/" />} />
       </MemoryRouter>
     </>

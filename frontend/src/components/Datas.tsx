@@ -1,5 +1,5 @@
 import { useRef, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useHistory, useParams } from "react-router-dom"
 import ReactShortcut from 'react-shortcut'
 import CsvDownloader from 'react-csv-downloader'
 import csv from 'csvtojson'
@@ -43,6 +43,7 @@ const Datas = () => {
       return tmRef.current?.getDatas()
   }
   // upload file
+  const history = useHistory()
   const handleSelectedFile = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = e.target.files
     if (files?.length) {
@@ -57,17 +58,19 @@ const Datas = () => {
         const csvData: string = reader.result?.toString() || ''
         csv().fromString(csvData).then(o => {
           o.forEach(e => {
-            // if data is null or '', then del
+            // if data is '', then set null
             Object.keys(e).forEach(key => {
               if (!e[key])
-                delete e[key]
+                e[key] = null
             })
           })
-          console.log(o)
-          if (mode == 'tray_spec')
-            tsRef.current.uploadDatas(o)
-          else if (mode == 'tray_msl')
-            tmRef.current.uploadDatas(o)
+          history.push(
+            `/upload_preview/${mode}`,
+            {
+              previewDatas: o,
+              backUrl: `/datas/${mode}/${id}`
+            }
+          )
         })
       }
       reader.readAsText(file)
@@ -79,9 +82,9 @@ const Datas = () => {
   let table = <div />
   // TODO: define tray_spec, tray_msl
   if (mode == 'tray_spec')
-    table = <TraySpecTable mode={mode} id={id} ref={tsRef} />
+    table = <TraySpecTable id={id} ref={tsRef} />
   else if (mode == 'tray_msl')
-    table = <TrayMslTable mode={mode} id={id} ref={tmRef} />
+    table = <TrayMslTable id={id} ref={tmRef} />
 
   return (
     <>

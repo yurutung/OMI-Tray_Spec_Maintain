@@ -1,22 +1,31 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react'
 import { useHistory } from "react-router-dom"
 import BootstrapTable, { SelectRowProps } from "react-bootstrap-table-next"
+// @ts-ignore
+import cellEditFactory from "react-bootstrap-table2-editor"
 import { toastMixin, errAlert } from '../functions'
 import { getTrayMsls, deleteTrayMsl, uploadTrayMsl } from '../api/tray_msl'
 
-const TrayMslTable = forwardRef((props: { mode: string, id: string }, ref) => {
+const getDatasAddId = (d: ITrayMsl[]) => {
+  d.forEach((e: ITrayMsl, i) => e.id = `${i}_${e.MSL}`)
+  return d
+}
+
+const TrayMslTable = forwardRef((props: { isPreview?: boolean, id?: string, uploadData?: ITrayMsl[] }, ref) => {
   // props
-  const mode = props.mode
-  const id = props.id
+  const isPreview = props.isPreview || false
+  const id = props.id || '*'
+  const initData = props.uploadData || []
   // table data
-  const [datas, setDatas] = useState<ITrayMsl[]>([])
+  const [datas, setDatas] = useState<ITrayMsl[]>(getDatasAddId(initData))
   useEffect(() => {
     fetchDatas()
   }, [])
   const fetchDatas = (): void => {
-    getTrayMsls(id)
-      .then(({ data: { trayMsls } }: ITrayMsl[] | any) => setDatas(trayMsls))
-      .catch((err: Error) => console.error(err))
+    if (!isPreview)
+      getTrayMsls(id)
+        .then(({ data: { trayMsls } }: ITrayMsl[] | any) => setDatas(getDatasAddId(trayMsls)))
+        .catch((err: Error) => console.error(err))
   }
   // select row
   const [selected, setSelected] = useState<ITrayMsl>()
@@ -72,52 +81,80 @@ const TrayMslTable = forwardRef((props: { mode: string, id: string }, ref) => {
           })
         }
       },
-      uploadDatas(datas: ITrayMsl[]) {
-        uploadTrayMsl(datas)
-          .then(e => {
-            console.log(e)
-            toastMixin.fire({
-              title: 'Upload data Successfully!'
+      uploadDatas(backUrl: string) {
+        if (document.getElementsByClassName('table-alert').length === 0) {
+          uploadTrayMsl(datas)
+            .then(e => {
+              console.log(e)
+              toastMixin.fire({
+                title: 'Upload data Successfully!'
+              })
             })
+            .catch(err => {
+              const errData = err.response.data
+              let showMsg = ''
+              errData.errData.forEach((e: { data: any; err: any }) => {
+                showMsg += `${JSON.stringify(e.data)} => ${e.err.original.text} \n`
+              })
+              errAlert.fire({
+                title: errData.msg,
+                text: showMsg
+              })
+            })
+            .finally(() => history.push(backUrl))
+        } else {
+          toastMixin.fire({
+            title: 'Please filled ID!',
+            icon: 'error'
           })
-          .catch(err => {
-            const errData = err.response.data
-            let showMsg = ''
-            errData.errData.forEach((e: { data: any; err: any }) => {
-              showMsg += `${JSON.stringify(e.data)} => ${e.err.original.text} \n`
-            })
-            errAlert.fire({
-              title: errData.msg,
-              text: showMsg
-            })
+        }
+      },
+      delSelectedPre() {
+        if (selected && isPreview) {
+          setDatas(datas.filter(d => !(d.MSL === selected.MSL)))
+        } else {
+          toastMixin.fire({
+            title: 'Please select delete item!',
+            icon: 'info'
           })
-          .finally(() => fetchDatas())
+        }
       }
     }),
   )
 
   const columns = [
     {
+      dataField: "id",
+      text: "id",
+      hidden: true
+    },
+    {
       dataField: "MSL",
       text: "MSL ID",
-      sort: true,
+      classes: (cell: string, row: {}) => {
+        if (!cell) return 'table-alert'
+        return ''
+      }
     },
     {
       dataField: "FLOOR_LIFE",
       text: "Floor Life",
-      sort: true,
     },
   ]
 
   const selectRow: SelectRowProps<any> = {
     mode: 'radio',
-    clickToSelect: true,
+    clickToSelect: isPreview ? false : true,
     style: { backgroundColor: '#c8e6c9' },
     onSelect: handleOnSelect,
   }
+  const cellEdit = {
+    mode: 'click',
+    blurToSave: true
+  }
 
   return (
-    <BootstrapTable keyField="MSL" data={datas} columns={columns} selectRow={selectRow} />
+    <BootstrapTable keyField="id" data={datas} columns={columns} selectRow={selectRow} cellEdit={cellEditFactory(cellEdit)} noDataIndication='Table is Empty' />
   )
 })
 

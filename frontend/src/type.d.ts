@@ -1,5 +1,6 @@
 
 interface ITrayMsl {
+    id?: string,
     MSL: string;
     FLOOR_LIFE?: string;
 }
