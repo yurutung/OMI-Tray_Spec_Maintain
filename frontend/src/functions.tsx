@@ -15,10 +15,22 @@ const toastMixin = Swal.mixin({
     }
 })
 
+const warnAlert = Swal.mixin({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+    heightAuto: false
+})
+
 const errAlert = Swal.mixin({
     icon: 'error',
     title: 'Oops...',
     text: 'something wrong',
+    heightAuto: false
 })
 
 const clickById = (id: string) => {
@@ -31,4 +43,15 @@ const setTitleBar = (title: string) => {
         title_bar.innerText = title
 }
 
-export { toastMixin, errAlert, clickById, setTitleBar }
+const getInvalidMsg = (invlaidType: string): string => {
+    const msg: any = {
+        required: 'Please input this item.',
+        maxLength: 'It is too long.',
+        valueAsNumber: 'Please input a number!'
+    }
+    if (invlaidType in msg)
+        return msg[invlaidType]
+    return ''
+}
+
+export { toastMixin, errAlert, warnAlert, clickById, setTitleBar, getInvalidMsg }

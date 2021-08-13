@@ -15,7 +15,16 @@ interface ITraySpec {
     PACKING_TYPE?: string;
     MSL?: string;
     TRAY_SIZE?: string;
+    TRAY_SIZE_dim?: {
+        x: number,
+        y: number,
+        z: number,
+    };
     CHIP_SIZE?: string;
+    CHIP_SIZE_dim?: {
+        x: number,
+        y: number,
+    };
     BIN_GRADE?: string;
     TERM_COMPOST?: string;
     PB_FREE?: string;

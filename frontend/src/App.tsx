@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import React from 'react'
+import './css/App.css'
 
 import { MemoryRouter, Route, Redirect } from "react-router-dom"
 import Home from './components/Home'

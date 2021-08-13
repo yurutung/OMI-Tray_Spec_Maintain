@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useParams, useLocation } from "react-router-dom"
+import { useForm } from "react-hook-form"
 import ReactShortcut from 'react-shortcut'
-import { toastMixin, clickById, setTitleBar } from '../functions'
+import { toastMixin, clickById, setTitleBar, getInvalidMsg } from '../functions'
 import { addTraySpec, updateTraySpec } from '../api/tray_spec'
 import AddTrayLsrMrk from './AddTrayLsrMrk'
-import { getTrayLsrMrkById } from '../api/tray_lsr_mrk'
+import { getCoWoSPart, getTrayLsrMrkById } from '../api/tray_lsr_mrk'
 
 
 interface stateType {
@@ -18,234 +19,259 @@ const AddTraySpec = () => {
   const location = useLocation<stateType>()
   const state = location.state || {}
   const isEdit = state.isEdit || false
-  const initData = state.selectedData || {
-    TRAY_SIZE: '0*0*0',
-    CHIP_SIZE: '0*0',
-    DATECODE_LIMIT: 9999,
-  } as ITraySpec
+  const initData = () => {
+    const d = state.selectedData
+    let init = {
+      TRAY_SIZE_dim: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      CHIP_SIZE_dim: {
+        x: 0,
+        y: 0
+      },
+      PACKING_TYPE: 'TRAY',
+      PB_FREE: 'Y',
+      TEMP: 0,
+      DATECODE_LIMIT: 9999,
+    }
+    if (d) {
+      init = {
+        ...init,
+        ...d
+      }
+      const ts = d.TRAY_SIZE?.split('*').map(Number)
+      if (ts?.length == 3) {
+        init.TRAY_SIZE_dim = {
+          x: ts[0],
+          y: ts[1],
+          z: ts[2]
+        }
+      }
+      const cs = d.CHIP_SIZE?.split('*').map(Number)
+      if (cs?.length == 2) {
+        init.CHIP_SIZE_dim = {
+          x: cs[0],
+          y: cs[1]
+        }
+      }
+    }
+    return init as ITraySpec
+  }
+  // formData
+  const { register, watch, setValue, handleSubmit, formState: { errors } } = useForm<ITraySpec>({ mode: 'all', defaultValues: initData() })
 
   // set title
   setTitleBar(`Tray Spec. Maintaince ${isEdit ? 'Update' : 'Add'}`)
 
+  // set laser mark
   const lsrMrkRef = useRef<any>()
-  const [fillLaserMark, setFillLaserMark] = useState(false)
-
-  // formData
-  const [formData, setFormData] = useState<ITraySpec>(initData)
-  const handleForm = (e: React.FormEvent<HTMLInputElement>): void => {
-    // if value is '' change to null
-    const key = e.currentTarget.id
-    const value = e.currentTarget.value.trim()
-    setFormData({
-      ...formData,
-      [key]: value === '' ? null : value
-    })
-    if (fillLaserMark && ['CUST_CD', 'PRODSPEC_ID'].includes(key)) {
-      lsrMrkRef.current.setTrayLsrMrk({ [key]: value })
-    }
-    e.preventDefault()
-  }
-  // tray size handle
-  const initTraySize = () => {
-    const ts = initData.TRAY_SIZE?.split('*').map(Number)
-    if (ts?.length == 3) {
-      return {
-        traySize_x: ts[0],
-        traySize_y: ts[1],
-        traySize_z: ts[2]
-      }
-    } else {
-      return {
-        traySize_x: 0,
-        traySize_y: 0,
-        traySize_z: 0
-      }
-    }
-  }
-  const [traySizeData, setTraySize] = useState<{ traySize_x: number, traySize_y: number, traySize_z: number }>(initTraySize)
-  const handleTraySize = (e: React.FormEvent<HTMLInputElement>): void => {
-    // if value is '' change to null
-    const value = e.currentTarget.value
-    setTraySize({
-      ...traySizeData,
-      [e.currentTarget.id]: value === '' ? 0 : parseInt(value)
-    })
-  }
-  // if tray size change, then change formData
-  useEffect(() => {
-    setFormData({
-      ...formData,
-      TRAY_SIZE: `${traySizeData.traySize_x}*${traySizeData.traySize_y}*${traySizeData.traySize_z}`
-    })
-  }, [traySizeData])
-  // chip size handle
-  const initChipSize = () => {
-    const ts = initData.CHIP_SIZE?.split('*').map(Number)
-    if (ts?.length == 2) {
-      return {
-        chipSize_x: ts[0],
-        chipSize_y: ts[1]
-      }
-    } else {
-      return {
-        chipSize_x: 0,
-        chipSize_y: 0
-      }
-    }
-  }
-  const [chipSizeData, setChipSize] = useState<{ chipSize_x: number, chipSize_y: number }>(initChipSize)
-  const handleChipSize = (e: React.FormEvent<HTMLInputElement>): void => {
-    // if value is '' change to null
-    const value = e.currentTarget.value
-    setChipSize({
-      ...chipSizeData,
-      [e.currentTarget.id]: value === '' ? 0 : parseInt(value)
-    })
-  }
-  // if tray, chip size change, then change formData
-  useEffect(() => {
-    setFormData({
-      ...formData,
-      CHIP_SIZE: `${chipSizeData.chipSize_x}*${chipSizeData.chipSize_y}`
-    })
-  }, [chipSizeData])
+  const [CoWoSParts, setCoWoSParts] = useState<Array<string>>()
+  const [isCoWoSPart, setIsCoWoSPart] = useState(false)
+  const [btn_fillLaserMark, setFillLaserMark] = useState(false)
+  const [isShowLaserMark, setIsShowLaserMark] = useState(false)
 
   // form submit -> save data
-  const saveTraySpec = (e: React.FormEvent, formData: ITraySpec | any): void => {
-    e.preventDefault()
+  const addData = (formData: ITraySpec) => {
+    addTraySpec(formData)
+      .then(e => {
+        toastMixin.fire({
+          title: 'Add data Successfully!'
+        })
+        clickById('back')
+      })
+      .catch(err => {
+        console.error(err.response)
+        toastMixin.fire({
+          title: err,
+          icon: 'error'
+        })
+      })
+  }
+  const updateData = (formData: ITraySpec) => {
+    updateTraySpec(formData)
+      .then(e => {
+        toastMixin.fire({
+          title: 'Update data Successfully!'
+        })
+        clickById('back')
+      })
+      .catch(err => {
+        console.error(err.response)
+        toastMixin.fire({
+          title: err.response.status == 404 ? 'Nothing has changed!' : err,
+          icon: 'error'
+        })
+      })
+  }
+  const checkLsrMrk = () => {
+    return lsrMrkRef.current.checkLsrMrkData()
+  }
+  const saveTraySpec = (formData: ITraySpec): void => {
+    formData.TRAY_SIZE = `${formData.TRAY_SIZE_dim?.x || 0}*${formData.TRAY_SIZE_dim?.y || 0}*${formData.TRAY_SIZE_dim?.z || 0}`
+    formData.CHIP_SIZE = `${formData.CHIP_SIZE_dim?.x || 0}*${formData.CHIP_SIZE_dim?.y || 0}`
     if (isEdit) {
-      updateTraySpec(formData)
-        .then(e => {
-          console.log(e)
-          toastMixin.fire({
-            title: 'Update data Successfully!'
-          })
-          clickById('back')
-        })
-        .catch(err => {
-          console.log(err.response)
-          toastMixin.fire({
-            title: err,
-            icon: 'error'
-          })
-        })
+      if (isShowLaserMark && checkLsrMrk()) {
+        lsrMrkRef.current.sendLsrMrk()
+        updateData(formData)
+      } else if (!isShowLaserMark) {
+        updateData(formData)
+      }
     } else {
-      addTraySpec(formData)
-        .then(e => {
-          console.log(e)
-          toastMixin.fire({
-            title: 'Add data Successfully!'
-          })
-          clickById('back')
-        })
-        .catch(err => {
-          console.log(err)
-          toastMixin.fire({
-            title: err,
-            icon: 'error'
-          })
-        })
-    }
-    if (fillLaserMark) {
-      lsrMrkRef.current.sendLsrMrk()
+      if (isShowLaserMark && checkLsrMrk()) {
+        lsrMrkRef.current.sendLsrMrk()
+        addData(formData)
+      } else if (!isShowLaserMark) {
+        addData(formData)
+      }
     }
   }
 
   // set show laser mark
-  const handleAddTrayLsrMrk = () => {
-    // set id
-    if (fillLaserMark) {
-      lsrMrkRef.current.setTrayLsrMrk({ CUST_CD: formData.CUST_CD, PRODSPEC_ID: formData.PRODSPEC_ID })
-    }
-
+  const CUST_CD = watch('CUST_CD')
+  const PRODSPEC_ID = watch('PRODSPEC_ID')
+  const getEditTrayLsrMrk = () => {
     // update get tray laser mark data
-    if (isEdit && formData.CUST_CD && formData.PRODSPEC_ID) {
-      getTrayLsrMrkById(formData.CUST_CD, formData.PRODSPEC_ID)
+    if (isEdit && CUST_CD && PRODSPEC_ID) {
+      getTrayLsrMrkById(CUST_CD, PRODSPEC_ID)
         .then(({ data: { trayLsrMrk: trayLsrMrkBody } }: ITrayLsrMrk | any) => {
-          lsrMrkRef.current.setTrayLsrMrk(trayLsrMrkBody)
+          if (trayLsrMrkBody) {
+            lsrMrkRef.current.setTrayLsrMrk(trayLsrMrkBody)
+            setFillLaserMark(true)
+          }
         })
         .catch((err: Error) => console.error(err))
     }
   }
+  const setIsCoWoS = () => {
+    let e = false
+    if (CoWoSParts?.includes(PRODSPEC_ID))
+      e = true
+    setIsCoWoSPart(e)
+    lsrMrkRef.current.setIsCoWoS(e)
+  }
   useEffect(() => {
-    handleAddTrayLsrMrk()
-  }, [fillLaserMark])
+    getEditTrayLsrMrk()
+  }, [isEdit])
+  // if CoWoSParts is empty, then get CoWoSParts
+  useEffect(() => {
+    if (!CoWoSParts) {
+      getCoWoSPart()
+        .then(({ data: { CoWoSParts: CoWoS } }) => setCoWoSParts(CoWoS))
+        .catch(err => console.log(err))
+    } else {
+      setIsCoWoS()
+    }
+  }, [CoWoSParts])
+  // if id change, set id
+  useEffect(() => {
+    lsrMrkRef.current.setTrayLsrMrk({ CUST_CD: CUST_CD, PRODSPEC_ID: PRODSPEC_ID })
+  }, [CUST_CD, PRODSPEC_ID])
+  // if part id is CoWoS Parts, isCoWoSPart set true
+  useEffect(() => {
+    setIsCoWoS()
+  }, [PRODSPEC_ID])
+  // if isCoWoSPart or btn_fillLaserMark change, set isShowLaserMark
+  useEffect(() => {
+    setIsShowLaserMark(isCoWoSPart || btn_fillLaserMark)
+  }, [isCoWoSPart, btn_fillLaserMark])
+
 
   return (
     <>
-      <div className={`main-body pt-2 ${fillLaserMark ? 'add_scroll' : ''}`}>
-        <form className="h-auto row m-0" onSubmit={e => saveTraySpec(e, formData)}>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="CUST_CD">Custumer Code</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="CUST_CD" value={formData.CUST_CD || ''} required disabled={isEdit} /></div>
-          </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="TRAY_SIZE">Tary Size</label>
-            <div className="col-7 row g-0 align-items-center">
-              <input className="form-control col" onChange={handleTraySize} type="number" id="traySize_x" value={traySizeData.traySize_x || 0} />*
-                <input className="form-control col" onChange={handleTraySize} type="number" id="traySize_y" value={traySizeData.traySize_y || 0} />*
-                <input className="form-control col" onChange={handleTraySize} type="number" id="traySize_z" value={traySizeData.traySize_z || 0} />
+      <div className={`main-body add-scroll`}>
+        <form className="h-auto row m-0 px-2 needs-validation" onSubmit={handleSubmit(saveTraySpec, checkLsrMrk)}>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="CUST_CD">Customer Code</label>
+            <div className="col-6">
+              <input className={`form-control ${errors.CUST_CD ? 'is-invalid' : ''}`} type="text" id="CUST_CD" {...register('CUST_CD', { required: true, maxLength: 64 })} readOnly={isEdit} />
+              <div className="invalid-tooltip">
+                {errors.CUST_CD && getInvalidMsg(errors.CUST_CD.type)}
+              </div>
             </div>
           </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="PRODSPEC_ID">TSMC Part</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="PRODSPEC_ID" value={formData.PRODSPEC_ID || ''} required disabled={isEdit} /></div>
-          </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="CHIP_SIZE">Chip Size</label>
-            <div className="col-7 row g-0 align-items-center">
-              <input className="form-control col" onChange={handleChipSize} type="text" id="chipSize_x" value={chipSizeData.chipSize_x || 0} />*
-                <input className="form-control col" onChange={handleChipSize} type="text" id="chipSize_y" value={chipSizeData.chipSize_y || 0} />
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="TRAY_SIZE">Tary Size</label>
+            <div className="col-6 row g-0 align-items-center">
+              <input className={`form-control col px-1 me-1 ${errors.TRAY_SIZE_dim?.x ? 'is-invalid' : ''}`} type="number" {...register('TRAY_SIZE_dim.x', { valueAsNumber: true })} />*
+              <input className={`form-control col px-1 mx-1 ${errors.TRAY_SIZE_dim?.y ? 'is-invalid' : ''}`} type="number" {...register('TRAY_SIZE_dim.y', { valueAsNumber: true })} />*
+              <input className={`form-control col px-1 ms-1 ${errors.TRAY_SIZE_dim?.z ? 'is-invalid' : ''}`} type="number" {...register('TRAY_SIZE_dim.z', { valueAsNumber: true })} />
+              <div className="invalid-tooltip">
+                {errors.TRAY_SIZE_dim?.x && getInvalidMsg(errors.TRAY_SIZE_dim.x.type)}
+                {errors.TRAY_SIZE_dim?.y && getInvalidMsg(errors.TRAY_SIZE_dim.y.type)}
+                {errors.TRAY_SIZE_dim?.z && getInvalidMsg(errors.TRAY_SIZE_dim.z.type)}
+              </div>
             </div>
           </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="CUST_PART_ID">Custumer Part</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="CUST_PART_ID" value={formData.CUST_PART_ID || ''} /></div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="PRODSPEC_ID">TSMC Part</label>
+            <div className="col-6">
+              <input className={`form-control ${errors.PRODSPEC_ID ? 'is-invalid' : ''}`} type="text" id="PRODSPEC_ID" {...register('PRODSPEC_ID', { required: true, maxLength: 64 })} readOnly={isEdit} />
+              <div className="invalid-tooltip">
+                {errors.PRODSPEC_ID && getInvalidMsg(errors.PRODSPEC_ID.type)}
+              </div>
+            </div>
           </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="BIN_GRADE">Bin Grade</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="BIN_GRADE" value={formData.BIN_GRADE || ''} /></div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="CHIP_SIZE">Chip Size</label>
+            <div className="col-6 row g-0 align-items-center">
+              <input className={`form-control col px-1 me-1 ${errors.CHIP_SIZE_dim?.x ? 'is-invalid' : ''}`} type="text" {...register('CHIP_SIZE_dim.x', { valueAsNumber: true })} />*
+              <input className={`form-control col px-1 ms-1 ${errors.CHIP_SIZE_dim?.y ? 'is-invalid' : ''}`} type="text" {...register('CHIP_SIZE_dim.y', { valueAsNumber: true })} />
+              <div className="invalid-tooltip">
+                {errors.CHIP_SIZE_dim?.x && getInvalidMsg(errors.CHIP_SIZE_dim.x.type)}
+                {errors.CHIP_SIZE_dim?.y && getInvalidMsg(errors.CHIP_SIZE_dim.y.type)}
+              </div>
+            </div>
           </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="PIN_A1_LOC">Pin 1 Location</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="PIN_A1_LOC" value={formData.PIN_A1_LOC || ''} /></div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="CUST_PART_ID">Customer Part</label>
+            <div className="col-6"><input className="form-control" type="text" id="CUST_PART_ID" {...register('CUST_PART_ID', { maxLength: 64 })} /></div>
           </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="TERM_COMPOST">Terminal Composition</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="TERM_COMPOST" value={formData.TERM_COMPOST || ''} /></div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="BIN_GRADE">Bin Grade</label>
+            <div className="col-6"><input className="form-control" type="text" id="BIN_GRADE" {...register('BIN_GRADE', { maxLength: 16 })} /></div>
           </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="PACKING_TYPE">Package Material</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="PACKING_TYPE" value={formData.PACKING_TYPE || ''} /></div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="PIN_A1_LOC">Pin 1 Location</label>
+            <div className="col-6"><input className="form-control" type="text" id="PIN_A1_LOC" {...register('PIN_A1_LOC', { maxLength: 5 })} /></div>
           </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="PB_FREE">Pb-Free(ECO Status)</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="PB_FREE" value={formData.PB_FREE || ''} /></div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="TERM_COMPOST">Terminal Composition</label>
+            <div className="col-6"><input className="form-control" type="text" id="TERM_COMPOST" {...register('TERM_COMPOST', { maxLength: 16 })} /></div>
           </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="MSL">MSL</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="text" id="MSL" value={formData.MSL || ''} /></div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="PACKING_TYPE">Package Material</label>
+            <div className="col-6"><input className="form-control" type="text" id="PACKING_TYPE" {...register('PACKING_TYPE', { maxLength: 20 })} /></div>
           </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="DATECODE_LIMIT">Date Code Limit</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="number" id="DATECODE_LIMIT" value={formData.DATECODE_LIMIT || 9999} required /></div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="PB_FREE">Pb-Free(ECO Status)</label>
+            <div className="col-6"><input className="form-control" type="text" id="PB_FREE" {...register('PB_FREE', { maxLength: 1 })} /></div>
           </div>
-          <div className='d-flex align-items-center col-6 my-2'>
-            <label className="col-5" htmlFor="TEMP">Temperature</label>
-            <div className="col-7"><input className="form-control" onChange={handleForm} type="number" id="TEMP" value={formData.TEMP || ''} /></div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="MSL">MSL</label>
+            <div className="col-6"><input className="form-control" type="text" id="MSL" {...register('MSL', { maxLength: 5 })} /></div>
           </div>
-          <div className='d-flex align-items-center col-12'>
-            <label className="col-3" htmlFor="DESCRIPTION">Description</label>
-            <div className="col-9"><input className="form-control" onChange={handleForm} type="text" id="DESCRIPTION" value={formData.DESCRIPTION || ''} /></div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="DATECODE_LIMIT">Date Code Limit</label>
+            <div className="col-6"><input className="form-control" type="number" id="DATECODE_LIMIT" {...register('DATECODE_LIMIT', { required: true, valueAsNumber: true })} /></div>
+          </div>
+          <div className='input-form col-12 col-md-6 my-1 px-1'>
+            <label className="col-6" htmlFor="TEMP">Temperature</label>
+            <div className="col-6"><input className="form-control" type="number" id="TEMP" {...register('TEMP', { valueAsNumber: true })} /></div>
+          </div>
+          <div className='input-form col-12 my-1 px-1'>
+            <label className="col-6 col-md-3" htmlFor="DESCRIPTION">Description</label>
+            <div className="col-6 col-md-9"><input className="form-control" type="text" id="DESCRIPTION" {...register('DESCRIPTION', { maxLength: 128 })} /></div>
           </div>
           <button type="submit" id='save' hidden />
         </form>
-        <nav hidden={!fillLaserMark}><AddTrayLsrMrk isEdit={isEdit} ref={lsrMrkRef} /></nav>
+        <nav hidden={!isShowLaserMark}><AddTrayLsrMrk isEdit={isEdit} ref={lsrMrkRef} /></nav>
       </div>
       <div className="footer-bar">
-        <Link to={`/datas/tray_spec/${id}`} id='back' className="btn_list col-2">F3 離開</Link>
-        <button className="btn_list col-3" id='fillLaser' type="button" onClick={() => setFillLaserMark(true)}>F4 Fill Laser Mark</button>
-        <button type="button" className="btn_list col-2" onClick={() => clickById('save')}>F5 確認</button>
+        <Link to={`/datas/tray_spec/${id}`} id='back' className="btn-list col-12 col-md-2">F3 離開</Link>
+        <button className="btn-list col-12 col-md-3" id='fillLaser' type="button" onClick={() => setFillLaserMark(true)}>F4 Fill Laser Mark</button>
+        <button type="button" className="btn-list col-12 col-md-2" onClick={() => clickById('save')}>F5 確認</button>
       </div>
       <ReactShortcut
         keys={'f3'}

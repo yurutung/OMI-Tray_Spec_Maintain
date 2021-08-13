@@ -12,9 +12,9 @@ const Datas = () => {
   // params
   const { mode, id } = useParams<{ mode: string, id: string }>()
   // set title
-  if (mode == 'tray_spec')
+  if (mode === 'tray_spec')
     setTitleBar('Tray Spec. Maintaince')
-  else if (mode == 'tray_msl')
+  else if (mode === 'tray_msl')
     setTitleBar('MSL Spec. Maintaince')
 
   const tsRef = useRef<any>()
@@ -22,27 +22,27 @@ const Datas = () => {
   // click update data
   const updateSelected = () => {
     // TODO: define tray_spec, tray_msl
-    if (mode == 'tray_spec')
+    if (mode === 'tray_spec')
       tsRef.current?.updateSelected()
-    else if (mode == 'tray_msl')
+    else if (mode === 'tray_msl')
       tmRef.current?.updateSelected()
   }
   // click delete data
   const delSelected = () => {
     // TODO: define tray_spec, tray_msl
-    if (mode == 'tray_spec')
+    if (mode === 'tray_spec')
       tsRef.current.delSelected()
-    else if (mode == 'tray_msl')
+    else if (mode === 'tray_msl')
       tmRef.current.delSelected()
   }
   // click export data to csv
   const getDatas = () => {
-    if (mode == 'tray_spec')
+    if (mode === 'tray_spec')
       return tsRef.current?.getDatas()
-    else if (mode == 'tray_msl')
+    else if (mode === 'tray_msl')
       return tmRef.current?.getDatas()
   }
-  // upload file
+  // click upload file
   const history = useHistory()
   const handleSelectedFile = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = e.target.files
@@ -52,7 +52,7 @@ const Datas = () => {
         title: `Upload file: ${file.name}`,
         icon: 'info'
       })
-
+      // read file
       const reader = new FileReader()
       reader.onloadend = (e) => {
         const csvData: string = reader.result?.toString() || ''
@@ -64,6 +64,7 @@ const Datas = () => {
                 e[key] = null
             })
           })
+          // change to preview page
           history.push(
             `/upload_preview/${mode}`,
             {
@@ -74,6 +75,7 @@ const Datas = () => {
         })
       }
       reader.readAsText(file)
+      e.target.files = null
     }
     e.preventDefault()
   }
@@ -81,9 +83,9 @@ const Datas = () => {
   // show table
   let table = <div />
   // TODO: define tray_spec, tray_msl
-  if (mode == 'tray_spec')
+  if (mode === 'tray_spec')
     table = <TraySpecTable id={id} ref={tsRef} />
-  else if (mode == 'tray_msl')
+  else if (mode === 'tray_msl')
     table = <TrayMslTable id={id} ref={tmRef} />
 
   return (
@@ -92,12 +94,12 @@ const Datas = () => {
         {table}
       </div>
       <div className="footer-bar">
-        <Link to={`/search/${mode}`} id='search' className="btn_list col">F3 離開</Link>
-        <Link to={`/add/${mode}/${id}`} id='add' className="btn_list col">F1 新增</Link>
-        <button className="btn_list col" id='edit' onClick={updateSelected}>F2 更新</button>
-        <button className="btn_list col" id='del' onClick={delSelected}>F4 刪除</button>
-        <CsvDownloader datas={getDatas} filename={`exportData-${mode}.csv`} className='btn_list col' id='exportCsv'>F5 儲存檔案</CsvDownloader>
-        <button className="btn_list col" onClick={() => clickById('uploadFile')}>F6 讀取檔案</button>
+        <Link to={`/search/${mode}`} id='search' className="btn-list col-12 col-md">F3 離開</Link>
+        <Link to={`/add/${mode}/${id}`} id='add' className="btn-list col-12 col-md">F1 新增</Link>
+        <button className="btn-list col-12 col-md" id='edit' onClick={updateSelected}>F2 更新</button>
+        <button className="btn-list col-12 col-md" id='del' onClick={delSelected}>F4 刪除</button>
+        <CsvDownloader datas={getDatas} filename={`exportData-${mode}.csv`} className='btn-list col-12 col-md' id='exportCsv'>F5 儲存檔案</CsvDownloader>
+        <button className="btn-list col-12 col-md" onClick={() => clickById('uploadFile')}>F6 讀取檔案</button>
         <input type="file" id="uploadFile" accept=".csv" onChange={handleSelectedFile} hidden />
       </div>
       {/* shortcut setting */}

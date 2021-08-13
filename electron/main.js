@@ -1,13 +1,14 @@
 const { app, BrowserWindow } = require('electron')
+require('dotenv').config()
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
-        width: 1100,
-        height: 800
+        width: Number(process.env.WINDOWS_HEIGHT) || 1100,
+        height: Number(process.env.WINDOWS_WIDTH) || 800,
+        autoHideMenuBar: true
     })
 
-    // mainWindow.loadFile('../backend/out/index.js')
-    mainWindow.loadURL('http://localhost:8888')
+    mainWindow.loadURL(process.env.LOAD_URL || 'http://localhost:8888')
 
     mainWindow.on('closed', () => {
         mainWindow = null

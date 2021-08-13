@@ -17,7 +17,7 @@ const Home = () => {
                 </div>
             </div>
             <div className="footer-bar">
-                <button className="btn_list col-2">離開</button>
+                <button className="btn-list col-12 col-md-2">離開</button>
             </div>
             {/* shortcut setting */}
             <ReactShortcut

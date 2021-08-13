@@ -49,9 +49,9 @@ const UploadPreview = () => {
                 {table}
             </div>
             <div className="footer-bar">
-                <Link to={backUrl} id='back' className="btn_list col-2">F3 取消上傳</Link>
-                <button id='del' className="btn_list col-2" onClick={delSelected}>F4 刪除</button>
-                <button id='save' className="btn_list col-2" onClick={uploadDatas}>F1 確定上傳</button>
+                <Link to={backUrl} id='back' className="btn-list col-12 col-md-2">F3 取消上傳</Link>
+                <button id='del' className="btn-list col-12 col-md-2" onClick={delSelected}>F4 刪除</button>
+                <button id='save' className="btn-list col-12 col-md-2" onClick={uploadDatas}>F1 確定上傳</button>
             </div>
             <ReactShortcut
                 keys={'f3'}

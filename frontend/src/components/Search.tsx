@@ -42,8 +42,8 @@ const Search = () => {
                 <button type="submit" id="save" hidden>Enter 確認</button>
             </form>
             <div className="footer-bar">
-                <Link to="/" id='home' className="btn_list col-2">F3 離開</Link>
-                <button type="button" className="btn_list col-2" onClick={() => clickById('save')}>Enter 確認</button>
+                <Link to="/" id='home' className="btn-list col-12 col-md-2">F3 離開</Link>
+                <button type="button" className="btn-list col-12 col-md-2" onClick={() => clickById('save')}>Enter 確認</button>
             </div>
             {/* shortcut setting */}
             <ReactShortcut

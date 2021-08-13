@@ -3,10 +3,11 @@ import { useHistory } from "react-router-dom"
 import BootstrapTable, { SelectRowProps } from "react-bootstrap-table-next"
 // @ts-ignore
 import cellEditFactory from "react-bootstrap-table2-editor"
-import { toastMixin, errAlert } from '../functions'
+import { toastMixin, warnAlert, errAlert } from '../functions'
 import { getTraySpecs, deleteTraySpec, uploadTraySpec } from '../api/tray_spec'
 import { deleteTrayLsrMrk } from '../api/tray_lsr_mrk'
 
+// set table id
 const getDatasAddId = (d: ITraySpec[]) => {
   d.forEach((e: ITraySpec, i) => e.id = `${i}_${e.CUST_CD}_${e.PRODSPEC_ID}`)
   return d
@@ -36,11 +37,15 @@ const TraySpecTable = forwardRef((props: { isPreview?: boolean, id?: string, upl
       setSelected(row)
     }
   }
-  // get select and send to update page
   const history = useHistory()
+  // set function can call by other component
   useImperativeHandle(
     ref,
     () => ({
+      /**
+       * return tray spec table data
+       * @returns tray spec array
+       */
       getDatas() {
         const reData: ITraySpec[] = []
         datas.forEach(e => {
@@ -49,6 +54,10 @@ const TraySpecTable = forwardRef((props: { isPreview?: boolean, id?: string, upl
         })
         return reData
       },
+      /**
+       * get selected data
+       * send to update page
+       */
       updateSelected() {
         if (selected) {
           history.push(
@@ -65,25 +74,34 @@ const TraySpecTable = forwardRef((props: { isPreview?: boolean, id?: string, upl
           })
         }
       },
+      /**
+       * get selected data
+       * if click delete, then delete data
+       */
       delSelected() {
         if (selected) {
-          deleteTraySpec(selected)
-            .then(e => {
-              toastMixin.fire({
-                title: 'Delete data Successfully!'
-              })
-              fetchDatas()
-            })
-            .catch(err => {
-              console.log(err)
-              toastMixin.fire({
-                title: err,
-                icon: 'error'
-              })
-            })
-          deleteTrayLsrMrk(selected)
-            .then(e => console.log(e))
-            .catch(err => console.log(err))
+          warnAlert.fire().then((result) => {
+            if (result.isConfirmed) {
+              deleteTraySpec(selected)
+                .then(e => {
+                  toastMixin.fire({
+                    title: 'Delete data Successfully!'
+                  })
+                  setSelected(undefined)
+                  fetchDatas()
+                })
+                .catch(err => {
+                  console.error(err.response)
+                  toastMixin.fire({
+                    title: err,
+                    icon: 'error'
+                  })
+                })
+              deleteTrayLsrMrk({ CUST_CD: selected.CUST_CD, PRODSPEC_ID: selected.PRODSPEC_ID } as ITrayLsrMrk)
+                .then(e => console.log(e))
+                .catch(err => console.log(err))
+            }
+          })
         } else {
           toastMixin.fire({
             title: 'Please select delete item!',
@@ -91,11 +109,15 @@ const TraySpecTable = forwardRef((props: { isPreview?: boolean, id?: string, upl
           })
         }
       },
+      /**
+       * if all datas have id
+       * then upload all data to db
+       * @param backUrl 
+       */
       uploadDatas(backUrl: string) {
         if (document.getElementsByClassName('table-alert').length === 0) {
           uploadTraySpec(datas)
             .then(e => {
-              console.log(e)
               toastMixin.fire({
                 title: 'Upload data Successfully!'
               })
@@ -119,6 +141,10 @@ const TraySpecTable = forwardRef((props: { isPreview?: boolean, id?: string, upl
           })
         }
       },
+      /**
+       * if is preview page and click delete
+       * then delete selected data in array
+       */
       delSelectedPre() {
         if (selected && isPreview) {
           setDatas(datas.filter(d => !(d.CUST_CD === selected.CUST_CD && d.PRODSPEC_ID === selected.PRODSPEC_ID && d.id === selected.id)))
@@ -140,9 +166,9 @@ const TraySpecTable = forwardRef((props: { isPreview?: boolean, id?: string, upl
     },
     {
       dataField: "CUST_CD",
-      text: "Custumer Code",
+      text: "Customer Code",
       classes: (cell: string, row: {}) => {
-        if (!cell) return 'table-alert'
+        if (!cell && isPreview) return 'table-alert'
         return ''
       }
     },
@@ -150,13 +176,13 @@ const TraySpecTable = forwardRef((props: { isPreview?: boolean, id?: string, upl
       dataField: "PRODSPEC_ID",
       text: "TSMC Part",
       classes: (cell: string, row: {}) => {
-        if (!cell) return 'table-alert'
+        if (!cell && isPreview) return 'table-alert'
         return ''
       }
     },
     {
       dataField: "CUST_PART_ID",
-      text: "Custumer Part"
+      text: "Customer Part"
     },
     {
       dataField: "DESCRIPTION",

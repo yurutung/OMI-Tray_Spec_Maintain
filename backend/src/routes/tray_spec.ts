@@ -42,7 +42,12 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
         try {
             const traySpecBody = request.body as ITraySpec
             const traySpec: [number, ITraySpec[]] | null = await traySpecRepo.updateData(traySpecBody)
-            return reply.status(200).send({ traySpec })
+            // return reply.status(200).send({ traySpec })
+            if (traySpec && traySpec[0]) {
+                return reply.status(200).send({ traySpec })
+            } else {
+                return reply.status(404).send({ msg: `Not Found Tray Spec: ${traySpecBody.CUST_CD} & ${traySpecBody.PRODSPEC_ID}` })
+            }
         } catch (error) {
             console.error(`PUT /tray_spec Error: ${error}`)
             return reply.status(500).send(`[Server Error]: ${error}`)

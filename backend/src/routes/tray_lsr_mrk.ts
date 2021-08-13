@@ -85,6 +85,18 @@ const TrayLsrMrkRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
         }
     })
 
+    /**
+     * get CoWoS part array
+     */
+    server.get('/getCoWoSPart', opts, async (request, reply) => {
+        try {
+            return reply.status(200).send({ CoWoSParts: ['CoWoS1', 'CoWoS2', 'CoWoS3'] })
+        } catch (error) {
+            console.error(`\GET /tray_lsr_mrk/getCoWoSPart Error: ${error}`)
+            return reply.status(500).send(`[Server Error]: ${error}`)
+        }
+    })
+
     done()
 }
 

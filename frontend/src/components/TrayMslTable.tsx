@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom"
 import BootstrapTable, { SelectRowProps } from "react-bootstrap-table-next"
 // @ts-ignore
 import cellEditFactory from "react-bootstrap-table2-editor"
-import { toastMixin, errAlert } from '../functions'
+import { toastMixin, warnAlert, errAlert } from '../functions'
 import { getTrayMsls, deleteTrayMsl, uploadTrayMsl } from '../api/tray_msl'
 
 const getDatasAddId = (d: ITrayMsl[]) => {
@@ -34,14 +34,22 @@ const TrayMslTable = forwardRef((props: { isPreview?: boolean, id?: string, uplo
       setSelected(row)
     }
   }
-  // get select and send to update page
   const history = useHistory()
+  // set function can call by other component
   useImperativeHandle(
     ref,
     () => ({
+      /**
+       * return tray msl table data
+       * @returns tray msl array
+       */
       getDatas() {
         return datas
       },
+      /**
+       * get selected data
+       * send to update page
+       */
       updateSelected() {
         if (selected) {
           history.push(
@@ -58,22 +66,31 @@ const TrayMslTable = forwardRef((props: { isPreview?: boolean, id?: string, uplo
           })
         }
       },
+      /**
+       * get selected data
+       * if click delete, then delete data
+       */
       delSelected() {
         if (selected) {
-          deleteTrayMsl(selected)
-            .then(e => {
-              toastMixin.fire({
-                title: 'Delete data Successfully!'
-              })
-              fetchDatas()
-            })
-            .catch(err => {
-              console.log(err)
-              toastMixin.fire({
-                title: err,
-                icon: 'error'
-              })
-            })
+          warnAlert.fire().then((result) => {
+            if (result.isConfirmed) {
+              deleteTrayMsl(selected)
+                .then(e => {
+                  toastMixin.fire({
+                    title: 'Delete data Successfully!'
+                  })
+                  setSelected(undefined)
+                  fetchDatas()
+                })
+                .catch(err => {
+                  console.error(err.response)
+                  toastMixin.fire({
+                    title: err,
+                    icon: 'error'
+                  })
+                })
+            }
+          })
         } else {
           toastMixin.fire({
             title: 'Please select delete item!',
@@ -81,11 +98,15 @@ const TrayMslTable = forwardRef((props: { isPreview?: boolean, id?: string, uplo
           })
         }
       },
+      /**
+       * if all datas have id
+       * then upload all data to db
+       * @param backUrl 
+       */
       uploadDatas(backUrl: string) {
         if (document.getElementsByClassName('table-alert').length === 0) {
           uploadTrayMsl(datas)
             .then(e => {
-              console.log(e)
               toastMixin.fire({
                 title: 'Upload data Successfully!'
               })
@@ -109,6 +130,10 @@ const TrayMslTable = forwardRef((props: { isPreview?: boolean, id?: string, uplo
           })
         }
       },
+      /**
+       * if is preview page and click delete
+       * then delete selected data in array
+       */
       delSelectedPre() {
         if (selected && isPreview) {
           setDatas(datas.filter(d => !(d.MSL === selected.MSL)))
@@ -132,7 +157,7 @@ const TrayMslTable = forwardRef((props: { isPreview?: boolean, id?: string, uplo
       dataField: "MSL",
       text: "MSL ID",
       classes: (cell: string, row: {}) => {
-        if (!cell) return 'table-alert'
+        if (!cell && isPreview) return 'table-alert'
         return ''
       }
     },
