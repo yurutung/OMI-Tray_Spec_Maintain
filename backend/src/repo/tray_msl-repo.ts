@@ -5,7 +5,7 @@ import { Op } from 'sequelize'
 interface TrayMslRepo {
     getDatas(mid: string): Promise<Array<ITrayMsl>>
     addData(trayMslBody: ITrayMsl): Promise<ITrayMsl>
-    updateData(trayMslBody: ITrayMsl): Promise<[number, trayMsl[]] | null>
+    updateData(trayMslBody: ITrayMsl): Promise<ITrayMsl | null>
     deleteData(trayMslBody: ITrayMsl): Promise<number | null>
 }
 
@@ -47,12 +47,20 @@ class TrayMslRepoImpl implements TrayMslRepo {
      * @param trayMslBody 
      * @returns 
      */
-    async updateData(trayMslBody: ITrayMsl): Promise<[number, trayMsl[]] | null> {
-        return trayMsl.update(trayMslBody, {
+    async updateData(trayMslBody: ITrayMsl): Promise<ITrayMsl | null> {
+        const e = await trayMsl.findOne({
             where: {
                 MSL: trayMslBody.MSL
             }
         })
+        if (e) {
+            return e.update(trayMslBody, {
+                where: {
+                    MSL: trayMslBody.MSL
+                }
+            })
+        }
+        return null
     }
 
     /**

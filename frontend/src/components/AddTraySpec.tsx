@@ -63,7 +63,7 @@ const AddTraySpec = () => {
     return init as ITraySpec
   }
   // formData
-  const { register, watch, setValue, handleSubmit, formState: { errors } } = useForm<ITraySpec>({ mode: 'all', defaultValues: initData() })
+  const { register, watch, handleSubmit, formState: { errors } } = useForm<ITraySpec>({ mode: 'all', defaultValues: initData() })
 
   // set title
   setTitleBar(`Tray Spec. Maintaince ${isEdit ? 'Update' : 'Add'}`)

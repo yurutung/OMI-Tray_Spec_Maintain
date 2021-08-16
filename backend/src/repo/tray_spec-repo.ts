@@ -63,12 +63,6 @@ class TraySpecRepoImpl implements TraySpecRepo {
             })
         }
         return null
-        // return traySpec.update(traySpecBody, {
-        //     where: {
-        //         CUST_CD: traySpecBody.CUST_CD,
-        //         PRODSPEC_ID: traySpecBody.PRODSPEC_ID
-        //     }
-        // })
     }
 
     /**

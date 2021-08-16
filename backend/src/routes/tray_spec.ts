@@ -76,7 +76,6 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
      */
     server.post('/upload_data', opts, async (request, reply) => {
         const traySpecs: ITraySpec[] = request.body as ITraySpec[]
-        console.log(traySpecs)
         let errMsg = []
         for (const ts of traySpecs) {
             try {
@@ -88,6 +87,7 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
         if (!errMsg.length) {
             return reply.status(201).send({ msg: `Upload successfully ${traySpecs.length} items.` })
         } else {
+            console.error(`UPLOAD /tray_spec Error: ${JSON.stringify(errMsg)}`)
             return reply.status(500).send({ msg: `Upload fail ${errMsg.length} items.`, errData: errMsg })
         }
     })

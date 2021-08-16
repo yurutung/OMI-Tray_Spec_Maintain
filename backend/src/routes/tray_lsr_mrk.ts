@@ -41,8 +41,12 @@ const TrayLsrMrkRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
     server.put('/', opts, async (request, reply) => {
         try {
             const trayLsrMrkBody = request.body as ITrayLsrMrk
-            const trayLsrMrk: [number, ITrayLsrMrk[]] | null = await trayLsrMrkRepo.updateData(trayLsrMrkBody)
-            return reply.status(200).send({ trayLsrMrk })
+            const trayLsrMrk: ITrayLsrMrk | null = await trayLsrMrkRepo.updateData(trayLsrMrkBody)
+            if (trayLsrMrk) {
+                return reply.status(200).send({ trayLsrMrk })
+            } else {
+                return reply.status(404).send({ msg: `Not Found Tray Spec Laser Mark: ${trayLsrMrkBody.CUST_CD} & ${trayLsrMrkBody.PRODSPEC_ID}` })
+            }
         } catch (error) {
             console.error(`PUT /tray_lsr_mrk Error: ${error}`)
             return reply.status(500).send(`[Server Error]: ${error}`)
@@ -88,13 +92,9 @@ const TrayLsrMrkRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
         try {
             const trayLsrMrk: ITrayLsrMrk = request.body as ITrayLsrMrk
             const res = await trayLsrMrkRepo.addOrUpdateDate(trayLsrMrk)
-            if (res) {
-                return reply.status(204).send({ res }) //204 delete successfully
-            } else {
-                return reply.status(404).send({ msg: `Not Found Tray Laser Mark: ${trayLsrMrk.CUST_CD} & ${trayLsrMrk.PRODSPEC_ID}` })
-            }
+            return reply.status(200).send({ res })
         } catch (error) {
-            console.error(`DELETE /tray_lsr_mrk Error: ${error}`)
+            console.error(`UPSERT /tray_lsr_mrk Error: ${error}`)
             return reply.status(500).send(`[Server Error]: ${error}`)
         }
     })

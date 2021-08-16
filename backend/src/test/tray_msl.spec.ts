@@ -80,10 +80,17 @@ describe('Tray Msl test', () => {
         expect(res_data.trayMsls[0].MSL).toBe(updateTraySpec.MSL)
         expect(res_data.trayMsls[0].FLOOR_LIFE).toBe(updateTraySpec.FLOOR_LIFE)
     })
-    // put fail
+    // put fail 404
+    it('should failed put a Tray Msl data', async () => {
+        const updateTrayMsl = { MSL: '' }
+        const response = await server.inject({ method: 'PUT', url: '/api/tray_msl', payload: updateTrayMsl })
+        expect(response.statusCode).toBe(404)
+        console.log(`put tray msl ${response.body}`)
+    })
+    // put fail 500
     it('should failed put a Tray Msl data', async () => {
         const response = await server.inject({ method: 'PUT', url: '/api/tray_msl', payload: {} })
-        expect(response.statusCode).toBe(404)
+        expect(response.statusCode).toBe(500)
         console.log(`put tray msl ${response.body}`)
     })
 
@@ -105,5 +112,25 @@ describe('Tray Msl test', () => {
         const response = await server.inject({ method: 'DELETE', url: '/api/tray_msl', payload: {} })
         expect(response.statusCode).toBe(500)
         console.log(`delete tray msl ${response.body}`)
+    })
+
+    // upload pass
+    it('should successfully upload tray msl', async () => {
+        const upload = Array<ITrayMsl>()
+        const up_data = { MSL: `u${r}` } as ITrayMsl
+        upload.push(Object.assign({}, up_data) as ITrayMsl)
+        upload.push(Object.assign({ FLOOR_LIFE: 'up' }, up_data) as ITrayMsl)
+        const response = await server.inject({ method: 'POST', url: '/api/tray_msl/upload_data', payload: upload })
+        expect(response.statusCode).toBe(201)
+        // should del upload success
+        const res = await server.inject({ method: 'DELETE', url: '/api/tray_msl', payload: up_data })
+        expect(res.statusCode).toBe(204)
+    })
+    // upload fail
+    it('should fail upload tray msl', async () => {
+        const upload = Array<ITrayMsl>()
+        upload.push({} as ITrayMsl)
+        const response = await server.inject({ method: 'POST', url: '/api/tray_msl/upload_data', payload: upload })
+        expect(response.statusCode).toBe(500)
     })
 })

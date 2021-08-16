@@ -38,7 +38,7 @@ interface ITraySpec {
 interface ITrayLsrMrk {
     CUST_CD: string;
     PRODSPEC_ID: string;
-    MARK_LOGO: string;
+    MARK_LOGO?: string;
     MARK_TEXT1?: string;
     MARK_TEXT2?: string;
     MARK_TEXT3?: string;

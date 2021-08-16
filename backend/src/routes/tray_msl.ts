@@ -40,9 +40,8 @@ const TrayMslRouter = (server: FastifyInstance, opts: RouteShorthandOptions, don
     server.put('/', opts, async (request, reply) => {
         try {
             const trayMslBody = request.body as ITrayMsl
-            const trayMsl: [number, ITrayMsl[]] | null = await trayMslRepo.updateData(trayMslBody)
-            // return reply.status(200).send({ trayMsl })
-            if (trayMsl && trayMsl[0]) {
+            const trayMsl: ITrayMsl | null = await trayMslRepo.updateData(trayMslBody)
+            if (trayMsl) {
                 return reply.status(200).send({ trayMsl })
             } else {
                 return reply.status(404).send({ msg: `Not Found Tray Msl: ${trayMslBody.MSL}` })
@@ -87,6 +86,7 @@ const TrayMslRouter = (server: FastifyInstance, opts: RouteShorthandOptions, don
         if (!errMsg.length) {
             return reply.status(201).send({ msg: `Upload successfully ${trayMsls.length} items.` })
         } else {
+            console.error(`UPLOAD /tray_msl Error: ${JSON.stringify(errMsg)}`)
             return reply.status(500).send({ msg: `Upload fail ${errMsg.length} items.`, errData: errMsg })
         }
     })

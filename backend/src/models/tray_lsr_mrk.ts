@@ -37,9 +37,10 @@ class trayLsrMrk extends Model<ITrayLsrMrk, ITrayLsrMrk> implements ITrayLsrMrk 
 
     @Column({
     	field: "MARK_LOGO",
+    	allowNull: true,
     	type: DataType.STRING(64) 
     })
-    MARK_LOGO!: string;
+    MARK_LOGO?: string;
 
     @Column({
     	field: "MARK_TEXT1",

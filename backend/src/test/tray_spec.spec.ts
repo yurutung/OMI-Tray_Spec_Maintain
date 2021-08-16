@@ -45,6 +45,12 @@ describe('Tray Spec test', () => {
         expect(response.statusCode).toBe(200)
         console.log(`get tray spec ${response.body}`)
     })
+    // get fail
+    it('should failed get a list of Tray Spec', async () => {
+        const response = await server.inject({ method: 'GET', url: '/api/tray_spec' })
+        expect(response.statusCode).toBe(404)
+        console.log(`get tray spec ${response.body}`)
+    })
 
     // post pass
     it('should successfully post a Tray Spec data, and can be found', async () => {
@@ -84,13 +90,20 @@ describe('Tray Spec test', () => {
         expect(res_data.traySpecs[0].CUST_PART_ID).toBe(updateTraySpec.CUST_PART_ID)
         expect(res_data.traySpecs[0].PIN_A1_LOC).toBe(updateTraySpec.PIN_A1_LOC)
     })
-    // put fail
+    // put fail 404
     it('should failed put a Tray Spec data', async () => {
-        const response = await server.inject({ method: 'PUT', url: '/api/tray_spec', payload: {} })
+        const updateTraySpec = { CUST_CD: '', PRODSPEC_ID: '' }
+        const response = await server.inject({ method: 'PUT', url: '/api/tray_spec', payload: updateTraySpec })
         expect(response.statusCode).toBe(404)
         console.log(`put tray spec ${response.body}`)
     })
-
+    // put fail 500
+    it('should failed put a Tray Spec data', async () => {
+        const response = await server.inject({ method: 'PUT', url: '/api/tray_spec', payload: {} })
+        expect(response.statusCode).toBe(500)
+        console.log(`put tray spec ${response.body}`)
+    })
+    
     // delete pass
     it('should successfully delete tray spec by cust code and prod id', async () => {
         const response = await server.inject({ method: 'DELETE', url: '/api/tray_spec', payload: newTraySpec })
@@ -109,4 +122,25 @@ describe('Tray Spec test', () => {
         expect(response.statusCode).toBe(500)
         console.log(`delete tray spec ${response.body}`)
     })
+
+    // upload pass
+    it('should successfully upload tray spec', async () => {
+        const upload = Array<ITraySpec>()
+        const up_data = { CUST_CD: `up_${r}`, PRODSPEC_ID: `up_${r}` } as ITraySpec
+        upload.push(Object.assign({}, up_data) as ITraySpec)
+        upload.push(Object.assign({ CUST_PART_ID: 'up', PIN_A1_LOC: 'up' }, up_data) as ITraySpec)
+        const response = await server.inject({ method: 'POST', url: '/api/tray_spec/upload_data', payload: upload })
+        expect(response.statusCode).toBe(201)
+        // should del upload success
+        const res = await server.inject({ method: 'DELETE', url: '/api/tray_spec', payload: up_data })
+        expect(res.statusCode).toBe(204)
+    })
+    // upload fail
+    it('should fail upload tray spec', async () => {
+        const upload = Array<ITraySpec>()
+        upload.push({} as ITraySpec)
+        const response = await server.inject({ method: 'POST', url: '/api/tray_spec/upload_data', payload: upload })
+        expect(response.statusCode).toBe(500)
+    })
+
 })

@@ -4,7 +4,7 @@ import { trayLsrMrk } from '../models/tray_lsr_mrk'
 interface TrayLsrMrkRepo {
     getDatas(cid: string, pid: string): Promise<trayLsrMrk | null>
     addData(trayLsrMrkBody: ITrayLsrMrk): Promise<ITrayLsrMrk>
-    updateData(trayLsrMrkBody: ITrayLsrMrk): Promise<[number, trayLsrMrk[]] | null>
+    updateData(trayLsrMrkBody: ITrayLsrMrk): Promise<ITrayLsrMrk | null>
     deleteData(trayLsrMrkBody: ITrayLsrMrk): Promise<number | null>
 }
 
@@ -45,13 +45,22 @@ class TrayLsrMrkRepoImpl implements TrayLsrMrkRepo {
      * @param trayLsrMrkBody 
      * @returns 
      */
-    async updateData(trayLsrMrkBody: ITrayLsrMrk): Promise<[number, trayLsrMrk[]] | null> {
-        return trayLsrMrk.update(trayLsrMrkBody, {
+    async updateData(trayLsrMrkBody: ITrayLsrMrk): Promise<ITrayLsrMrk | null> {
+        const e = await trayLsrMrk.findOne({
             where: {
                 CUST_CD: trayLsrMrkBody.CUST_CD,
                 PRODSPEC_ID: trayLsrMrkBody.PRODSPEC_ID
             }
         })
+        if (e) {
+            return e.update(trayLsrMrkBody, {
+                where: {
+                    CUST_CD: trayLsrMrkBody.CUST_CD,
+                    PRODSPEC_ID: trayLsrMrkBody.PRODSPEC_ID
+                }
+            })
+        }
+        return null
     }
 
     /**
@@ -73,12 +82,15 @@ class TrayLsrMrkRepoImpl implements TrayLsrMrkRepo {
      * @param trayLsrMrkBody 
      */
     async findAndDeleteData(trayLsrMrkBody: ITrayLsrMrk): Promise<void> {
-        trayLsrMrk.findOne({
+        const e = await trayLsrMrk.findOne({
             where: {
                 CUST_CD: trayLsrMrkBody.CUST_CD,
                 PRODSPEC_ID: trayLsrMrkBody.PRODSPEC_ID
             }
-        }).then(e => { e?.destroy() }).catch(err => { throw err })
+        })
+        if (e) {
+            return e.destroy()
+        }
     }
 
     /**
