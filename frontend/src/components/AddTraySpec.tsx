@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useParams, useLocation } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import { useTranslation } from 'react-i18next'
 import ReactShortcut from 'react-shortcut'
 import { toastMixin, clickById, setTitleBar, getInvalidMsg } from '../functions'
 import { addTraySpec, updateTraySpec } from '../api/tray_spec'
@@ -14,6 +15,8 @@ interface stateType {
 }
 
 const AddTraySpec = () => {
+  // i18n
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
 
   const location = useLocation<stateType>()
@@ -269,9 +272,9 @@ const AddTraySpec = () => {
         <nav hidden={!isShowLaserMark}><AddTrayLsrMrk isEdit={isEdit} ref={lsrMrkRef} /></nav>
       </div>
       <div className="footer-bar">
-        <Link to={`/datas/tray_spec/${id}`} id='back' className="btn-list col-12 col-md-2">F3 離開</Link>
-        <button className="btn-list col-12 col-md-3" id='fillLaser' type="button" onClick={() => setFillLaserMark(true)}>F4 Fill Laser Mark</button>
-        <button type="button" className="btn-list col-12 col-md-2" onClick={() => clickById('save')}>F5 確認</button>
+        <Link to={`/datas/tray_spec/${id}`} id='back' className="btn-list col-12 col-md-2">F3 {t('button.back')}</Link>
+        <button className="btn-list col-12 col-md-3" id='fillLaser' type="button" onClick={() => setFillLaserMark(true)}>F4 {t('button.fill_lsrmrk')}</button>
+        <button type="button" className="btn-list col-12 col-md-2" onClick={() => clickById('save')}>F5 {t('button.submit')}</button>
       </div>
       <ReactShortcut
         keys={'f3'}

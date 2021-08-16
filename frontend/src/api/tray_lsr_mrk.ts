@@ -51,7 +51,7 @@ const upsertTrayLsrMrk = async (trayLsrMrkBody: ITrayLsrMrk): Promise<AxiosRespo
  */
 const deleteTrayLsrMrk = async (trayLsrMrkBody: ITrayLsrMrk): Promise<AxiosResponse> => {
     try {
-        const res = await axios.delete(`/api/tray_lsr_mrk`, { data: trayLsrMrkBody })
+        const res = await axios.delete(`/api/tray_lsr_mrk/find_delete`, { data: trayLsrMrkBody })
         return res
     } catch (error) {
         console.error(`DELETE /api/tray_lsr_mrk ERROR: ${error}`)

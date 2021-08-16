@@ -15,26 +15,23 @@ const AddTrayLsrMrk = forwardRef((props: { isEdit: boolean }, ref) => {
   register('PRODSPEC_ID', { required: true })
 
   const saveLsrMrk = (formData: ITrayLsrMrk): void => {
-    let isDel = false
+    const isEmpty = Object.entries(formData).every(([key, value]: any) => {
+      if ((!key.includes('MARK_')) || (key.includes('MARK_') && !value))
+        return true
+      return false
+    })
     // if not cowos part & isedit
     // if all input is null, then delete
-    if (!isCoWoSPart && isEdit) {
-      isDel = Object.entries(formData).every(([key, value]: any) => {
-        if ((!key.includes('MARK_')) || (key.includes('MARK_') && !value))
-          return true
-        return false
-      })
-    }
-    if (isDel) {
+    // if not empty, then upsert
+    if (!isCoWoSPart && isEdit && isEmpty) {
       deleteTrayLsrMrk(formData)
         .then(e => console.log(e))
         .catch(e => console.log(e))
-    } else {
+    } else if (!isEmpty) {
       upsertTrayLsrMrk(formData)
         .then(e => console.log(e))
         .catch(e => console.log(e))
     }
-
   }
   const checkData = () => {
     const data = getValues()

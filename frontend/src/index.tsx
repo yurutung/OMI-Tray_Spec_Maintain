@@ -4,8 +4,8 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 
 // css
-import './css/bootstrap.css'
-import './css/index.css'
+import './asset/css/bootstrap.css'
+import './asset/css/index.css'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 
 ReactDOM.render(

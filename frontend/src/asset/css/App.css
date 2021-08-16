@@ -12,6 +12,16 @@ html, body, #root {
   align-items: center!important;
   justify-content: center!important;
 }
+.lan-select {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.lan-select .form-select {
+  font-size: 0.8rem;
+  display: inline;
+  padding: 0.2rem 2rem 0.2rem 0.7rem;
+}
 .main-body {
   width: 100%;
   max-width: 100%;

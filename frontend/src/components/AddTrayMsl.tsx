@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
+import { useTranslation } from 'react-i18next'
 import { Link, useParams, useLocation } from "react-router-dom"
 import ReactShortcut from 'react-shortcut'
 import { toastMixin, clickById, setTitleBar, getInvalidMsg } from '../functions'
@@ -12,6 +13,8 @@ interface stateType {
 }
 
 const AddTrayMsl = () => {
+  // i18n
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
 
   const location = useLocation<stateType>()
@@ -82,8 +85,8 @@ const AddTrayMsl = () => {
         <button type="submit" id='save' hidden>F5 確認</button>
       </form>
       <div className="footer-bar">
-        <Link to={`/datas/tray_msl/${id}`} id='back' className="btn-list col-12 col-md-2">F3 離開</Link>
-        <button type="button" className="btn-list col-12 col-md-2" onClick={() => clickById('save')}>F5 確認</button>
+        <Link to={`/datas/tray_msl/${id}`} id='back' className="btn-list col-12 col-md-2">F3 {t('button.back')}</Link>
+        <button type="button" className="btn-list col-12 col-md-2" onClick={() => clickById('save')}>F5 {t('button.submit')}</button>
       </div>
       {/* shortcut setting */}
       <ReactShortcut

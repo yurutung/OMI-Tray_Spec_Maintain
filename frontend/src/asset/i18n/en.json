@@ -1,0 +1,12 @@
+{
+    "button": {
+        "back": "Back",
+        "submit": "Submit",
+        "insert": "Add",
+        "update": "Update",
+        "delete": "Delete",
+        "export": "Export data",
+        "upload": "Upload data",
+        "fill_lsrmrk": "Fill Laser Mark"
+    }
+}

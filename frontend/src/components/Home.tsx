@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom"
 import ReactShortcut from 'react-shortcut'
+import { useTranslation } from 'react-i18next'
 import { clickById, setTitleBar } from '../functions'
 
 const Home = () => {
+    // i18n
+    const { t } = useTranslation()
     // set title
     setTitleBar('Tray Spec. Maintaince')
     return (
@@ -17,7 +20,7 @@ const Home = () => {
                 </div>
             </div>
             <div className="footer-bar">
-                <button className="btn-list col-12 col-md-2">離開</button>
+                <button className="btn-list col-12 col-md-2">{t('button.back')}</button>
             </div>
             {/* shortcut setting */}
             <ReactShortcut

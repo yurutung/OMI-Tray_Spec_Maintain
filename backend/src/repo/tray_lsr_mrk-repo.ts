@@ -69,6 +69,19 @@ class TrayLsrMrkRepoImpl implements TrayLsrMrkRepo {
     }
 
     /**
+     * 
+     * @param trayLsrMrkBody 
+     */
+    async findAndDeleteData(trayLsrMrkBody: ITrayLsrMrk): Promise<void> {
+        trayLsrMrk.findOne({
+            where: {
+                CUST_CD: trayLsrMrkBody.CUST_CD,
+                PRODSPEC_ID: trayLsrMrkBody.PRODSPEC_ID
+            }
+        }).then(e => { e?.destroy() }).catch(err => { throw err })
+    }
+
+    /**
      * insert or update by id
      * @param trayLsrMrkBody 
      * @returns 

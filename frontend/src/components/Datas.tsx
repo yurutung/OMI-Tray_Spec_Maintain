@@ -1,5 +1,6 @@
 import { useRef, useState } from "react"
 import { Link, useHistory, useParams } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import ReactShortcut from 'react-shortcut'
 import CsvDownloader from 'react-csv-downloader'
 import csv from 'csvtojson'
@@ -9,6 +10,8 @@ import TrayMslTable from "./TrayMslTable"
 import TraySpecTable from "./TraySpecTable"
 
 const Datas = () => {
+  // i18n
+  const { t } = useTranslation()
   // params
   const { mode, id } = useParams<{ mode: string, id: string }>()
   // set title
@@ -94,12 +97,12 @@ const Datas = () => {
         {table}
       </div>
       <div className="footer-bar">
-        <Link to={`/search/${mode}`} id='search' className="btn-list col-12 col-md">F3 離開</Link>
-        <Link to={`/add/${mode}/${id}`} id='add' className="btn-list col-12 col-md">F1 新增</Link>
-        <button className="btn-list col-12 col-md" id='edit' onClick={updateSelected}>F2 更新</button>
-        <button className="btn-list col-12 col-md" id='del' onClick={delSelected}>F4 刪除</button>
-        <CsvDownloader datas={getDatas} filename={`exportData-${mode}.csv`} className='btn-list col-12 col-md' id='exportCsv'>F5 儲存檔案</CsvDownloader>
-        <button className="btn-list col-12 col-md" onClick={() => clickById('uploadFile')}>F6 讀取檔案</button>
+        <Link to={`/search/${mode}`} id='search' className="btn-list col-12 col-md">F3 {t('button.back')}</Link>
+        <Link to={`/add/${mode}/${id}`} id='add' className="btn-list col-12 col-md">F1 {t('button.insert')}</Link>
+        <button className="btn-list col-12 col-md" id='edit' onClick={updateSelected}>F2 {t('button.update')}</button>
+        <button className="btn-list col-12 col-md" id='del' onClick={delSelected}>F4 {t('button.delete')}</button>
+        <CsvDownloader datas={getDatas} filename={`exportData-${mode}.csv`} className='btn-list col-12 col-md' id='exportCsv'>F5 {t('button.export')}</CsvDownloader>
+        <button className="btn-list col-12 col-md" onClick={() => clickById('uploadFile')}>F6 {t('button.upload')}</button>
         <input type="file" id="uploadFile" accept=".csv" onChange={handleSelectedFile} hidden />
       </div>
       {/* shortcut setting */}

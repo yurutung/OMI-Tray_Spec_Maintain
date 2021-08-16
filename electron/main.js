@@ -3,8 +3,8 @@ require('dotenv').config()
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
-        width: Number(process.env.WINDOWS_HEIGHT) || 1100,
-        height: Number(process.env.WINDOWS_WIDTH) || 800,
+        width: Number(process.env.WINDOWS_WIDTH) || 1100,
+        height: Number(process.env.WINDOWS_HEIGHT) || 800,
         autoHideMenuBar: true
     })
 

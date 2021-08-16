@@ -68,6 +68,20 @@ const TrayLsrMrkRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
     })
 
     /**
+     * find and delete
+     */
+    server.delete('/find_delete', opts, async (request, reply) => {
+        try {
+            const trayLsrMrkBody = request.body as ITrayLsrMrk
+            const trayLsrMrk: void = await trayLsrMrkRepo.findAndDeleteData(trayLsrMrkBody)
+            return reply.status(204).send({ trayLsrMrk: 1 }) //204 delete successfully
+        } catch (error) {
+            console.error(`DELETE /tray_lsr_mrk/find_delete Error: ${error}`)
+            return reply.status(500).send(`[Server Error]: ${error}`)
+        }
+    })
+
+    /**
      * upsert data
      */
     server.post('/upsert', opts, async (request, reply) => {

@@ -1,0 +1,12 @@
+{
+    "button": {
+        "back": "離開",
+        "submit": "確認",
+        "insert": "新增",
+        "update": "更新",
+        "delete": "刪除",
+        "export": "儲存檔案",
+        "upload": "讀取檔案",
+        "fill_lsrmrk": "Fill Laser Mark"
+    }
+}

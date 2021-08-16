@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useHistory, useParams } from "react-router-dom"
 import ReactShortcut from 'react-shortcut'
 import { clickById, setTitleBar } from '../functions'
 
 const Search = () => {
+    // i18n
+    const { t } = useTranslation()
     const { mode } = useParams<{ mode: string }>()
     const history = useHistory()
     // set title
@@ -39,11 +42,11 @@ const Search = () => {
                         </div>
                     </div>
                 </div>
-                <button type="submit" id="save" hidden>Enter 確認</button>
+                <button type="submit" id="save" hidden />
             </form>
             <div className="footer-bar">
-                <Link to="/" id='home' className="btn-list col-12 col-md-2">F3 離開</Link>
-                <button type="button" className="btn-list col-12 col-md-2" onClick={() => clickById('save')}>Enter 確認</button>
+                <Link to="/" id='home' className="btn-list col-12 col-md-2">F3 {t('button.back')}</Link>
+                <button type="button" className="btn-list col-12 col-md-2" onClick={() => clickById('save')}>Enter {t('button.submit')}</button>
             </div>
             {/* shortcut setting */}
             <ReactShortcut

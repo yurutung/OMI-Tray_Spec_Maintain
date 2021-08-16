@@ -5,7 +5,7 @@ import { Op } from 'sequelize'
 interface TraySpecRepo {
     getDatas(cid: string): Promise<Array<ITraySpec>>
     addData(traySpecBody: ITraySpec): Promise<ITraySpec>
-    updateData(traySpecBody: ITraySpec): Promise<[number, traySpec[]] | null>
+    updateData(traySpecBody: ITraySpec): Promise<traySpec | null>
     deleteData(traySpecBody: ITraySpec): Promise<number | null>
 }
 
@@ -47,13 +47,28 @@ class TraySpecRepoImpl implements TraySpecRepo {
      * @param traySpecBody 
      * @returns 
      */
-    async updateData(traySpecBody: ITraySpec): Promise<[number, traySpec[]] | null> {
-        return traySpec.update(traySpecBody, {
+    async updateData(traySpecBody: ITraySpec): Promise<traySpec | null> {
+        const e = await traySpec.findOne({
             where: {
                 CUST_CD: traySpecBody.CUST_CD,
                 PRODSPEC_ID: traySpecBody.PRODSPEC_ID
             }
         })
+        if (e) {
+            return e.update(traySpecBody, {
+                where: {
+                    CUST_CD: traySpecBody.CUST_CD,
+                    PRODSPEC_ID: traySpecBody.PRODSPEC_ID
+                }
+            })
+        }
+        return null
+        // return traySpec.update(traySpecBody, {
+        //     where: {
+        //         CUST_CD: traySpecBody.CUST_CD,
+        //         PRODSPEC_ID: traySpecBody.PRODSPEC_ID
+        //     }
+        // })
     }
 
     /**
