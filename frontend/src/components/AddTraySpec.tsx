@@ -3,9 +3,9 @@ import { Link, useParams, useLocation } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { useTranslation } from 'react-i18next'
 import ReactShortcut from 'react-shortcut'
-import { toastMixin, clickById, setTitleBar, getInvalidMsg } from '../functions'
-import { addTraySpec, updateTraySpec } from '../api/tray_spec'
 import AddTrayLsrMrk from './AddTrayLsrMrk'
+import { toastMixin, clickById, setTitleBar, getInvalidMsg, setObjectFormat } from '../functions'
+import { addTraySpec, updateTraySpec } from '../api/tray_spec'
 import { getCoWoSPart, getTrayLsrMrkById } from '../api/tray_lsr_mrk'
 
 
@@ -114,6 +114,7 @@ const AddTraySpec = () => {
   const saveTraySpec = (formData: ITraySpec): void => {
     formData.TRAY_SIZE = `${formData.TRAY_SIZE_dim?.x || 0}*${formData.TRAY_SIZE_dim?.y || 0}*${formData.TRAY_SIZE_dim?.z || 0}`
     formData.CHIP_SIZE = `${formData.CHIP_SIZE_dim?.x || 0}*${formData.CHIP_SIZE_dim?.y || 0}`
+    formData = setObjectFormat(formData) as ITraySpec
     if (isEdit) {
       if (isShowLaserMark && checkLsrMrk()) {
         lsrMrkRef.current.sendLsrMrk()

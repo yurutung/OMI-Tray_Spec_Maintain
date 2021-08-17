@@ -54,4 +54,24 @@ const getInvalidMsg = (invlaidType: string): string => {
     return ''
 }
 
-export { toastMixin, errAlert, warnAlert, clickById, setTitleBar, getInvalidMsg }
+/**
+ * set save data
+ * 1. change null string to null
+ * 2. if is string, then trim
+ * @param data 
+ * @returns object
+ */
+const setObjectFormat = (data: { [key: string]: any }) => {
+    Object.entries(data).forEach(([key, value]: any) => {
+        if (typeof value == 'string') {
+            value = value.trim()
+        }
+        if (value == '') {
+            value = null
+        }
+        data[key] = value
+    })
+    return data
+}
+
+export { toastMixin, errAlert, warnAlert, clickById, setTitleBar, getInvalidMsg, setObjectFormat }

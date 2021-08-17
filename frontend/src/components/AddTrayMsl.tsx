@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { useTranslation } from 'react-i18next'
 import { Link, useParams, useLocation } from "react-router-dom"
 import ReactShortcut from 'react-shortcut'
-import { toastMixin, clickById, setTitleBar, getInvalidMsg } from '../functions'
+import { toastMixin, clickById, setTitleBar, getInvalidMsg, setObjectFormat } from '../functions'
 import { addTrayMsl, updateTrayMsl } from '../api/tray_msl'
 
 
@@ -28,6 +28,7 @@ const AddTrayMsl = () => {
 
   // form submit -> save data
   const saveTrayMsl = (formData: ITrayMsl): void => {
+    formData = setObjectFormat(formData) as ITrayMsl
     if (isEdit) {
       updateTrayMsl(formData)
         .then(e => {

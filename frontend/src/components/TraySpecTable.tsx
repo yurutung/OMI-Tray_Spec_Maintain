@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom"
 import BootstrapTable, { SelectRowProps } from "react-bootstrap-table-next"
 // @ts-ignore
 import cellEditFactory from "react-bootstrap-table2-editor"
-import { toastMixin, warnAlert, errAlert } from '../functions'
+import { toastMixin, warnAlert, errAlert, setObjectFormat } from '../functions'
 import { getTraySpecs, deleteTraySpec, uploadTraySpec } from '../api/tray_spec'
 import { deleteTrayLsrMrk } from '../api/tray_lsr_mrk'
 
@@ -116,6 +116,10 @@ const TraySpecTable = forwardRef((props: { isPreview?: boolean, id?: string, upl
        */
       uploadDatas(backUrl: string) {
         if (document.getElementsByClassName('table-alert').length === 0) {
+          // set format
+          datas.forEach(d => {
+            d = setObjectFormat(d) as ITraySpec
+          })
           uploadTraySpec(datas)
             .then(e => {
               toastMixin.fire({

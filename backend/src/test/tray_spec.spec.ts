@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { startFastify } from '../server'
 import { Server, IncomingMessage, ServerResponse } from 'http'
 import * as E from 'fp-ts/Either'
-import { establishConnection } from '../plugins/mariadb'
+import { DBConnection } from '../plugins/mariadb'
 import { ITraySpec } from '../types/tray_spec'
 
 describe('Tray Spec test', () => {
@@ -14,7 +14,7 @@ describe('Tray Spec test', () => {
     }
 
     beforeAll(async () => {
-        await establishConnection()
+        await DBConnection.establishConnection()
         server = startFastify(8888)
     })
 

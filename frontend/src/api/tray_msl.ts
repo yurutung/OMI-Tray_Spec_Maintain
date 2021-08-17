@@ -20,7 +20,7 @@ const getTrayMsls = async (id: string): Promise<AxiosResponse<Array<ITrayMsl>>> 
  * add tray msl data
  * post /api/tray_msl
  * @param trayMslBody 
- * @returns 
+ * @returns msl spec
  */
 const addTrayMsl = async (trayMslBody: ITrayMsl): Promise<AxiosResponse<ITrayMsl>> => {
     try {
@@ -36,7 +36,7 @@ const addTrayMsl = async (trayMslBody: ITrayMsl): Promise<AxiosResponse<ITrayMsl
  * update tray msl data
  * put /api/tray_msl
  * @param trayMslBody update data
- * @returns 
+ * @returns msl spec
  */
 const updateTrayMsl = async (trayMslBody: ITrayMsl): Promise<AxiosResponse<ITrayMsl>> => {
     try {

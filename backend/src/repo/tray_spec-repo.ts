@@ -5,7 +5,7 @@ import { Op } from 'sequelize'
 interface TraySpecRepo {
     getDatas(cid: string): Promise<Array<ITraySpec>>
     addData(traySpecBody: ITraySpec): Promise<ITraySpec>
-    updateData(traySpecBody: ITraySpec): Promise<traySpec | null>
+    updateData(traySpecBody: ITraySpec): Promise<ITraySpec | null>
     deleteData(traySpecBody: ITraySpec): Promise<number | null>
 }
 
@@ -20,7 +20,7 @@ class TraySpecRepoImpl implements TraySpecRepo {
      * get tray spec data by cust code
      * support wilcard search
      * @param cid 
-     * @returns 
+     * @returns tray spec array
      */
     async getDatas(cid: string): Promise<Array<ITraySpec>> {
         return traySpec.findAll({
@@ -36,7 +36,7 @@ class TraySpecRepoImpl implements TraySpecRepo {
     /**
      * add a tray spec data to database
      * @param traySpecBody 
-     * @returns 
+     * @returns tray spec
      */
     async addData(traySpecBody: ITraySpec): Promise<ITraySpec> {
         return traySpec.create(traySpecBody)
@@ -45,9 +45,9 @@ class TraySpecRepoImpl implements TraySpecRepo {
     /**
      * update tray spec data by cust code and prospec id
      * @param traySpecBody 
-     * @returns 
+     * @returns tray spec or null
      */
-    async updateData(traySpecBody: ITraySpec): Promise<traySpec | null> {
+    async updateData(traySpecBody: ITraySpec): Promise<ITraySpec | null> {
         const e = await traySpec.findOne({
             where: {
                 CUST_CD: traySpecBody.CUST_CD,
@@ -68,7 +68,7 @@ class TraySpecRepoImpl implements TraySpecRepo {
     /**
      * delete tray spec data by cust code and prospec id
      * @param traySpecBody 
-     * @returns 
+     * @returns number or null
      */
     async deleteData(traySpecBody: ITraySpec): Promise<number | null> {
         return traySpec.destroy({
@@ -84,7 +84,7 @@ class TraySpecRepoImpl implements TraySpecRepo {
      * @param traySpecBody 
      * @returns 
      */
-    async addOrUpdateDate(traySpecBody: ITraySpec): Promise<[traySpec, boolean | null]> {
+    async addOrUpdateDate(traySpecBody: ITraySpec): Promise<[ITraySpec, boolean | null]> {
         return traySpec.upsert(traySpecBody, { returning: true })
     }
 }

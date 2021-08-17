@@ -1,7 +1,7 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { useForm } from 'react-hook-form'
 import { upsertTrayLsrMrk, deleteTrayLsrMrk } from '../api/tray_lsr_mrk'
-import { clickById } from '../functions'
+import { clickById, setObjectFormat } from '../functions'
 
 const AddTrayLsrMrk = forwardRef((props: { isEdit: boolean }, ref) => {
   const isEdit = props.isEdit || false
@@ -15,6 +15,7 @@ const AddTrayLsrMrk = forwardRef((props: { isEdit: boolean }, ref) => {
   register('PRODSPEC_ID', { required: true })
 
   const saveLsrMrk = (formData: ITrayLsrMrk): void => {
+    formData = setObjectFormat(formData) as ITrayLsrMrk
     const isEmpty = Object.entries(formData).every(([key, value]: any) => {
       if ((!key.includes('MARK_')) || (key.includes('MARK_') && !value))
         return true
@@ -36,7 +37,6 @@ const AddTrayLsrMrk = forwardRef((props: { isEdit: boolean }, ref) => {
   const checkData = () => {
     const data = getValues()
     if (isCoWoSPart) {
-      // if (true) {
       for (const [key, value] of Object.entries(data)) {
         if (key.includes('MARK_') && value) return true
       }

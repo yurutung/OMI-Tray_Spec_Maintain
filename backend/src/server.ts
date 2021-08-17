@@ -2,7 +2,9 @@ import fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import FastifyStatic from 'fastify-static'
 import { Server, IncomingMessage, ServerResponse } from 'http'
 import path from 'path'
-import { establishConnection } from './plugins/mariadb'
+// database connection
+import { DBConnection } from './plugins/mariadb'
+// router
 import { TraySpecRouter } from './routes/tray_spec'
 import { TrayMslRouter } from './routes/tray_msl'
 import { TrayLsrMrkRouter } from './routes/tray_lsr_mrk'
@@ -19,7 +21,7 @@ const startFastify: (port: number) => FastifyInstance<Server, IncomingMessage, S
         }
         // if not unit test, connect to DB
         if (!process.env.JEST_WORKER_ID) {
-            establishConnection()
+            DBConnection.establishConnection()
         }
     })
 

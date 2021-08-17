@@ -1,12 +1,15 @@
 import React, { useRef } from "react"
 import { Link, useLocation, useParams } from "react-router-dom"
 import ReactShortcut from 'react-shortcut'
+import { useTranslation } from "react-i18next"
 import { toastMixin, clickById, setTitleBar } from '../functions'
 
 import TraySpecTable from './TraySpecTable'
 import TrayMslTable from './TrayMslTable'
 
 const UploadPreview = () => {
+    // i18n
+    const { t } = useTranslation()
     const { mode } = useParams<{ mode: string }>()
     const location = useLocation<{ previewDatas: [], backUrl: '' }>()
     const datas = location.state.previewDatas || []
@@ -49,9 +52,9 @@ const UploadPreview = () => {
                 {table}
             </div>
             <div className="footer-bar">
-                <Link to={backUrl} id='back' className="btn-list col-12 col-md-2">F3 取消上傳</Link>
-                <button id='del' className="btn-list col-12 col-md-2" onClick={delSelected}>F4 刪除</button>
-                <button id='save' className="btn-list col-12 col-md-2" onClick={uploadDatas}>F1 確定上傳</button>
+                <Link to={backUrl} id='back' className="btn-list col-12 col-md-2">F3 {t('button.back')}</Link>
+                <button id='del' className="btn-list col-12 col-md-2" onClick={delSelected}>F4 {t('button.delete')}</button>
+                <button id='save' className="btn-list col-12 col-md-2" onClick={uploadDatas}>F1 {t('button.submit')}</button>
             </div>
             <ReactShortcut
                 keys={'f3'}

@@ -1,5 +1,5 @@
-import * as models from '../models'
 import { Sequelize } from 'sequelize-typescript'
+import * as models from '../models'
 import * as dotEnv from 'dotenv'
 
 // set mariaDB connect
@@ -8,22 +8,27 @@ const user = process.env.MARIADB_USER || 'root'
 const password = process.env.MARIADB_PASSWORD || 'password'
 const host = process.env.MARIADB_HOST || 'localhost'
 const port = process.env.MARIADB_PORT || 3306
-const database = process.env.MARIADB_DATABASE || 'TRAY_SPEC'
+const database = process.env.MARIADB_DATABASE || 'TRAY_MAINTAIN'
 
-/**
- * connect to database
- */
-const establishConnection = async () => {
+class DBConnection {
+  private static sequelize: Sequelize
 
-  const sequelize = new Sequelize(`mariadb://${user}:${password}@${host}:${port}/${database}`)
+  // connection to database
+  public static async establishConnection() {
+    this.sequelize = new Sequelize(`mariadb://${user}:${password}@${host}:${port}/${database}`)
 
-  await sequelize.authenticate()
-    .then(async () => {
-      console.log('Connection has been established successfully.')
-      await sequelize.addModels(Object.values(models))
-    })
-    .catch(err => console.error('Unable to connect to the database:', err))
+    await this.sequelize.authenticate()
+      .then(async () => {
+        console.log('Connection has been established successfully.')
+        await this.sequelize.addModels(Object.values(models))
+      })
+      .catch(err => console.error('Unable to connect to the database:', err))
+  }
 
+  // if want to add transaction, get sequelize .transaction()
+  public static getSequelize() {
+    return this.sequelize
+  }
 }
 
-export { establishConnection }
+export { DBConnection }

@@ -20,7 +20,7 @@ const getCoWoSPart = async () => {
  * get /api/tray_lsr_mrk/:cid/:pid
  * @param cid CUST_CD
  * @param pid PRODSPEC_ID
- * @returns 
+ * @returns laser mark
  */
 const getTrayLsrMrkById = async (cid: string, pid: string): Promise<AxiosResponse<ITrayLsrMrk>> => {
     try {
@@ -32,7 +32,12 @@ const getTrayLsrMrkById = async (cid: string, pid: string): Promise<AxiosRespons
     }
 }
 
-
+/**
+ * inser or update laser mark
+ * post /api/tray_lsr_mrk/upsert
+ * @param trayLsrMrkBody 
+ * @returns laser mark
+ */
 const upsertTrayLsrMrk = async (trayLsrMrkBody: ITrayLsrMrk): Promise<AxiosResponse<ITrayLsrMrk>> => {
     try {
         const trayLsrMrk = await axios.post(`/api/tray_lsr_mrk/upsert`, trayLsrMrkBody)

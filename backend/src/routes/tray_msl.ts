@@ -8,6 +8,7 @@ const TrayMslRouter = (server: FastifyInstance, opts: RouteShorthandOptions, don
 
     /**
      * get data by msl id
+     * @param mid msl id
      */
     server.get<{ Params: { mid: string } }>('/:mid', opts, async (request, reply) => {
         const mid = request.params.mid

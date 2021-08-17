@@ -8,6 +8,8 @@ const TrayLsrMrkRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
 
     /**
      * get data by cust code and prod id
+     * @param cid cust code
+     * @param pid prod id
      */
     server.get<{ Params: { cid: string, pid: string } }>('/:cid/:pid', opts, async (request, reply) => {
         const cid = request.params.cid

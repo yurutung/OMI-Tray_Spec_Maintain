@@ -1,4 +1,4 @@
-
+// tray spec model interface
 interface ITraySpec {
     CUST_CD: string;
     PRODSPEC_ID: string;

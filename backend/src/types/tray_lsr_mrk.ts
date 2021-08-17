@@ -1,4 +1,4 @@
-
+// laser mark model interface
 interface ITrayLsrMrk {
     CUST_CD: string;
     PRODSPEC_ID: string;

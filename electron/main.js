@@ -1,8 +1,9 @@
 const { app, BrowserWindow } = require('electron')
 require('dotenv').config()
 
+let mainWindow
 function createWindow() {
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: Number(process.env.WINDOWS_WIDTH) || 1100,
         height: Number(process.env.WINDOWS_HEIGHT) || 800,
         autoHideMenuBar: true
@@ -26,7 +27,7 @@ app.on('window-all-closed', function () {
 })
 
 app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
+    if (mainWindow === null) {
         createWindow()
     }
 })

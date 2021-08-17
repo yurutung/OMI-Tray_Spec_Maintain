@@ -1,5 +1,4 @@
 import { FastifyInstance, RouteShorthandOptions, FastifyReply } from 'fastify'
-import { traySpec } from '../models'
 import { ITraySpec } from '../types/tray_spec'
 import { TraySpecRepoImpl } from './../repo/tray_spec-repo'
 
@@ -9,6 +8,7 @@ const TraySpecRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
 
     /**
      * get data by cust code
+     * @param cid cust code
      */
     server.get<{ Params: { cid: string } }>('/:cid', opts, async (request, reply) => {
         const cid = request.params.cid

@@ -58,7 +58,9 @@ const Datas = () => {
       // read file
       const reader = new FileReader()
       reader.onloadend = (e) => {
+        // reader read file to string
         const csvData: string = reader.result?.toString() || ''
+        // read csv string change to json
         csv().fromString(csvData).then(o => {
           o.forEach(e => {
             // if data is '', then set null

@@ -36,7 +36,7 @@ class TrayMslRepoImpl implements TrayMslRepo {
     /**
      * add a tray msl data to database
      * @param trayMslBody 
-     * @returns 
+     * @returns msl spec
      */
     async addData(trayMslBody: ITrayMsl): Promise<ITrayMsl> {
         return trayMsl.create(trayMslBody)
@@ -45,7 +45,7 @@ class TrayMslRepoImpl implements TrayMslRepo {
     /**
      * update tray msl data by msl id
      * @param trayMslBody 
-     * @returns 
+     * @returns msl or null
      */
     async updateData(trayMslBody: ITrayMsl): Promise<ITrayMsl | null> {
         const e = await trayMsl.findOne({
@@ -66,7 +66,7 @@ class TrayMslRepoImpl implements TrayMslRepo {
     /**
      * delete tray msl data by msl id
      * @param trayMslBody 
-     * @returns 
+     * @returns number or null
      */
     async deleteData(trayMslBody: ITrayMsl): Promise<number | null> {
         return trayMsl.destroy({

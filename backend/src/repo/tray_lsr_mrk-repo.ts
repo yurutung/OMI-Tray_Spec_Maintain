@@ -19,7 +19,7 @@ class TrayLsrMrkRepoImpl implements TrayLsrMrkRepo {
      * get tray laser mark data by cust code and prod id
      * @param cid cust code
      * @param pid prodspec id
-     * @returns 
+     * @returns laser mark or null
      */
     async getDatas(cid: string, pid: string): Promise<trayLsrMrk | null> {
         return trayLsrMrk.findOne({
@@ -34,7 +34,7 @@ class TrayLsrMrkRepoImpl implements TrayLsrMrkRepo {
     /**
      * add a tray laser mark data to database
      * @param trayLsrMrkBody 
-     * @returns 
+     * @returns laser mark
      */
     async addData(trayLsrMrkBody: ITrayLsrMrk): Promise<ITrayLsrMrk> {
         return trayLsrMrk.create(trayLsrMrkBody)
@@ -43,7 +43,7 @@ class TrayLsrMrkRepoImpl implements TrayLsrMrkRepo {
     /**
      * update tray laser mark data by cust code and prospec id
      * @param trayLsrMrkBody 
-     * @returns 
+     * @returns laser mark or null
      */
     async updateData(trayLsrMrkBody: ITrayLsrMrk): Promise<ITrayLsrMrk | null> {
         const e = await trayLsrMrk.findOne({
@@ -66,7 +66,7 @@ class TrayLsrMrkRepoImpl implements TrayLsrMrkRepo {
     /**
      * delete tray laser mark data by cust code and prospec id
      * @param trayLsrMrkBody 
-     * @returns 
+     * @returns number or null
      */
     async deleteData(trayLsrMrkBody: ITrayLsrMrk): Promise<number | null> {
         return trayLsrMrk.destroy({
@@ -78,8 +78,9 @@ class TrayLsrMrkRepoImpl implements TrayLsrMrkRepo {
     }
 
     /**
-     * 
+     * find one, then delete
      * @param trayLsrMrkBody 
+     * @returns void
      */
     async findAndDeleteData(trayLsrMrkBody: ITrayLsrMrk): Promise<void> {
         const e = await trayLsrMrk.findOne({

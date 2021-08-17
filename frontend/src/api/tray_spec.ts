@@ -20,7 +20,7 @@ const getTraySpecs = async (id: string): Promise<AxiosResponse<Array<ITraySpec>>
  * add tray spec data
  * post /api/tray_spec
  * @param traySpecBody
- * @returns 
+ * @returns tray spec
  */
 const addTraySpec = async (traySpecBody: ITraySpec): Promise<AxiosResponse<ITraySpec>> => {
     try {
@@ -36,7 +36,7 @@ const addTraySpec = async (traySpecBody: ITraySpec): Promise<AxiosResponse<ITray
  * update tray spec data
  * put /api/tray_spec
  * @param traySpecBody update data
- * @returns 
+ * @returns tray spec
  */
 const updateTraySpec = async (traySpecBody: ITraySpec): Promise<AxiosResponse<ITraySpec>> => {
     try {

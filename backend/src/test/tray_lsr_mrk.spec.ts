@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { startFastify } from '../server'
 import { Server, IncomingMessage, ServerResponse } from 'http'
 import * as E from 'fp-ts/Either'
-import { establishConnection } from '../plugins/mariadb'
+import { DBConnection } from '../plugins/mariadb'
 import { ITrayLsrMrk } from '../types/tray_lsr_mrk'
 
 describe('Tray Laser Mark test', () => {
@@ -15,7 +15,7 @@ describe('Tray Laser Mark test', () => {
     }
 
     beforeAll(async () => {
-        await establishConnection()
+        await DBConnection.establishConnection()
         server = startFastify(8888)
     })
 

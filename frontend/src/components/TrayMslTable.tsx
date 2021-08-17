@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom"
 import BootstrapTable, { SelectRowProps } from "react-bootstrap-table-next"
 // @ts-ignore
 import cellEditFactory from "react-bootstrap-table2-editor"
-import { toastMixin, warnAlert, errAlert } from '../functions'
+import { toastMixin, warnAlert, errAlert, setObjectFormat } from '../functions'
 import { getTrayMsls, deleteTrayMsl, uploadTrayMsl } from '../api/tray_msl'
 
 const getDatasAddId = (d: ITrayMsl[]) => {
@@ -105,6 +105,10 @@ const TrayMslTable = forwardRef((props: { isPreview?: boolean, id?: string, uplo
        */
       uploadDatas(backUrl: string) {
         if (document.getElementsByClassName('table-alert').length === 0) {
+          // set format
+          datas.forEach(d => {
+            d = setObjectFormat(d) as ITrayMsl
+          })
           uploadTrayMsl(datas)
             .then(e => {
               toastMixin.fire({
