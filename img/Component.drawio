@@ -1,1 +1,135 @@
-<mxfile host="app.diagrams.net" modified="2021-08-18T03:31:47.864Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36" version="14.9.3" etag="-Sl6WyvjT0ib1pqsbWIJ" type="github"><diagram id="wDYHNko1UiAKOs3YfrcC">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2021-08-18T04:00:17.769Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36" etag="9axgHuhhGcvcdFGIzUWi" version="14.9.3" type="github">
+  <diagram id="wDYHNko1UiAKOs3YfrcC" name="Page-1">
+    <mxGraphModel dx="1303" dy="727" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="va0KAYCpl6X4OBdTN759-3" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Search&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;b&gt;&amp;nbsp;Props&lt;/b&gt;&lt;br&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ mode: string&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="120" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-4" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="va0KAYCpl6X4OBdTN759-3">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-8" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Home&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&amp;nbsp;&lt;b&gt;Props&lt;/b&gt;&lt;br&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;+ Attribute1: Type&lt;br&gt;+ Attribute2: Type&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;" vertex="1" parent="1">
+          <mxGeometry x="50" y="120" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-9" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="va0KAYCpl6X4OBdTN759-8">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.365;entryY=-0.002;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="va0KAYCpl6X4OBdTN759-10" target="va0KAYCpl6X4OBdTN759-18">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="566" y="445" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-10" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Tray Spec Table&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr&gt;&amp;nbsp;&lt;b&gt;Props&lt;/b&gt;&lt;br&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;+ isPreview: boolean&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;+ id: string&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;+ initData: Array&lt;br&gt;&lt;br&gt;&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;" vertex="1" parent="1">
+          <mxGeometry x="400" y="280" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-11" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="va0KAYCpl6X4OBdTN759-10">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="va0KAYCpl6X4OBdTN759-12" target="va0KAYCpl6X4OBdTN759-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.932;exitY=1.022;exitDx=0;exitDy=0;entryX=0.43;entryY=-0.007;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" edge="1" parent="1" source="va0KAYCpl6X4OBdTN759-12" target="va0KAYCpl6X4OBdTN759-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-12" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Datas&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;b&gt;&amp;nbsp;Props&lt;/b&gt;&lt;br&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ mode: string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ id: string&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="120" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-13" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="va0KAYCpl6X4OBdTN759-12">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.664;entryY=-0.002;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="va0KAYCpl6X4OBdTN759-16" target="va0KAYCpl6X4OBdTN759-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-16" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Tray Msl Table&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr&gt;&amp;nbsp;&lt;b&gt;Props&lt;/b&gt;&lt;br&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;+ isPreview: boolean&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;+ id: string&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;+ initData: Array&lt;br&gt;&lt;br&gt;&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;" vertex="1" parent="1">
+          <mxGeometry x="600" y="280" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-17" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="va0KAYCpl6X4OBdTN759-16">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-18" value="Bootstrap Table" style="html=1;dropTarget=0;" vertex="1" parent="1">
+          <mxGeometry x="500" y="450" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-19" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="va0KAYCpl6X4OBdTN759-18">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.901;entryY=0.006;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="va0KAYCpl6X4OBdTN759-26" target="va0KAYCpl6X4OBdTN759-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="692" y="260" />
+              <mxPoint x="562" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.889;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="va0KAYCpl6X4OBdTN759-26" target="va0KAYCpl6X4OBdTN759-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="737" y="260" />
+              <mxPoint x="760" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-26" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Upload Preview&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;b&gt;&amp;nbsp;Props&lt;/b&gt;&lt;br&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ mode: string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ previewDatas: Array&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ backUrl: string&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;" vertex="1" parent="1">
+          <mxGeometry x="647" y="120" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-27" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="va0KAYCpl6X4OBdTN759-26">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="va0KAYCpl6X4OBdTN759-30" target="va0KAYCpl6X4OBdTN759-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="va0KAYCpl6X4OBdTN759-30" target="va0KAYCpl6X4OBdTN759-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-30" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Add Tray Spec&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;b&gt;&amp;nbsp;Props&lt;/b&gt;&lt;br&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ id: string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ isEdit: boolean&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ selectedData: ITraySpec&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;" vertex="1" parent="1">
+          <mxGeometry x="840" y="120" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-31" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="va0KAYCpl6X4OBdTN759-30">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-32" value="ITraySpec" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="280" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="va0KAYCpl6X4OBdTN759-33" target="va0KAYCpl6X4OBdTN759-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-33" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Add Tray Msl&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;b&gt;&amp;nbsp;Props&lt;/b&gt;&lt;br&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ id: string&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ isEdit: boolean&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ selectedData: ITrayMsl&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="120" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-34" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="va0KAYCpl6X4OBdTN759-33">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-35" value="ITrayMsl" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="280" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-38" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Add Tray Laser Mark&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;b&gt;&amp;nbsp;Props&lt;/b&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px&quot;&gt;+ isEdit: boolean&lt;br&gt;&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;" vertex="1" parent="1">
+          <mxGeometry x="840" y="440" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="va0KAYCpl6X4OBdTN759-39" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="va0KAYCpl6X4OBdTN759-38">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-24" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
