@@ -16,6 +16,7 @@
     "dotenv": "^10.0.0",
     "fastify": "^3.19.1",
     "fastify-static": "^4.2.2",
+    "fastify-swagger": "^4.8.4",
     "mariadb": "^2.5.4",
     "pino-pretty": "^5.1.1",
     "reflect-metadata": "^0.1.13",

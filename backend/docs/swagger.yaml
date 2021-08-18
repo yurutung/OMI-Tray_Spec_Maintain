@@ -1,0 +1,470 @@
+openapi: "3.0.2"
+info:
+  title: API spec of Tray Spec Maintain
+  version: "1.0"
+  description: API spec of Tray Spec Maintain for handling data transfer between frontend and backend
+servers:
+  - url: http://localhost:8888/api
+    description: API endpoint of backend
+paths:
+  /tray_spec/{cid}:
+    get:
+      tags:
+        - Tray Spec
+      summary: Get all searched tray specs
+      description: Get all searched tray specs
+      parameters:
+        - name: cid
+          in: path
+          description: Customer code of tray spec
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: a JSON Array of all tray specs infos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  traySpecs:
+                    type: array
+                    description: list of all searched tray specs
+                    items:
+                      $ref: "#/components/schemas/tray_spec"
+  /tray_spec:
+    post:
+      tags:
+        - Tray Spec
+      summary: Post new tray spec
+      description: Post a new tray spec
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_spec"
+      responses:
+        "201":
+          description: Successfully post a new tray spec
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  traySpec:
+                    $ref: "#/components/schemas/tray_spec"
+    put:
+      tags:
+        - Tray Spec
+      summary: Update a tray spec
+      description: Update a tray spec
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_spec"
+      responses:
+        "200":
+          description: Update tray spec
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  traySpec:
+                    $ref: "#/components/schemas/tray_spec"
+    delete:
+      tags:
+        - Tray Spec
+      summary: Delete a tray spec
+      description: Delete a tray spec
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_spec"
+      responses:
+        "204":
+          description: Successfully delete a tray spec
+  /tray_spec/upload_data:
+    post:
+      tags:
+        - Tray Spec
+      summary: upload tray specs
+      description: upload tray specs
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              type: array
+              description: list of all searched tray specs
+              items:
+                $ref: "#/components/schemas/tray_spec"
+      responses:
+        "201":
+          description: Successfully upload tray specs
+  /tray_msl/{mid}:
+    get:
+      tags:
+        - Tray Msl
+      summary: Get all searched msl specs
+      description: Get all searched msl specs
+      parameters:
+        - name: mid
+          in: path
+          description: Msl id of msl spec
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: a JSON Array of all msl specs infos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  traySpecs:
+                    type: array
+                    description: list of all searched msl specs
+                    items:
+                      $ref: "#/components/schemas/tray_msl"
+  /tray_msl:
+    post:
+      tags:
+        - Tray Msl
+      summary: Post new msl spec
+      description: Post a new msl spec
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_msl"
+      responses:
+        "201":
+          description: Successfully post a new msl spec
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  traySpec:
+                    $ref: "#/components/schemas/tray_msl"
+    put:
+      tags:
+        - Tray Msl
+      summary: Update a msl spec
+      description: Update a msl spec
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_msl"
+      responses:
+        "200":
+          description: Update msl spec
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  traySpec:
+                    $ref: "#/components/schemas/tray_msl"
+    delete:
+      tags:
+        - Tray Msl
+      summary: Delete a msl spec
+      description: Delete a msl spec
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_msl"
+      responses:
+        "204":
+          description: Successfully delete a msl spec
+  /tray_msl/upload_data:
+    post:
+      tags:
+        - Tray Msl
+      summary: upload msl specs
+      description: upload msl specs
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              type: array
+              description: list of all searched msl specs
+              items:
+                $ref: "#/components/schemas/tray_msl"
+      responses:
+        "201":
+          description: Successfully upload msl specs
+  /tray_lsr_mrk/{cid}/{pid}:
+    get:
+      tags:
+        - Laser Mark
+      summary: Get all searched tray spec laser mark
+      description: Get all searched tray spec laser mark
+      parameters:
+        - name: cid
+          in: path
+          description: Customer code of tray spec laser mark
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          description: Prodspec id of tray spec laser mark
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: a JSON Array of all tray spec laser marks infos
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/tray_lsr_mrk"
+  /tray_lsr_mrk:
+    post:
+      tags:
+        - Laser Mark
+      summary: Post new tray spec laser mark
+      description: Post a new tray spec laser mark
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_lsr_mrk"
+      responses:
+        "201":
+          description: Successfully post a new tray spec laser mark
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  traySpec:
+                    $ref: "#/components/schemas/tray_lsr_mrk"
+    put:
+      tags:
+        - Laser Mark
+      summary: Update a tray spec laser mark
+      description: Update a tray spec laser mark
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_lsr_mrk"
+      responses:
+        "200":
+          description: Update tray spec laser mark
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  traySpec:
+                    $ref: "#/components/schemas/tray_lsr_mrk"
+    delete:
+      tags:
+        - Laser Mark
+      summary: Delete a tray spec laser mark
+      description: Delete a tray spec laser mark
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_lsr_mrk"
+      responses:
+        "204":
+          description: Successfully delete a tray spec laser mark
+  /tray_lsr_mrk/find_delete: 
+    delete:
+      tags:
+        - Laser Mark
+      summary: If find laser mark, then Delete a tray spec laser mark
+      description: If find laser mark, then Delete a tray spec laser mark
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_lsr_mrk"
+      responses:
+        "204":
+          description: Successfully delete a tray spec laser mark
+  /tray_lsr_mrk/upsert:
+    post:
+      tags:
+        - Laser Mark
+      summary: Insert or Update a tray spec laser mark
+      description: Insert or Update a tray spec laser mark
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_lsr_mrk"
+      responses:
+        "200":
+          description: Insert or Update tray spec laser mark
+  /tray_lsr_mrk/getCoWoSPart:
+    get:
+      tags:
+        - Laser Mark
+      summary: Get CoWoS Part
+      description: Get CoWoS Part
+      requestBody:
+        required: true
+        content:
+          applicationapplication/json:
+            schema:
+              $ref: "#/components/schemas/tray_lsr_mrk"
+      responses:
+        "200":
+          description: Get CoWoS Part
+          content:
+          applicationapplication/json:
+            schema:
+              type: object
+              properties:
+                CoWoSParts:
+                  type: array
+                  description: list of CoWoS Part
+                  items: 
+                    type: string
+
+components:
+  schemas:
+    tray_spec:
+      type: object
+      properties:
+        CUST_CD:
+          type: string
+          required: ture
+          description: Customer Code
+        PRODSPEC_ID:
+          type: string
+          required: ture
+          description: TSMC Part
+        CUST_PART_ID:
+          type: string
+          description: Customer Part
+        DESCRIPTION:
+          type: string
+          description: Description
+        PIN_A1_LOC:
+          type: string
+          description: Pin 1 Location
+        PACKING_TYPE:
+          type: string
+          description: Package Material
+        MSL:
+          type: string
+          description: MSL
+        TRAY_SIZE:
+          type: string
+          description: Tray Size
+        CHIP_SIZE:
+          type: string
+          description: Chip Size
+        BIN_GRADE:
+          type: string
+          description: Bin Grade
+        TERM_COMPOST:
+          type: string
+          description: Terminal Composition
+        PB_FREE:
+          type: string
+          description: Pb-Free(ECO Status)
+        TEMP:
+          type: number
+          description: Temperature
+        UPD_FLAG:
+          type: string
+          description: UPD_FLAG
+        CLAIM_USER:
+          type: string
+          description: CLAIM_USER
+        CLAIM_TIME:
+          type: Date
+          description: CLAIM_TIME
+        DATECODE_LIMIT:
+          type: number
+          description: Date Code Limit
+    tray_msl:
+      type: object
+      properties:
+        MSL:
+          type: string
+          required: ture
+          description: MSL
+        FLOOR_LIFE:
+          type: string
+          description: Floor Life
+    tray_lsr_mrk:
+      type: object
+      properties:
+        CUST_CD:
+          type: string
+          required: ture
+          description: Customer Code
+        PRODSPEC_ID:
+          type: string
+          required: ture
+          description: TSMC Part
+        MARK_LOGO:
+          type: string
+          description: MARK_LOGO
+        MARK_TEXT1:
+          type: string
+          description: MARK_TEXT1
+        MARK_TEXT2:
+          type: string
+          description: MARK_TEXT2
+        MARK_TEXT3:
+          type: string
+          description: MARK_TEXT3
+        MARK_TEXT4:
+          type: string
+          description: MARK_TEXT4
+        MARK_TEXT5:
+          type: string
+          description: MARK_TEXT5
+        MARK_TEXT6:
+          type: string
+          description: MARK_TEXT6
+        MARK_TEXT7:
+          type: string
+          description: MARK_TEXT7
+        MARK_TEXT8:
+          type: string
+          description: MARK_TEXT8
+        MARK_TEXT9:
+          type: string
+          description: MARK_TEXT9
+        ACTIVE_FLG:
+          type: string
+          description: ACTIVE_FLG
+        CLAIM_USER:
+          type: string
+          description: CLAIM_USER
+        CLAIM_TIME:
+          type: Date
+          description: CLAIM_TIME
+          

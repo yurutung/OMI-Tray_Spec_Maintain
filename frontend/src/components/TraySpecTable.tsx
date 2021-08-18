@@ -230,15 +230,15 @@ const TraySpecTable = forwardRef((props: { isPreview?: boolean, id?: string, upl
     },
     {
       dataField: "UPD_FLAG",
-      text: "updFlag"
+      text: "UPD_FLAG"
     },
     {
       dataField: "CLAIM_USER",
-      text: "cliamUser"
+      text: "CLAIM_USER"
     },
     {
       dataField: "CLAIM_TIME",
-      text: "claimTime"
+      text: "CLAIM_TIME"
     },
     {
       dataField: "DATECODE_LIMIT",

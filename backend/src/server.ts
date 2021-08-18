@@ -2,6 +2,7 @@ import fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import FastifyStatic from 'fastify-static'
 import { Server, IncomingMessage, ServerResponse } from 'http'
 import path from 'path'
+import fastifySwagger from 'fastify-swagger'
 // database connection
 import { DBConnection } from './plugins/mariadb'
 // router
@@ -39,6 +40,18 @@ const startFastify: (port: number) => FastifyInstance<Server, IncomingMessage, S
     server.register(TraySpecRouter, { prefix: '/api/tray_spec' })
     server.register(TrayMslRouter, { prefix: '/api/tray_msl' })
     server.register(TrayLsrMrkRouter, { prefix: '/api/tray_lsr_mrk' })
+
+    // swagger
+    server.register(fastifySwagger, {
+        mode: 'static',
+        routePrefix: '/documentation',
+        exposeRoute: true,
+        specification: {
+            path: 'docs/swagger.yaml',
+            postProcessor: (_) => _,
+            baseDir: ''
+        }
+    })
 
     return server
 }
