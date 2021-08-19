@@ -1,4 +1,4 @@
-#  Tray Spec Maintain Document
+# Tray Spec Maintain
 
 ## Environment
 * Node.js
