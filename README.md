@@ -31,6 +31,9 @@ git clone https://github.com/yurutung/OMI-Tray_Spec_Maintain.git
     ```
 Web Url: http://localhost:8888
 
+## Project Introduction
+
+
 ## Project Structure
 ```
 OMI-Tray_Spec_Maintain
@@ -231,9 +234,8 @@ OMI-Tray_Spec_Maintain
               ...
     ```
 
-
 ### Frontend
-**TODO** add component diagram
+![](img/diagram/component.png)
 
 #### Package
 * [react bootstrap table](https://www.npmjs.com/package/react-bootstrap-table-next)  
