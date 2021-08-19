@@ -339,15 +339,15 @@ paths:
         "200":
           description: Get CoWoS Part
           content:
-          applicationapplication/json:
-            schema:
-              type: object
-              properties:
-                CoWoSParts:
-                  type: array
-                  description: list of CoWoS Part
-                  items: 
-                    type: string
+            applicationapplication/json:
+              schema:
+                type: object
+                properties:
+                  CoWoSParts:
+                    type: array
+                    description: list of CoWoS Part
+                    items: 
+                      type: string
 
 components:
   schemas:
