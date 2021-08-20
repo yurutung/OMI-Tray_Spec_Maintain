@@ -276,7 +276,7 @@ API Document: [Project URL]/documnetation (http://localhost:8888/documnetation)
             .catch(err => console.error('Unable to connect to the database:', err))
         }
         ```
-        * auto create table
+        * Automatic create database table
             * if table does not exist, then create table
               ```typescript
               sequelize.sync()
@@ -289,7 +289,7 @@ API Document: [Project URL]/documnetation (http://localhost:8888/documnetation)
               ```typescript
               sequelize.sync({ alter: true })
               ```
-    * [transaction](https://sequelize.org/master/manual/transactions.html)
+    * Setting [transaction](https://sequelize.org/master/manual/transactions.html)
         ```typescript
         import { DBConnection } from './plugins/mariadb'
         ...
