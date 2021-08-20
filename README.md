@@ -16,7 +16,11 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
             * get into **MariaDB Command Prompt**
               ```powershell
               mysqladmin --user=root password "password"
-              ```  
+              ```
+              if a password has already been previously set  
+              ```powershell
+              mysqladmin --user=root --password=oldpassword password "newpassword"
+              ```
         * dockerhub
           ```powershell
           docker run -p 127.0.0.1:3306:3306  --name mariadb -e MARIADB_ROOT_PASSWORD=password -d mariadb
