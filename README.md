@@ -64,7 +64,7 @@ git clone https://github.com/yurutung/OMI-Tray_Spec_Maintain.git
 3. run electron  
     Run if you want to use electron app  
     * In TSMC enviroment, **should install in NB, move to 開發機, then run start in another terminal**
-    * should setting .env, connect to your backend url
+    * should setting [.env](electron/.env), connect to your backend url
     ```powershell
     cd electron
     npm install
