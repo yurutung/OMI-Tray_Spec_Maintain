@@ -6,7 +6,8 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
     Download in TSMC Software Center.  
     Needs to setup Proxy.
 * MariaDB  
-    Needs to create DB, tables.
+    Needs to create DB, tables.  
+    Setting database environment at [.env](backend/.env)
 
 ## Code
 download zip or clone
@@ -28,6 +29,7 @@ git clone https://github.com/yurutung/OMI-Tray_Spec_Maintain.git
     npm run build
     npm start
     ```
+    Can setting server port at [.env](backend/.env) -`FASTIFY_PORT`
 3. run electron  
     Run if you want to use electron app  
     * In TSMC enviroment, **should install in NB, move to 開發機, then run start in another terminal**
@@ -37,7 +39,7 @@ git clone https://github.com/yurutung/OMI-Tray_Spec_Maintain.git
     npm run install
     npm start
     ```
-Web Url: http://localhost:8888
+Web Url: http://localhost:[PORT] (http://localhost:8888)
 
 ## Project Introduction
 提供客戶設定出貨時所需要的Tray的規格，使用Web方式重建新的系統。
