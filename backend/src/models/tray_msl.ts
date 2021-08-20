@@ -15,7 +15,7 @@ class trayMsl extends Model<ITrayMsl, ITrayMsl> implements ITrayMsl {
     	type: DataType.STRING(5) 
     })
     @Index({
-    	name: "PRIMARY",
+    	name: "KEY",
     	using: "BTREE",
     	order: "ASC",
     	unique: true 

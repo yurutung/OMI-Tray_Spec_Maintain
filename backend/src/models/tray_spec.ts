@@ -16,7 +16,7 @@ class traySpec extends Model<ITraySpec, ITraySpec> implements ITraySpec {
     	type: DataType.STRING(64) 
     })
     @Index({
-    	name: "PRIMARY",
+    	name: "KEY",
     	using: "BTREE",
     	order: "ASC",
     	unique: true 
@@ -29,7 +29,7 @@ class traySpec extends Model<ITraySpec, ITraySpec> implements ITraySpec {
     	type: DataType.STRING(64) 
     })
     @Index({
-    	name: "PRIMARY",
+    	name: "KEY",
     	using: "BTREE",
     	order: "ASC",
     	unique: true 

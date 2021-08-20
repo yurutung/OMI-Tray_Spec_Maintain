@@ -7,7 +7,7 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
     Needs to setup Proxy.
 * MariaDB  
     Setting database environment at [.env](backend/.env)
-    > 目前無法自動create database、tables，未來規劃可尋找自動create方式!
+    > 目前無法自動create database，未來規劃自動create方式!
     1. Create local database server
         * Download in TSMC Software Center.
         * Download at dockerhub [mariadb](https://hub.docker.com/_/mariadb)
@@ -38,71 +38,7 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
         ```powershell
         CREATE DATABASE TRAY_MAINTAIN;
         SHOW DATABASES;
-        USE TRAY_MAINTAIN;
-        SHOW TABLES;
         ```
-    5. Create tables
-        * Tray Spec  
-          ```sql
-          CREATE TABLE `CSFRPROD_TRAY_SPEC` (
-              `CUST_CD` VARCHAR(64) NOT NULL COLLATE 'utf8_general_ci',
-              `PRODSPEC_ID` VARCHAR(64) NOT NULL COLLATE 'utf8_general_ci',
-              `CUST_PART_ID` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `DESCRIPTION` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `PIN_A1_LOC` VARCHAR(5) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `PACKING_TYPE` VARCHAR(20) NULL DEFAULT 'TRAY' COLLATE 'utf8_general_ci',
-              `MSL` VARCHAR(5) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `TRAY_SIZE` VARCHAR(20) NULL DEFAULT '0*0*0' COLLATE 'utf8_general_ci',
-              `CHIP_SIZE` VARCHAR(20) NULL DEFAULT '0*0' COLLATE 'utf8_general_ci',
-              `BIN_GRADE` VARCHAR(16) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `TERM_COMPOST` VARCHAR(16) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `PB_FREE` VARCHAR(1) NULL DEFAULT 'Y' COLLATE 'utf8_general_ci',
-              `TEMP` INT(11) NULL DEFAULT '0',
-              `UPD_FLAG` VARCHAR(1) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `CLAIM_USER` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `CLAIM_TIME` TIMESTAMP NULL DEFAULT NULL,
-              `DATECODE_LIMIT` INT(11) NULL DEFAULT '9999',
-              UNIQUE INDEX `KEY` (`CUST_CD`, `PRODSPEC_ID`) USING BTREE
-          )
-          COLLATE='utf8_general_ci'
-          ENGINE=InnoDB
-          ;
-          ```  
-        * Msl Spec
-          ```sql
-          CREATE TABLE `CSFRPROD_TRAY_MSL` (
-              `MSL` VARCHAR(5) NOT NULL COLLATE 'utf8_general_ci',
-              `FLOOR_LIFE` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              UNIQUE INDEX `key` (`MSL`) USING BTREE
-          )
-          COLLATE='utf8_general_ci'
-          ENGINE=InnoDB
-          ;
-          ```
-        * Laser Mark
-          ```sql
-          CREATE TABLE `CSFRPROD_LSRMRK` (
-              `CUST_CD` VARCHAR(64) NOT NULL COLLATE 'utf8_general_ci',
-              `PRODSPEC_ID` VARCHAR(64) NOT NULL COLLATE 'utf8_general_ci',
-              `MARK_LOGO` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `MARK_TEXT1` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `MARK_TEXT2` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `MARK_TEXT3` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `MARK_TEXT4` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `MARK_TEXT5` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `MARK_TEXT6` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `MARK_TEXT7` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `MARK_TEXT8` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `MARK_TEXT9` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `ACTIVE_FLG` VARCHAR(64) NOT NULL DEFAULT 'Y' COLLATE 'utf8_general_ci',
-              `CLAIM_USER` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-              `CLAIM_TIME` TIMESTAMP NULL DEFAULT NULL,
-              UNIQUE INDEX `KEY` (`CUST_CD`, `PRODSPEC_ID`) USING BTREE
-          )
-          COLLATE='utf8_general_ci'
-          ENGINE=InnoDB
-          ;
-          ```
 
 ## Code
 download zip or clone
@@ -324,6 +260,35 @@ API Document: [Project URL]/documnetation (http://localhost:8888/documnetation)
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
         ```
+    * Database connection
+        [mariadb.ts](backend/pligins/mariadb.ts)
+        ```typescript
+        public static async establishConnection() {
+          // connection
+          this.sequelize = new Sequelize(`mariadb://${user}:${password}@${host}:${port}/${database}`)
+          // add models
+          await this.sequelize.addModels(Object.values(models))
+          // if table does not exist, then create table
+          await this.sequelize.sync()
+          // check connection
+          await this.sequelize.authenticate()
+            .then(async () => console.log('Connection has been established successfully.'))
+            .catch(err => console.error('Unable to connect to the database:', err))
+        }
+        ```
+        * auto create table
+            * if table does not exist, then create table
+              ```typescript
+              sequelize.sync()
+              ```
+            * delete, then create new table
+              ```typescript
+              sequelize.sync({ force: true )
+              ```
+            * checks what is the current state of the table in the database, then performs the necessary changes in the table to make it match the model
+              ```typescript
+              sequelize.sync({ alter: true })
+              ```
     * [transaction](https://sequelize.org/master/manual/transactions.html)
         ```typescript
         import { DBConnection } from './plugins/mariadb'
