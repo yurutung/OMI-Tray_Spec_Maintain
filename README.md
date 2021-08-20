@@ -1,4 +1,5 @@
 # Tray Spec Maintain
+Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
 
 ## Environment
 * Node.js  
