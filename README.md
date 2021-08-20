@@ -7,6 +7,7 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
     Needs to setup Proxy.
 * MariaDB  
     Setting database environment at [.env](backend/.env)
+    > 目前無法自動create database、tables，未來規劃可尋找自動create方式!
     1. Create local database server
         * Download in TSMC Software Center.
         * Download at dockerhub [mariadb](https://hub.docker.com/_/mariadb)
@@ -32,7 +33,6 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
             ```powershell
             docker exec -it mariadb bash
             mysql -u root -p
-            <!-- input password -->
             ```
     4. Create database
         ```powershell
@@ -44,7 +44,7 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
     5. Create tables
         * Tray Spec  
           ```sql
-          CREATE TABLE `csfrprod_tray_spec` (
+          CREATE TABLE `CSFRPROD_TRAY_SPEC` (
               `CUST_CD` VARCHAR(64) NOT NULL COLLATE 'utf8_general_ci',
               `PRODSPEC_ID` VARCHAR(64) NOT NULL COLLATE 'utf8_general_ci',
               `CUST_PART_ID` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
@@ -70,7 +70,7 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
           ```  
         * Msl Spec
           ```sql
-          CREATE TABLE `csfrprod_tray_msl` (
+          CREATE TABLE `CSFRPROD_TRAY_MSL` (
               `MSL` VARCHAR(5) NOT NULL COLLATE 'utf8_general_ci',
               `FLOOR_LIFE` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
               UNIQUE INDEX `key` (`MSL`) USING BTREE
@@ -81,7 +81,7 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
           ```
         * Laser Mark
           ```sql
-          CREATE TABLE `csfrprod_lsrmrk` (
+          CREATE TABLE `CSFRPROD_LSRMRK` (
               `CUST_CD` VARCHAR(64) NOT NULL COLLATE 'utf8_general_ci',
               `PRODSPEC_ID` VARCHAR(64) NOT NULL COLLATE 'utf8_general_ci',
               `MARK_LOGO` VARCHAR(64) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
