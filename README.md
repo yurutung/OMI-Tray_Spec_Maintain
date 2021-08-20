@@ -206,20 +206,12 @@ OMI-Tray_Spec_Maintain
     npm install mariadb reflect-metadata sequelize sequelize-typescript
     npm install -D @types/node @types/validator
     ```
-    * setting
-        tsconfig.json
+    * setting  
+        [tsconfig.json](backend/tsconfig.json)
         ```json
         "target": "es6", // or a more recent ecmascript version
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
-        ```
-        babel.config.js
-        ```javascript
-        plugins: [
-            ['@babel/plugin-transform-runtime', {regenerator: true}],
-            ['@babel/plugin-proposal-decorators', {legacy: true}],
-            ['@babel/plugin-proposal-class-properties', {loose: true}],
-          ]
         ```
     * [transaction](https://sequelize.org/master/manual/transactions.html)
         ```typescript
@@ -244,7 +236,7 @@ OMI-Tray_Spec_Maintain
     ```
 * [fastify-swagger](https://www.npmjs.com/package/fastify-swagger): [DOC](https://swagger.io/docs/)  
     easy to set api document, can try api by web UI  
-    server.ts
+    [server.ts](backend/src/server.ts)
     ```typescript
     import fastifySwagger from 'fastify-swagger'
     ...
@@ -259,7 +251,7 @@ OMI-Tray_Spec_Maintain
         }
     })
     ```
-    add `docs/swagger.yaml`
+    add [docs/swagger.yaml](backend/docs/swagger.yaml)
     ```yaml
     openapi: "3.0.2"
     info:
@@ -407,7 +399,7 @@ OMI-Tray_Spec_Maintain
     ```
 * [react-i18next](https://react.i18next.com/)  
     set mulitiple language, and east to change language  
-    add `i18n.ts`
+    add [i18n.ts](frontend/src/i18n.ts)
     ```typescript
     import i18n from 'i18next'
     import { initReactI18next } from 'react-i18next'
@@ -434,7 +426,7 @@ OMI-Tray_Spec_Maintain
 
     export default i18n
     ```
-    update `App.tsx`
+    update [App.tsx](frontend/src/App.tsx)
     ```typescript
     import './i18n'
     import { useTranslation } from "react-i18next"
