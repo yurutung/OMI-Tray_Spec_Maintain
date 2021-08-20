@@ -212,6 +212,8 @@ click 讀取檔案(F6) 可上傳檔案並一次新增或更新多筆資料
 ![](img/electron/i18n.png)
 
 ## Project Structure
+透過MERN完成Web架設，Electron直接連接Web的網址，以達成Web及App並行使用。
+
 ![](img/diagram/structure.png)
 
 ```
@@ -296,6 +298,10 @@ OMI-Tray_Spec_Maintain
 │  └─ tsconfig.json
 └─ README.md
 ```
+
+### Use Case
+User can operate Tray Spec、Msl Spec
+![](img/diagram/UseCase.png)
 
 ### Backend
 API Document: [Project URL]/documnetation (http://localhost:8888/documnetation)
@@ -410,6 +416,7 @@ API Document: [Project URL]/documnetation (http://localhost:8888/documnetation)
     ```
 
 ### Frontend
+Component Diagram
 ![](img/diagram/Component.png)
 
 #### Package
