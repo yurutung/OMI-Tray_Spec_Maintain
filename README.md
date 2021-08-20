@@ -2,7 +2,7 @@
 
 ## Environment
 * Node.js  
-    Download in TSMC Software Center.
+    Download in TSMC Software Center.  
     Needs to setup Proxy.
 * MariaDB  
     Needs to create DB, tables.
@@ -17,18 +17,22 @@ git clone https://github.com/yurutung/OMI-Tray_Spec_Maintain.git
 1. build frontend
     ```powershell
     cd frontend
+    npm run install
     npm run build
     ```
 2. run backend
     ```powershell
     cd backend
+    npm run install
     npm run build
     npm start
     ```
-3. run electron
-    run if you want to use electron app
+3. run electron  
+    run if you want to use electron app  
+    **should install in NB, move to 開發機, then run start**
     ```powershell
     cd electron
+    npm run install
     npm start
     ```
 Web Url: http://localhost:8888
