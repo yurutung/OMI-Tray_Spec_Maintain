@@ -195,7 +195,9 @@ OMI-Tray_Spec_Maintain
 ```
 
 ### Backend
-* API Document: [Project URL]/documnetation (http://localhost:8888/documnetation)
+API Document: [Project URL]/documnetation (http://localhost:8888/documnetation)
+* 可直接於此document測試API，顯示回傳內容
+
 ![](img/diagram/swagger.png)
 
 
