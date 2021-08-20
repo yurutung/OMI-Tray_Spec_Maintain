@@ -98,13 +98,13 @@ git clone https://github.com/yurutung/OMI-Tray_Spec_Maintain.git
 1. build frontend
     ```powershell
     cd frontend
-    npm run install
+    npm install
     npm run build
     ```
 2. run backend
     ```powershell
     cd backend
-    npm run install
+    npm install
     npm run build
     npm start
     ```
@@ -115,7 +115,7 @@ git clone https://github.com/yurutung/OMI-Tray_Spec_Maintain.git
     * should setting .env, connect to your backend url
     ```powershell
     cd electron
-    npm run install
+    npm install
     npm start
     ```
 Web Url: http://localhost:[PORT] (http://localhost:8888)
