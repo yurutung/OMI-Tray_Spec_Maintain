@@ -25,7 +25,23 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
           ```powershell
           docker run -p 127.0.0.1:3306:3306  --name mariadb -e MARIADB_ROOT_PASSWORD=password -d mariadb
           ```
-    3. Create tables
+    3. Get into MySQL Client
+        * TSMC  
+          get into **MariaDB MySQL Client**
+        * docker
+            ```powershell
+            docker exec -it mariadb bash
+            mysql -u root -p
+            <!-- input password -->
+            ```
+    4. Create database
+        ```powershell
+        CREATE DATABASE TRAY_MAINTAIN;
+        SHOW DATABASES;
+        USE TRAY_MAINTAIN;
+        SHOW TABLES;
+        ```
+    5. Create tables
         * Tray Spec  
           ```sql
           CREATE TABLE `csfrprod_tray_spec` (
