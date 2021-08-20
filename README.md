@@ -1,7 +1,9 @@
 # Tray Spec Maintain
 
 ## Environment
-* Node.js
+* Node.js  
+    Download in TSMC Software Center.
+    Needs to setup Proxy.
 * MariaDB  
     Needs to create DB, tables.
 
@@ -32,9 +34,83 @@ git clone https://github.com/yurutung/OMI-Tray_Spec_Maintain.git
 Web Url: http://localhost:8888
 
 ## Project Introduction
+提供客戶設定出貨時所需要的Tray的規格，使用Web方式重建新的系統。
 
+### Home
+Home page 可選擇搜尋 Tray Spec or Msl，click後進入 Search page
+![](img/electron/home.png)
+可使用shortcut(F1、F2)選擇搜尋項目
+
+### Search
+Tray Spec 透過 Custumer Code 搜尋 data
+![](img/electron/search_tray.png)
+
+Msl 透過 Msl id 搜尋 data
+![](img/electron/search_msl.png)
+
+皆可使用 * 作為萬用字元，搜尋後顯示在 Data page
+
+### Data
+
+#### Get Data
+Search 後顯示 data table
+![](img/electron/data_tray.png)
+data過多會增加scroll bar，設定table不自動換行
+
+#### Add Data
+click 新增(F1)可新增資料
+![](img/electron/add_validate.png)
+* 若Customer Code、TSMC Part未填寫，則顯示出該項目未填寫且無法送出
+
+![](img/electron/add_validate_lsrmrk.png)
+* 若TSMC Part為CoWoS Part，則自動展開Laser Mark，且必填其中一欄
+* 若TSMC Part不為CoWoS Part，亦可透過click Fill Laser Mark(F4) 填寫，但不為必填
+
+click確認後，會新增至DB
+* 新增成功，跳出alert通知，並回到Data page
+* 新增失敗，跳出alert通知，並停留在Add page
+
+#### Update Data
+選擇欲更新的row，並 click 更新(F2) 可更新該筆資料
+![](img/electron/update_tray.png)
+* 將data自動帶入輸入框，pk欄位無法更新
+* 若Laser Mark部分有填寫，則會自動展開
+
+![](img/electron/update_lsrmrk_validate.png)
+* 送出時，若為CoWoS Part，但Laser Mark未填寫，則無法送出
+* 送出時，若不為CoWoS Part，且Laser Mark皆未填寫，則刪除該筆資料
+
+#### Delete Data
+選擇欲刪除的row，並 click 刪除(F4) 可刪除該筆資料
+![](img/electron/del_alert.png)
+* 刪除前需點擊確認刪除，避免操作錯誤無法復原資料
+* 若點擊刪除時未選擇欲刪除資料，則顯示請選擇刪除資料
+* 刪除成功則顯示成功資訊
+
+#### Export Data
+click 儲存檔案(F5) 可匯出表格資料
+![](img/electron/exportData.png)
+![](img/electron/exportData_csv.png)
+* 輸出格式為csv
+* 欄位名稱為DB內名稱
+
+#### Upload Data
+click 讀取檔案(F6) 可上傳檔案並一次新增或更新多筆資料
+* 輸入格式與儲存檔案之格式相同
+
+上傳之後會顯示preview page
+![](img/electron/upload_preview.png)
+* 可直接於預覽頁面點擊欲編輯欄位進行編輯
+* 若必填欄位未填寫會以紅色背景提示，且無法送出
+* 可選擇row，點擊刪除後則該欄不上傳至資料庫
+
+### 多國語言切換
+目前可切換繁體中文、英文
+![](img/electron/i18n.png)
 
 ## Project Structure
+![](img/diagram/structure.png)
+
 ```
 OMI-Tray_Spec_Maintain
 ├─ backend
@@ -120,6 +196,8 @@ OMI-Tray_Spec_Maintain
 
 ### Backend
 * API Document: [Project URL]/documnetation (http://localhost:8888/documnetation)
+![](img/diagram/swagger.png)
+
 
 #### Package
 * [sequelize-typescript](https://www.npmjs.com/package/sequelize-typescript)  
@@ -235,7 +313,7 @@ OMI-Tray_Spec_Maintain
     ```
 
 ### Frontend
-![](img/diagram/component.png)
+![](img/diagram/Component.png)
 
 #### Package
 * [react bootstrap table](https://www.npmjs.com/package/react-bootstrap-table-next)  
