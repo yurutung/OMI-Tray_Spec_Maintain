@@ -300,7 +300,7 @@ OMI-Tray_Spec_Maintain
 ```
 
 ### Use Case
-User can operate Tray Spec、Msl Spec
+User can operate Tray Spec、Msl Spec  
 ![](img/diagram/UseCase.png)
 
 ### Backend
