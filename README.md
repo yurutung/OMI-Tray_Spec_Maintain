@@ -24,7 +24,7 @@ Provide Tray Spec. Maintain GUI using MERN + Electron as Native Web
               ```
         * dockerhub
           ```powershell
-          docker run -p 127.0.0.1:3306:3306  --name mariadb -e MARIADB_ROOT_PASSWORD=password -d mariadb
+          docker run -p 127.0.0.1:3306:3306 --name mariadb -e MARIADB_ROOT_PASSWORD=password -d mariadb
           ```
     3. Get into MySQL Client
         * TSMC  
