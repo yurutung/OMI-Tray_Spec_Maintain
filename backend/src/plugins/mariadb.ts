@@ -15,15 +15,18 @@ class DBConnection {
 
   // connection to database
   public static async establishConnection() {
-    this.sequelize = new Sequelize(`mariadb://${user}:${password}@${host}:${port}/${database}`)
-    // add models
-    await this.sequelize.addModels(Object.values(models))
-    // if table does not exist, then create table
-    await this.sequelize.sync()
-    // check connection
-    await this.sequelize.authenticate()
-      .then(async () => console.log('Connection has been established successfully.'))
-      .catch(err => console.error('Unable to connect to the database:', err))
+    try {
+      this.sequelize = new Sequelize(`mariadb://${user}:${password}@${host}:${port}/${database}`)
+      // testing connection
+      await this.sequelize.authenticate()
+      await this.sequelize.addModels(Object.values(models))
+      // if table does not exist, then create table
+      await this.sequelize.sync()
+
+      console.log('Connection has been established successfully.')
+    } catch (err) {
+      console.error('Unable to connect to the database:', err)
+    }
   }
 
   // if want to add transaction, get sequelize .transaction()
