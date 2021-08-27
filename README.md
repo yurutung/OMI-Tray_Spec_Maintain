@@ -527,7 +527,6 @@ Component Diagram
 ...
 "scripts": {
     "start": "[YOUR PATH]\\electron-v11.2.1-win32-x64\\electron .",
-    ...
   },
 ```
 * 新舊版差異
