@@ -289,6 +289,8 @@ API Document: [Project URL]/documnetation (http://localhost:8888/documnetation)
               ```typescript
               sequelize.sync({ alter: true })
               ```
+    * CRUD example  
+        * [tray_spec-repo.ts](backend/src/repo/tray_spec-repo.ts)
     * Setting [transaction](https://sequelize.org/master/manual/transactions.html)
         ```typescript
         import { DBConnection } from './plugins/mariadb'
@@ -518,6 +520,16 @@ Component Diagram
 #### Environment & Install
 公司環境開發機無法直接install，僅能用NB install後再傳到開發機  
 * 公司環境透過npm install只能下載到版本5.0.3，較新版本(目前最新版本為13.1.8)整個環境下載下來執行也會有Error，不太確定原因為何
+
+直接下載zip檔([electron-v11.2.1-win32-x64.zip](https://github.com/electron/electron/releases/tag/v11.2.1))，透過路徑執行  
+[electron/package.json](electron/package.json)
+```json
+...
+"scripts": {
+    "start": "[YOUR PATH]\\electron-v11.2.1-win32-x64\\electron .",
+    ...
+  },
+```
 * 新舊版差異
     * 目前發現的差異為CSS的部分，舊版的不支援gap
 
