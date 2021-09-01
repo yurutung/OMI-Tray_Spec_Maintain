@@ -10,17 +10,18 @@ import { getFunctionList } from './API'
 import './assets/css/App.css'
 
 const App = () => {
+  // TODO: login, add cookie
   const [toggled, setToggled] = useState(false)
   const handleToggleSidebar = (value: boolean) => {
     setToggled(value)
   }
   const sidebarRef = useRef<any>()
-  const [site, setSite] = useState('BP2B')
+  const [site, setSite] = useState('')
   const handleSite = (value: string) => {
     setSite(value)
   }
   useEffect(() => {
-    getFunctionList()
+    getFunctionList(site)
       .then(l => {
         sidebarRef.current.refHandleMenuHtml(l as IMenu[])
         mainRef.current.refHandleSearchItem(l as IMenu[])

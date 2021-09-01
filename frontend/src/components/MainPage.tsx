@@ -6,9 +6,6 @@ const MainPage = forwardRef(({ }: any, ref) => {
     const [allItem, setAllItem] = useState<Array<IMenu>>([])
     const [showSearch, setShowSearch] = useState(true)
     const [searchData, setSearchData] = useState<Array<IMenu>>([])
-    useEffect(() => {
-        console.log(searchData)
-    }, [searchData])
     useImperativeHandle(
         ref,
         () => ({
