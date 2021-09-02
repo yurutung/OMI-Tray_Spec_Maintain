@@ -30,7 +30,6 @@ html, body, #root {
   top: 0.5rem;
   left: 0.5rem;
 }
-
 .pro-sidebar.xl {
   position: fixed;
   left: -270px; 
@@ -49,8 +48,6 @@ html, body, #root {
   width: 100%;
   position: fixed;
   top: 3rem;
-  /* top: 0; */
-  /* border: 3px solid #6c757d10; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,9 +56,10 @@ html, body, #root {
   position: relative;
   height: 46px;
   width: 300px;
-  /* display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox; */
+}
+.wrapper {
+  position: relative;
+  width: 100%;
   display: flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
@@ -75,29 +73,23 @@ html, body, #root {
   z-index: 0;
   align-items: center;
 }
-.search-bar:hover,
-.search-bar:active, 
-.search-bar:focus-within {
+.wrapper:hover,
+.wrapper:active, 
+.wrapper:focus-within {
   box-shadow: rgba(32, 33, 36, 0.28) 0px 1px 6px 0px;
 }
 input[type = "search"]::-webkit-search-cancel-button {
   position: relative;
   right: 10px;  
   -webkit-appearance: auto;
-  /* -webkit-appearance: none; */
   height: 20px;
   width: 20px;
   color: #212121;
-  /* border-radius: 10px;
-  background: red; */
   content: "✖️";
 }
 .search-inform {
   min-height: 44px;
-  width: 100%;  
-  /* display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox; */
+  width: 100%;
   display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -128,22 +120,21 @@ input[type = "search"]::-webkit-search-cancel-button {
   top: 0.5rem;
   right: 0.5rem;
 }
-
+.search-result {
+  width: 80%;
+}
 .search-result .line {
   border-top-color: rgb(232, 234,237);
   border-top-style: solid;
   border-top-width: 1px;
   margin-bottom: 0px;
-  margin-left: 14px;
-  margin-right: 20px;
   margin-top: 0px;
   padding-bottom: 4px;
 }
 .search-result ul {
   list-style-type: none;
   margin: 0;
-  padding: 0px 0 16px 0;
-  max-height: 44px;
+  padding: 0px 0 13px 0;
 }
 .search-result ul li {
   display: flex;

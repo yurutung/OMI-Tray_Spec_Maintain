@@ -51,20 +51,22 @@ const MainPage = forwardRef(({ }: any, ref) => {
             <iframe className="main-page" src={iframeUrl} hidden={showSearch}>{iframeUrl}</iframe>
             <div className="main-page" hidden={!showSearch}>
                 <div className="search-bar">
-                    <div className="search-inform">
-                        <FaSearch className="search-icon" />
-                        <input type="search" placeholder="Search..." onChange={e => getSearch(e.target.value)} />
-                    </div>
-                    <div className="search-result">
-                        <div className="line" />
-                        <ul>
-                            {searchData.map((d) => <li key={d.id}>
-                                <div className="ellipsis" title={d.text} onClick={() => { handleIframeUrl(d.url) }}>
-                                    {d.text}
-                                </div>
-                            </li>
-                            )}
-                        </ul>
+                    <div className="wrapper">
+                        <div className="search-inform">
+                            <FaSearch className="search-icon" />
+                            <input type="search" placeholder="Search..." onChange={e => getSearch(e.target.value)} />
+                        </div>
+                        {searchData.length > 0 && <div className="search-result">
+                            <div className="line" />
+                            <ul>
+                                {searchData.map((d) => <li key={d.id}>
+                                    <div className="ellipsis" title={d.text} onClick={() => { handleIframeUrl(d.url) }}>
+                                        {d.text}
+                                    </div>
+                                </li>
+                                )}
+                            </ul>
+                        </div>}
                     </div>
                 </div>
             </div>
